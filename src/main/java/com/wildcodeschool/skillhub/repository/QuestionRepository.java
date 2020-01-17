@@ -1,0 +1,152 @@
+package com.wildcodeschool.skillhub.repository;
+
+import com.wildcodeschool.skillhub.entity.Question;
+import com.wildcodeschool.skillhub.repository.CrudDao;
+import org.springframework.stereotype.Repository;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
+public class QuestionRepository implements CrudDao<Question> {
+
+    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
+    private final static String DB_USER = "sh_admin";
+    private final static String DB_PASSWORD = "sPfdA-1234";
+
+    @Override
+    public Question save(Question question) {
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO question (text, category) VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            statement.setString(1, question.getText());
+            statement.setLong(2, question.getCategory());
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to insert data");
+            }
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                Long questionId = generatedKeys.getLong(1);
+                question.setQuestionId(questionId);
+                return question;
+            } else {
+                throw new SQLException("failed to get inserted id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Question findById(Long questionId) {
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT question.*, category.categoryname FROM question JOIN category ON question.category=category.categoryid WHERE question.questionid = ?;"
+            );
+            statement.setLong(1, questionId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Long questioner = resultSet.getLong("questioner");
+                Date date = resultSet.getDate("date");
+                String text = resultSet.getString("text");
+                Long category = resultSet.getLong("category");
+                String categoryName = resultSet.getString("categoryname");
+                return new Question(questionId, questioner, date, text, category, categoryName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Question> findAll(Long filter) {
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            String catQuery;
+            if (filter != 0) {
+                catQuery = " WHERE question.category=" + filter +";";
+            } else {
+                catQuery = ";";
+            }
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT question.*, category.categoryname FROM question JOIN category ON question.category=category.categoryid" + catQuery
+            );
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Question> questions = new ArrayList<>();
+
+            while (resultSet.next()) {
+                Long questionId = resultSet.getLong("questionid");
+                Long questioner = resultSet.getLong("questioner");
+                Date date = resultSet.getDate("date");
+                String text = resultSet.getString("text");
+                Long category = resultSet.getLong("category");
+                String categoryName = resultSet.getString("categoryname");
+                questions.add(new Question(questionId, questioner, date, text, category, categoryName));
+            }
+            return questions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Question update(Question question) {
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE question SET text=?, category=? WHERE questionid=?"
+            );
+            statement.setString(1, question.getText());
+            statement.setLong(2, question.getCategory());
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to update data");
+            }
+            return question;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long questionId) {
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            PreparedStatement statement = connection.prepareStatement(
+                    "DELETE FROM question WHERE questionid=?"
+            );
+            statement.setLong(1, questionId);
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to delete data");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
