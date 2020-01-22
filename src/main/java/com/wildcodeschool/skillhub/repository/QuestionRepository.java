@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wildcodeschool.wildandwizard.util.JdbcUtils;
+
 @Repository
 public class QuestionRepository implements CrudDao<Question> {
 
@@ -17,22 +19,25 @@ public class QuestionRepository implements CrudDao<Question> {
 
     @Override
     public Question save(Question question) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "INSERT INTO question (text, category) VALUES (?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
-            statement.setString(1, question.getText());
+            statement.setString(1, question.getQuestionText());
             statement.setLong(2, question.getCategory());
 
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("failed to insert data");
             }
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) {
                 Long questionId = generatedKeys.getLong(1);
@@ -43,52 +48,69 @@ public class QuestionRepository implements CrudDao<Question> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(generatedKeys);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public Question findById(Long questionId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;         
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT question.*, category.categoryname FROM question JOIN category ON question.category=category.categoryid WHERE question.questionid = ?;"
             );
             statement.setLong(1, questionId);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 Long questioner = resultSet.getLong("questioner");
                 Date date = resultSet.getDate("date");
-                String text = resultSet.getString("text");
+                String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
-                return new Question(questionId, questioner, date, text, category, categoryName);
+                return new Question(questionId, questioner, date, questionText, category, categoryName, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public List<Question> findAll(Long filter) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;           
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
             String catQuery;
             if (filter != 0) {
-                catQuery = " WHERE question.category=" + filter +";";
+                catQuery = " WHERE question.category=" + filter +" ";
             } else {
-                catQuery = ";";
+                catQuery = " ";
             }
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT question.*, category.categoryname FROM question JOIN category ON question.category=category.categoryid" + catQuery
+            statement = connection.prepareStatement(
+                    "SELECT question.*, category.categoryname, answer.text FROM question " +
+                    "LEFT OUTER JOIN answer ON answer.question=questionid " +
+                    "INNER JOIN category ON question.category=category.categoryid " + catQuery +
+                    "ORDER BY question.questionid;"
             );
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             List<Question> questions = new ArrayList<>();
 
@@ -96,28 +118,35 @@ public class QuestionRepository implements CrudDao<Question> {
                 Long questionId = resultSet.getLong("questionid");
                 Long questioner = resultSet.getLong("questioner");
                 Date date = resultSet.getDate("date");
-                String text = resultSet.getString("text");
+                String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
-                questions.add(new Question(questionId, questioner, date, text, category, categoryName));
+                String answerText = resultSet.getString("answer.text");
+                questions.add(new Question(questionId, questioner, date, questionText, category, categoryName, answerText));
             }
             return questions;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public Question update(Question question) {
+        Connection connection = null;
+        PreparedStatement statement = null;        
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "UPDATE question SET text=?, category=? WHERE questionid=?"
             );
-            statement.setString(1, question.getText());
+            statement.setString(1, question.getQuestionText());
             statement.setLong(2, question.getCategory());
 
             if (statement.executeUpdate() != 1) {
@@ -126,17 +155,22 @@ public class QuestionRepository implements CrudDao<Question> {
             return question;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public void deleteById(Long questionId) {
+        Connection connection = null;
+        PreparedStatement statement = null;        
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "DELETE FROM question WHERE questionid=?"
             );
             statement.setLong(1, questionId);
@@ -146,6 +180,9 @@ public class QuestionRepository implements CrudDao<Question> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
     }
 

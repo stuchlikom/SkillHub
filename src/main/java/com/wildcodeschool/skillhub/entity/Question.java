@@ -7,20 +7,22 @@ public class Question {
     private Long questionId;
     private Long questioner;
     private Date date;
-    private String text;
+    private String questionText;
     private Long category;
     private String categoryName;
+    private String answerText;
 
     public Question() {
     }
 
-    public Question(Long questionId, Long questioner, Date date, String text, Long category, String categoryName) {
+    public Question(Long questionId, Long questioner, Date date, String questionText, Long category, String categoryName, String answerText) {
         this.questionId = questionId;
         this.questioner = questioner;
         this.date = date;
-        this.text = text;
+        this.questionText = questionText;
         this.category = category;
         this.categoryName = categoryName;
+        this.answerText = answerText;
     }
 
     public Long getQuestionId() {
@@ -47,12 +49,12 @@ public class Question {
         this.date = date;
     }
 
-    public String getText() {
-        return text;
+    public String getQuestionText() {
+        return questionText;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 
     public Long getCategory() {
@@ -69,5 +71,13 @@ public class Question {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+    
+    public String getAnswerText() {
+        return answerText;
+    }
+
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
     }
 }

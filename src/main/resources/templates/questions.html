@@ -61,13 +61,15 @@
                 </th>
                 <th>Id</th>
                 <th>Question</th>
+                <th>Answer</th>
             </tr>        
         </thead>
         <tbody>
             <tr th:each="question : ${questions}">
                 <td th:text="${question.categoryName}">categoryName</td>
                 <td th:text="${question.questionId}">questionId</td>
-                <td th:text="${question.text}">text</td>
+                <td th:text="${question.questionText}">questionText</td>
+                <td th:text="${question.answerText}">answerText</td>
                 <!--
                 <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
                 <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
@@ -77,6 +79,7 @@
                 <td th:text="${question.categoryName}">categoryName</td>
                 <td>new</td>
                 <td><a href="/question">Add a new question! DEAD LINK</a></td>
+                <td></td>
 
             </tr>            
         </tbody>
