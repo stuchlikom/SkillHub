@@ -22,6 +22,8 @@ import java.util.List;
 @Controller
 public class QuestionController {
 
+  // Entwicklung Rolf
+
     private CrudDao<Question> questionRepository = new QuestionRepository();
     private CrudDao<Category> categoryRepository = new CategoryRepository();
 
@@ -36,9 +38,9 @@ public class QuestionController {
         //model.addAttribute("answers", answerRepository.findAll(null));
 
 /*
-    WebContext ctx = 
+    WebContext ctx =
         new WebContext(request, response, servletContext, request.getLocale());
-    ctx.setVariable("catSelected", catSelected);        
+    ctx.setVariable("catSelected", catSelected);
 */
         return "questions";
         //return "filter: " + catSelected;
@@ -49,13 +51,13 @@ public class QuestionController {
 
     @RequestMapping(value = { "/categoryList" }, method = RequestMethod.GET)
     public String categoryList(Model model) {
- 
+
         Category form = new Category();
         model.addAttribute("category", form);
- 
+
         List<Category> list = categoryRepository.findAll();
         model.addAttribute("categories", list);
- 
+
         return "categoryList";
     }
 */
