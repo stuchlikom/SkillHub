@@ -1,0 +1,22 @@
+
+.button {
+  position: relative;
+  width: 100px;
+  height: 30px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Arial;
+  font-size: 15px;
+  background-color: rgba(179,179,0,1);
+  transition: .3s linear;
+}
+
+.button-text {
+  position: absolute;
+  color: black;
+   opacity: 1;
+}

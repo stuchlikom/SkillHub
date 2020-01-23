@@ -12,6 +12,7 @@
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
     <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script></head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
 <style>
     table {
         border-collapse: collapse;
@@ -58,23 +59,34 @@
                     <th>Answer</th>
                 </tr>        
             </thead>
-            <tbody>
-                <tr th:each="question : ${questions}">
-                    <td th:text="${question.categoryName}">categoryName</td>
-                    <td th:text="${question.questionText}">questionText</td>
-                    <td th:text="${question.answerText}">answerText</td>
-                    <!--
-                    <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
-                    <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
-                    -->
-                </tr>
-                <tr>
-                    <td>?</td>
-                    <td>new</td>
-                    <td><a href="/question">Add a new question! DEAD LINK</a></td>
-                    
-                </tr>            
-            </tbody>
+        <tbody>
+            <tr th:each="question : ${questions}">
+                <td th:text="${question.categoryName}">categoryName</td>
+                <!--<td th:text="${question.questionId}">questionId</td>-->
+                <td th:text="${question.questionText}">questionText</td>
+                <td th:if="${question.answerText != null}" th:text="${question.answerText}">answerText</td>
+                <td th:if="${question.answerText == null}">
+                    <a href="/answer" class="button">
+                        <div class="button-text">+ ANSWER</div>
+                    </a>
+                </td>
+                <!--
+                <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
+                <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
+                -->
+            </tr>
+            <tr>
+                <td>?</td>
+                <!--<td>new</td>-->
+                <td>
+                    <a href="/question" class="button">
+                        <div class="button-text">+ QUESTION</div>
+                    </a>
+                </td>
+                <td></td>
+
+            </tr>            
+        </tbody>
         </table>
     </div>
 </div>
