@@ -26,6 +26,12 @@ public class IndexController {
     private CrudDao<Category> categoryRepository = new CategoryRepository();
 
     @GetMapping("/")
+    public String start() {
+
+        return "index";
+    }
+
+    @GetMapping("/questions")
     public String getAll(Model model, @RequestParam(required = false) Long catSelected) {
 
         if (catSelected == null) catSelected = 0L;
@@ -42,7 +48,7 @@ public class IndexController {
 */
         return "questions";
         //return "filter: " + catSelected;
-    }
+    }    
 
 /*
     private CategoryRepository categoryRepository = new CategoryRepository();
