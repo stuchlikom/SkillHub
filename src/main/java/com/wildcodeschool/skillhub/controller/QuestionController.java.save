@@ -1,4 +1,4 @@
-package com.wildcodeschool.wildandwizard.controller;
+package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.Question;
 import com.wildcodeschool.skillhub.entity.Category;

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Skill Hub User Profil</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 5px;
+        text-align: left;
+    }
+</style>
+<body>
+<h3>User Profil</h3>
+
+<br><br>
+<!--<form method="post" th:action="@{/}" th:object="${category}">-->
+    <form>
+        eMail: <input type="text" name="mailadress">
+        Password: <input type="text" name="password">
+        <input type="submit" value="Send">
+    </form>
+    
+    <table>
+        <thead>
+        
+        <!--
+        <label for="question-text">Question:</label>
+        <input id="text" name="text" placeholder="Fill in your question." required th:field="*{text}" type="text">
+        <br><br>
+
+        <input type="submit" value="Send">
+
+
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Country</th>
+            <th></th>
+            <th></th>
+        -->
+            <tr>
+                <th><b>Question</b> - <i>Select skill: </i>   
+                    <form method="get" th:action="@{/}" th:object="${catSelected}">
+                        <select id="catSelected" name="catSelected" onchange="this.form.submit()">
+                            <option th:value=0>- all -</option>
+                            <option th:each="category : ${categories}"
+                                    th:value="${category.categoryId}"
+                                    th:text="${category.categoryName}"
+                                    th:selected="${category.categoryId} == ${catSelected}">
+                            </option>
+                        </select>
+                    </form>
+                </th>
+                <th>Id</th>
+                <th>Question</th>
+            </tr>        
+        </thead>
+        <tbody>
+            <tr th:each="question : ${questions}">
+                <td th:text="${question.categoryName}">categoryName</td>
+                <td th:text="${question.questionId}">questionId</td>
+                <td th:text="${question.text}">text</td>
+                <!--
+                <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
+                <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
+                -->
+            </tr>
+            <tr th:each="question, i : ${questions}" th:if="${i.last}">
+                <td th:text="${question.categoryName}">categoryName</td>
+                <td>new</td>
+                <td><a href="/question">Add a new question! DEAD LINK</a></td>
+
+            </tr>            
+        </tbody>
+    </table>
+<!--</form>-->    
+
+<br>
+</body>
+</html>

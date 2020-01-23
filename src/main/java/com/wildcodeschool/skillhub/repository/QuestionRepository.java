@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wildcodeschool.wildandwizard.util.JdbcUtils;
+import com.wildcodeschool.skillhub.util.JdbcUtils;
 
 @Repository
 public class QuestionRepository implements CrudDao<Question> {
