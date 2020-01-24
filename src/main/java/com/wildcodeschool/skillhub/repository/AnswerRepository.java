@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wildcodeschool.skillhub.util.JdbcUtils;
+
 @Repository
 public class AnswerRepository implements CrudDao<Answer> {
 
@@ -17,24 +19,26 @@ public class AnswerRepository implements CrudDao<Answer> {
 
     @Override
     public Answer save(Answer answer) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO answer (question, expert, date, text) VALUES (?, ?, ?, ?)",
+            statement = connection.prepareStatement(
+                    "INSERT INTO answer (question, expert, date, text) VALUES (?, ?, NOW(), ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setLong(1, answer.getQuestion());
             statement.setLong(2, answer.getExpert());
-            statement.setDate(3, answer.getDate());
-            statement.setString(4, answer.getAnswerText());
+            statement.setString(3, answer.getAnswerText());
 
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("failed to insert data");
             }
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) {
                 Long answerId = generatedKeys.getLong(1);
@@ -45,6 +49,10 @@ public class AnswerRepository implements CrudDao<Answer> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(generatedKeys);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
@@ -66,7 +74,7 @@ public class AnswerRepository implements CrudDao<Answer> {
                 Long expert = resultSet.getLong("expert");
                 Date date = resultSet.getDate("date");
                 String answerText = resultSet.getString("text");
-                return new Answer(answerId, question, expert, date, answerText);
+                return new Answer(answerId, question, expert, date, answerText, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +101,7 @@ public class AnswerRepository implements CrudDao<Answer> {
                 Long expert = resultSet.getLong("expert");
                 Date date = resultSet.getDate("date");
                 String answerText = resultSet.getString("text");
-                answers.add(new Answer(answerId, question, expert, date, answerText));
+                answers.add(new Answer(answerId, question, expert, date, answerText, null));
             }
             return answers;
         } catch (SQLException e) {

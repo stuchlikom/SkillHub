@@ -27,11 +27,12 @@ public class QuestionRepository implements CrudDao<Question> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "INSERT INTO question (text, category) VALUES (?, ?)",
+                    "INSERT INTO question (questioner, date, text, category) VALUES (?, NOW(), ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
-            statement.setString(1, question.getQuestionText());
-            statement.setLong(2, question.getCategory());
+            statement.setLong(1, question.getQuestioner());
+            statement.setString(2, question.getQuestionText());
+            statement.setLong(3, question.getCategory());
 
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("failed to insert data");

@@ -1,5 +1,6 @@
 
-.button {
+.click-button {
+  cursor: pointer;
   position: relative;
   width: 100px;
   height: 30px;
@@ -15,8 +16,9 @@
   transition: .3s linear;
 }
 
-.button-text {
+.click-button-text {
+  cursor: pointer;
   position: absolute;
   color: black;
-   opacity: 1;
+  opacity: 1;
 }
