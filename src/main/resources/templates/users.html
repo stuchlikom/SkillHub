@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzerliste</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 5px;
+        text-align: left;
+    }
+</style>
+<body>
+<h3>User</h3>
+<a href="/user">Add a new user !</a>
+<br><br>
+<table>
+    <thead>
+    <tr>
+       <th>User-Id</th>
+       <th>Name</th>
+       <th>Firstname</th>
+       <th>Nickname</th>
+       <th>Avatar</th>
+       <th>Expert</th>
+       <th>Admin</th>
+       <th>Mailadress</th>
+       <th>Password</th>
+       <th>Category</th>
+       <th></th>
+       <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${userid}">userid</td>
+        <td th:text="${name}">name</td>
+        <td th:text="${firstname}">firstname</td>
+        <td th:text="${nickname}">nickname</td>
+        <td th:text="${avatar}">avatar</td>
+        <td th:text="${expert}">expert</td>
+        <td th:text="${admin}">expert</td>
+        <td th:text="${mailadress}">mailadress</td>
+        <td th:text="${password}">password</td>
+        <td th:text="${category}">category</td>
+        <td><a th:href="@{/user(id=${userid})}">Edit</a></td>
+        <td><a th:href="@{/user-Id(id=${userid})}">Remove / Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a href="/admin">Return to the Admin </a>
+</body>
+</html>

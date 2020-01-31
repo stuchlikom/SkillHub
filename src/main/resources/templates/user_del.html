@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzer löschen</title>
+</head>
+<body>
+<a href="/users">Benutzerliste</a>
+
+<section>
+    <h1>Löschen des Benutzers?</h1>
+    <ul>
+        <li th:text="|Id: ${user.userid}|">$userid</li>
+        <li th:text="|name: ${user.name}|">$name</li>
+        <li th:text="|firstname: ${user.firstname}|">$firstname</li>
+        <li th:text="|nickname: ${user.nickname}|">$nickname</li>
+        <li th:text="|avatar: ${user.avatar}|">$avatar</li>
+        <li th:text="|expert: ${user.expert}|">$expert</li>
+        <li th:text="|expert: ${user.admin}|">$expert</li>
+        <li th:text="|mailadress: ${user.mailadress}|">$mailadress</li>
+        <li th:text="|password: ${user.password}|">$password</li>
+        <li th:text="|category: ${user.category}|">$category</li>
+    </ul>
+
+    <form action="/user/delete" method="get">
+        <label>Löschen des User:</label>
+        <input type="hidden" name="userid" th:value="${user.userid}" >
+        <input type="submit" value=" Delete ">
+    </form>
+</section>
+
+<a href="/users">'Benutzerliste'</a>
+</body>
+</html>

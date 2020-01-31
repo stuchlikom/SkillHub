@@ -1,4 +1,4 @@
-package com.wildcodeschool.wildandwizard;
+package com.wildcodeschool.skillhub;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

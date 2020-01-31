@@ -75,7 +75,7 @@ public class AnswerRepository implements CrudDao<Answer> {
     }
 
     @Override
-    public List<Answer> findAll(Long filter) {
+    public List<Answer> findAll(Long filter) {   // findAll(Long filter)
         try {
             Connection connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD

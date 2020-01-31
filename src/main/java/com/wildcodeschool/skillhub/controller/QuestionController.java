@@ -1,4 +1,4 @@
-package com.wildcodeschool.wildandwizard.controller;
+package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.Question;
 import com.wildcodeschool.skillhub.entity.Category;
@@ -33,8 +33,8 @@ public class QuestionController {
         if (catSelected == null) catSelected = 0L;
         //catSelected++;
         model.addAttribute("catSelected", catSelected);
-        model.addAttribute("categories", categoryRepository.findAll(null));
-        model.addAttribute("questions", questionRepository.findAll(catSelected));
+        model.addAttribute("categories", categoryRepository.findAll(NULL));  
+        model.addAttribute("questions", questionRepository.findAll(catSelected)); 
         //model.addAttribute("answers", answerRepository.findAll(null));
 
 /*
