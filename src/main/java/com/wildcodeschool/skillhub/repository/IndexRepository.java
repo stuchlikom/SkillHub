@@ -1,4 +1,4 @@
-package main.java.com.wildcodeschool.skillhub.repository;
+package com.wildcodeschool.skillhub.repository;
 
 import java.sql.Connection;
 import java.sql.Date;
