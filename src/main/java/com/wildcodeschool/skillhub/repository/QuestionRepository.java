@@ -91,14 +91,12 @@ public class QuestionRepository implements CrudDao<Question> {
     }
 
     @Override
-    public List<Question> findAll(Long filter) {
+    public List<Question> findAll(Long filter) {    // findAll(Long filter)
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;           
         try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD );
             String catQuery;
             if (filter != 0) {
                 catQuery = " WHERE question.category=" + filter +" ";
