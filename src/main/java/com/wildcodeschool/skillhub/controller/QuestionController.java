@@ -22,60 +22,31 @@ import java.util.List;
 @Controller
 public class QuestionController {
 
-  // Entwicklung Rolf
-
-    private CrudDao<Question> questionRepository = new QuestionRepository();
-    private CrudDao<Category> categoryRepository = new CategoryRepository();
-
-    @GetMapping("/")
-    public String getAll(Model model, @RequestParam(required = false) Long catSelected) {
-
-        if (catSelected == null) catSelected = 0L;
-        //catSelected++;
-        model.addAttribute("catSelected", catSelected);
-        model.addAttribute("categories", categoryRepository.findAll(null));  
-        model.addAttribute("questions", questionRepository.findAll(catSelected)); 
-        //model.addAttribute("answers", answerRepository.findAll(null));
+    private QuestionRepository questionRepository = new QuestionRepository();
 
 /*
-    WebContext ctx =
-        new WebContext(request, response, servletContext, request.getLocale());
-    ctx.setVariable("catSelected", catSelected);
-*/
+    @GetMapping("/questions")
+    public String getAll(Model model) {
+
+        model.addAttribute("questions", repository.findAll());
+
         return "questions";
-        //return "filter: " + catSelected;
     }
-
-/*
-    private CategoryRepository categoryRepository = new CategoryRepository();
-
-    @RequestMapping(value = { "/categoryList" }, method = RequestMethod.GET)
-    public String categoryList(Model model) {
-
-        Category form = new Category();
-        model.addAttribute("category", form);
-
-        List<Category> list = categoryRepository.findAll();
-        model.addAttribute("categories", list);
-
-        return "categoryList";
-    }
-*/
 
     @GetMapping("/question")
     public String getQuestion(Model model,
-                            @RequestParam(required = false) Long questionId) {
+                            @RequestParam(required = false) Long id) {
 
         Question question = new Question();
-        if (questionId != null) {
-            question = questionRepository.findById(questionId);
+        if (id != null) {
+            question = repository.findById(id);
         }
         model.addAttribute("question", question);
 
         return "question";
     }
-
-    @PostMapping("/ServerRequestInfoOperations operations = new ServerRequestInfoOperations();")
+*/
+    @PostMapping("/question")
     public String postQuestion(@ModelAttribute Question question) {
 
         if (question.getQuestionId() != null) {
@@ -85,13 +56,13 @@ public class QuestionController {
         }
         return "redirect:/questions";
     }
-
+/*
     @GetMapping("/question/delete")
-    public String deleteQuestion(@RequestParam Long questionId) {
+    public String deleteQuestion(@RequestParam Long id) {
 
-        questionRepository.deleteById(questionId);
+        repository.deleteById(id);
 
         return "redirect:/questions";
     }
-
+*/
 }

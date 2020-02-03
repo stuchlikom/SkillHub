@@ -2,50 +2,94 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Benutzer</title>
-
+<title>Skill Hub User Profil</title>
 </head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 5px;
+        text-align: left;
+    }
+</style>
 <body>
-<h3 th:text="${userId} ? 'Edit User' : 'Create User'">User</h3>
-<form method="post" th:action="@{/user}" th:object="${user}">
+<h3>User Profil</h3>
 
-    <input name="userid" th:field="*{userId}" type="hidden">
+<br><br>
+<!--<form method="post" th:action="@{/}" th:object="${category}">-->
+    <form>
+        eMail: <input type="text" name="mailadress">
+        Password: <input type="text" name="password">
+        <input type="submit" value="Send">
+    </form>
+    
+    <table>
+        <thead>
+        
+        <!--
+        <label for="question-text">Question:</label>
+        <input id="text" name="text" placeholder="Fill in your question." required th:field="*{text}" type="text">
+        <br><br>
 
-    <label for="user-first-name">Vorname:</label>
-    <input id="user-first-name" name="firstname" placeholder="Vornamen eintragen" required th:field="*{firstName}" type="text">
-    <br><br>
+        <input type="submit" value="Send">
 
-    <label for="user-last-name">Nachname:</label>
-    <input id="user-last-name" name="name" placeholder="Nachnamen eintragen" required th:field="*{name}" type="text">
-    <br><br>
 
-    <label for="user-nick-name">Nickname:</label>
-    <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" required th:field="*{nickName}" type="text">
-    <br><br>
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Country</th>
+            <th></th>
+            <th></th>
+        -->
+            <tr>
+                <th><b>Question</b> - <i>Select skill: </i>   
+                    <form method="get" th:action="@{/}" th:object="${catSelected}">
+                        <select id="catSelected" name="catSelected" onchange="this.form.submit()">
+                            <option th:value=0>- all -</option>
+                            <option th:each="category : ${categories}"
+                                    th:value="${category.categoryId}"
+                                    th:text="${category.categoryName}"
+                                    th:selected="${category.categoryId} == ${catSelected}">
+                            </option>
+                        </select>
+                    </form>
+                </th>
+                <th>Id</th>
+                <th>Question</th>
+            </tr>        
+        </thead>
+        <tbody>
+            <tr th:each="question : ${questions}">
+                <td th:text="${question.categoryName}">categoryName</td>
+                <td th:text="${question.questionId}">questionId</td>
+                <td th:text="${question.text}">text</td>
+                <!--
+                <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
+                <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
+                -->
+            </tr>
+            <tr th:each="question, i : ${questions}" th:if="${i.last}">
+                <td th:text="${question.categoryName}">categoryName</td>
+                <td>new</td>
+                <td><a href="/question">Add a new question! DEAD LINK</a></td>
 
-    <label for="user-avatar">Avatar:</label>
-    <input id="user-avatar" name="avatar" placeholder="Avatar benennen" required th:field="*{avatar}" type="text">
-    <br><br>
+            </tr>            
+        </tbody>
+    </table>
+<!--</form>-->    
 
-    <label for="user-is-expert">Experte?</label>
-    <input id="user-is-expert" name="expert" th:field="*{expert}" type="checkbox">
-    <br><br>
-
-    <label for="user-mailadress">Mailadresse:</label>
-    <input id="user-mailadress" name="mailadress" placeholder="Mailadresse eintragen" required th:field="*{mailAdress}" type="text">
-    <br><br>
-
-    <label for="user-password">Password:</label>
-    <input id="user-password" name="password" placeholder="Password eintragen" required th:field="*{passWord}" type="text">
-    <br><br>
-
-    <label for="user-category">Katrgorie:</label>
-    <input id="user-category" name="category" placeholder=7 required th:field="*{category}" type="number">
-    <br><br>
-
-    <input type="submit" value="Send">
-</form>
 <br>
-<a href="/users">Return</a>
 </body>
 </html>
+
