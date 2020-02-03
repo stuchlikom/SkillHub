@@ -51,16 +51,16 @@ public class UserController {
       public String getById(Model model, @RequestParam Long userid)
       {
          model.addAttribute("user", repository.findById(userid));
-         System.out.println("/admin/user-getById |" + user.getUserId() + "|");
+         System.out.println("/admin/user-getById |" + "|");
          return "admindel";
       }
 
 
-      @GetMapping("/adminuser/delete")
+      @GetMapping("/admin/user/delete")
       public String deleteUser(@RequestParam Long userid)
       {
          repository.deleteById(userid);
-
+         System.out.println("/admin/user/delete |" + "|");
          return "redirect:/admin/users";
       }
 

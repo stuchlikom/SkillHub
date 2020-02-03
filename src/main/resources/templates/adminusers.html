@@ -60,7 +60,7 @@
         <td th:text="${user.passWord}">password</td>
         <td th:text="${user.category}">category</td>
         <td><a th:href="@{/admin/user(userid=${user.userId})}">Edit</a></td>
-        <td><a th:href="@{/admin/del-id(id=${user.userId})}">Remove / Delete</a></td>
+        <td><a th:href="@{/admin/del-id(userid=${user.userId})}">Remove / Delete</a></td>
     </tr>
     </tbody>
 </table>
