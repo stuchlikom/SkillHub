@@ -18,10 +18,18 @@ public class UserRepository implements CrudDao<User> {
     `userid` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(45) DEFAULT NULL,
     `firstname` varchar(45) DEFAULT NULL,
-    `nickname` varchar(45) DEFAULT NULL,
-    `avatar` blob,
-    `expert` tinyint(1) DEFAULT NULL,
-    `admin` tinyint(1) DEFAULT NULL,
+    `nickname` varchar(45) DEFAU
+        System.out.print(">|" + resultSet.getLong("userid") + "|" + userid + "|");
+        System.out.print(">|" + resultSet.getString("name") + "|" + name + "|");
+        System.out.print(">|" + resultSet.getString("firstname") + "|" + firstname + "|");
+        System.out.print(">|" + resultSet.getString("nickname") + "|" + nickname + "|");
+        System.out.print(">|" + resultSet.getString("avatar") + "|" + avatar + "|");
+        System.out.print(">|" + resultSet.getBoolean("expert") + "|" + expert + "|");
+        System.out.print(">|" + resultSet.getString("mailadress") + "|" + mailadress + "|");
+        System.out.print(">|" + resultSet.getString("password") + "|" + password + "|");
+        System.out.print(">|" + resultSet.getInt("category") + "|" + category + "|");
+
+NULL,
     `mailadress` varchar(45) DEFAULT NULL,
     `password` varchar(45) DEFAULT NULL,
     `category` int(11) NOT NULL,
@@ -29,6 +37,17 @@ public class UserRepository implements CrudDao<User> {
     KEY `fk_user_1_idx` (`category`),
     CONSTRAINT `fk_user_category-id` FOREIGN KEY (`category`) REFERENCES `category` (`categoryid`) ON DELETE NO ACTION ON UPDATE NO ACTION
     )   
+
+INSERT INTO user VALUES
+ (12,'test12','test12','test12','',1,1,'','test12',1)
+,(13,'test13','test13','test13','',1,1,'','test13',2)
+,(14,'test14','test14','test14','',1,1,'','test14',3)
+,(15,'test15','test15','test15','',1,1,'','test15',4)
+,(16,'test16','test16','test16','',1,1,'','test16',5)
+,(17,'test17','test17','test17','',1,1,'','test17',6)
+,(18,'test18','test18','test18','',1,1,'','test18',7);
+
+
         */
 
         @Override
@@ -43,22 +62,35 @@ public class UserRepository implements CrudDao<User> {
                 statement = connection.prepareStatement("SELECT * FROM SkillHubDB.user");
                 resultSet = statement.executeQuery();
     
-                List<User> user = new ArrayList<>();
-    
+                List<User> users = new ArrayList<>();
+
                 while (resultSet.next()) {
-                    Long userid = resultSet.getLong("userid");
-                    String name = resultSet.getString("name");
-                    String firstname = resultSet.getString("firstname");
-                    String nickname = resultSet.getString("nickname");
-                    String avatar = resultSet.getString("avatar");
-                    boolean expert = resultSet.getBoolean("expert");
-                    boolean admin = resultSet.getBoolean("admin");
-                    String mailadress = resultSet.getString("mailadress");
-                    String password = resultSet.getString("password");
+                    Long userid = resultSet.getLong("userid");           
+                    String name = resultSet.getString("name");                    
+                    String firstname = resultSet.getString("firstname");                    
+                    String nickname = resultSet.getString("nickname");                    
+                    String avatar = resultSet.getString("avatar");                    
+                    boolean expert = resultSet.getBoolean("expert");                    
+                    boolean admin = resultSet.getBoolean("admin");                    
+                    String mailadress = resultSet.getString("mailadress");                    
+                    String password = resultSet.getString("password");                    
                     int category = resultSet.getInt("category");
-                    user.add(new User(userid, name, firstname, nickname, avatar, expert, admin, mailadress, password, category));
+                    users.add(new User(userid, name, firstname, nickname, avatar, expert, admin, mailadress, password, category));
+/*
+                    System.out.print(">|" + resultSet.getLong("userid") + "|" + userid + "|");
+                    System.out.print(">|" + resultSet.getString("name") + "|" + name + "|");
+                    System.out.print(">|" + resultSet.getString("firstname") + "|" + firstname + "|");
+                    System.out.print(">|" + resultSet.getString("nickname") + "|" + nickname + "|");
+                    System.out.print(">|" + resultSet.getString("avatar") + "|" + avatar + "|");
+                    System.out.print(">|" + resultSet.getBoolean("expert") + "|" + expert + "|");
+                    System.out.print(">|" + resultSet.getString("mailadress") + "|" + mailadress + "|");
+                    System.out.print(">|" + resultSet.getString("password") + "|" + password + "|");
+                    System.out.print(">|" + resultSet.getInt("category") + "|" + category + "|");
+                    System.out.println("end while>|"+userid+"|");
+*/                    
                 }
-                return user;
+                
+                return users;
             } catch (SQLException e) {
                 e.printStackTrace();
             }

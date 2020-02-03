@@ -1,7 +1,5 @@
 package com.wildcodeschool.skillhub.entity;
 
-import java.sql.Date;
-
 public class User
 {
     private Long userid;
@@ -15,7 +13,7 @@ public class User
     private String password;
     private int category;
 
-    public User() {    }
+    public User() { }
 
     public User(
     Long userid,

@@ -25,8 +25,8 @@
     }
 </style>
 <body>
-<h3>User</h3>
-<a href="/user">Add a new user !</a>
+<h3>Users</h3>
+<a href="/admin/user">Add a new user !</a>
 <br><br>
 <table>
     <thead>
@@ -48,18 +48,19 @@
 
     <tbody>
     <tr th:each="user : ${users}">
-        <td th:text="${userid}">userid</td>
-        <td th:text="${name}">name</td>
-        <td th:text="${firstname}">firstname</td>
-        <td th:text="${nickname}">nickname</td>
-        <td th:text="${avatar}">avatar</td>
-        <td th:text="${expert}">expert</td>
-        <td th:text="${admin}">expert</td>
-        <td th:text="${mailadress}">mailadress</td>
-        <td th:text="${password}">password</td>
-        <td th:text="${category}">category</td>
-        <td><a th:href="@{/user(id=${userid})}">Edit</a></td>
-        <td><a th:href="@{/user-Id(id=${userid})}">Remove / Delete</a></td>
+
+        <td th:text="${user.userId}">userid</td>
+        <td th:text="${user.name}">name</td>
+        <td th:text="${user.firstName}">firstname</td>
+        <td th:text="${user.nickName}">nickname</td>
+        <td th:text="${user.avatar}">avatar</td>
+        <td th:text="${user.expert}">expert</td>
+        <td th:text="${user.admin}">expert</td>
+        <td th:text="${user.mailAdress}">mailadress</td>
+        <td th:text="${user.passWord}">password</td>
+        <td th:text="${user.category}">category</td>
+        <td><a th:href="@{/admin/user(userid=${user.userId})}">Edit</a></td>
+        <td><a th:href="@{/admin/del-id(id=${user.userId})}">Remove / Delete</a></td>
     </tr>
     </tbody>
 </table>

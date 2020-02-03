@@ -33,7 +33,7 @@ public class QuestionController {
         if (catSelected == null) catSelected = 0L;
         //catSelected++;
         model.addAttribute("catSelected", catSelected);
-        model.addAttribute("categories", categoryRepository.findAll(NULL));  
+        model.addAttribute("categories", categoryRepository.findAll(null));  
         model.addAttribute("questions", questionRepository.findAll(catSelected)); 
         //model.addAttribute("answers", answerRepository.findAll(null));
 

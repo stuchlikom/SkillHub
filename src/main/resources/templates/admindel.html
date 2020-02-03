@@ -5,7 +5,7 @@
     <title>Benutzer löschen</title>
 </head>
 <body>
-<a href="/users">Benutzerliste</a>
+<a href="/admin/users">Benutzerliste</a>
 
 <section>
     <h1>Löschen des Benutzers?</h1>
@@ -22,13 +22,13 @@
         <li th:text="|category: ${user.category}|">$category</li>
     </ul>
 
-    <form action="/user/delete" method="get">
+    <form action="/admin/delete" method="get">
         <label>Löschen des User:</label>
         <input type="hidden" name="userid" th:value="${user.userid}" >
         <input type="submit" value=" Delete ">
     </form>
 </section>
 
-<a href="/users">'Benutzerliste'</a>
+<a href="/admin/users">'Benutzerliste'</a>
 </body>
 </html>

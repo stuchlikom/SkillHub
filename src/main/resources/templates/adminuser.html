@@ -6,8 +6,8 @@
 
 </head>
 <body>
-<h3 th:text="${userId} ? 'Edit User' : 'Create User'">User</h3>
-<form method="post" th:action="@{/user}" th:object="${user}">
+<h3 th:text="${userid} ? 'Edit User' : 'Create User'">User</h3>
+<form method="post" th:action="@{/admin/user}" th:object="${user}">
 
     <input name="userid" th:field="*{userId}" type="hidden">
 
@@ -31,6 +31,10 @@
     <input id="user-is-expert" name="expert" th:field="*{expert}" type="checkbox">
     <br><br>
 
+    <label for="user-is-admin">Admin?</label>
+    <input id="user-is-admin" name="admin" th:field="*{admin}" type="checkbox" >
+    <br><br>
+
     <label for="user-mailadress">Mailadresse:</label>
     <input id="user-mailadress" name="mailadress" placeholder="Mailadresse eintragen" required th:field="*{mailAdress}" type="text">
     <br><br>
@@ -40,12 +44,12 @@
     <br><br>
 
     <label for="user-category">Katrgorie:</label>
-    <input id="user-category" name="category" placeholder=7 required th:field="*{category}" type="number">
+    <input id="user-category" name="category" placeholder="1" required th:field="*{category}" type="number">
     <br><br>
 
     <input type="submit" value="Send">
 </form>
 <br>
-<a href="/users">Return</a>
+<a href="/admin/users">Return</a>
 </body>
 </html>

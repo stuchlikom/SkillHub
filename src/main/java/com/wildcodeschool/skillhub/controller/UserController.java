@@ -14,55 +14,57 @@ public class UserController {
 
     private UserRepository repository = new UserRepository();
 
-
-    @GetMapping("/user-id")
-      public String getById(Model model, @RequestParam Long userid) {
-
-          model.addAttribute("user", repository.findById(userid));
-
-          return "user_del";
-      }
-
-
-    @GetMapping("/users")
-    public String getAll(Model model, @RequestParam(required = false) Long catSelected)  {
-
-        if (catSelected == null) catSelected = 0L;
-
-        model.addAttribute("users", repository.findAll(catSelected));
-
-        return "users";
+    @GetMapping("/admin/users")
+    public String getAll(Model model, @RequestParam(required = false) Long catSelected)
+    {
+        model.addAttribute("users", repository.findAll(null));
+        System.out.println("/admin/users-getAll");
+        return "adminusers";
     }
 
-    @GetMapping("/user")
-    public String getWizard(Model model,
-                            @RequestParam(required = false) Long userid) {
-
+    @GetMapping("/admin/user")
+    public String getUser(Model model, @RequestParam(required = false) Long userid)
+    {
         User user = new User();
         if (userid != null) {
             user = repository.findById(userid);
         }
         model.addAttribute("user", user);
-
-        return "user";
+        System.out.println("/admin/user-getUser |" + user.getUserId());
+        return "adminuser";
     }
 
-    @PostMapping("/user")
-    public String postUser(@ModelAttribute User user) {
-
+    @PostMapping("/admin/user")
+    public String postUser(@ModelAttribute User user) 
+    {
         if (user.getUserId() != null) {
             repository.update(user);
         } else {
             repository.save(user);
         }
-        return "redirect:/user";
+        System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
+        return "redirect:/admin/users";
     }
+ //-----------------------------------------------------------------------   
 
-    @GetMapping("/user/delete")
-    public String deleteUser(@RequestParam Long userid) {
+    @GetMapping("/admin/del-id")
+      public String getById(Model model, @RequestParam Long userid)
+      {
+         model.addAttribute("user", repository.findById(userid));
+         System.out.println("/admin/user-getById |" + user.getUserId() + "|");
+         return "admindel";
+      }
 
-        repository.deleteById(userid);
 
-        return "redirect:/users";
-    }
+      @GetMapping("/adminuser/delete")
+      public String deleteUser(@RequestParam Long userid)
+      {
+         repository.deleteById(userid);
+
+         return "redirect:/admin/users";
+      }
+
+
+
+
 }
