@@ -1,7 +1,7 @@
 package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.User;
-import com.wildcodeschool.skillhub.repository.UserRepository;
+import com.wildcodeschool.skillhub.repository.AdminRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class UserController {
+public class AdminController {
 
-    private UserRepository repository = new UserRepository();
+    private AdminRepository repository = new AdminRepository();
+
+    @GetMapping("/admin")
+    public String start() {
+        return "admin";
+    }
 
     @GetMapping("/admin/users")
     public String getAll(Model model, @RequestParam(required = false) Long catSelected)
@@ -45,7 +50,6 @@ public class UserController {
         System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
         return "redirect:/admin/users";
     }
- //-----------------------------------------------------------------------   
 
     @GetMapping("/admin/del-id")
       public String getById(Model model, @RequestParam Long userid)

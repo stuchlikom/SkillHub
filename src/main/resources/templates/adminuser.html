@@ -20,11 +20,11 @@
     <br><br>
 
     <label for="user-nick-name">Nickname:</label>
-    <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" required th:field="*{nickName}" type="text">
+    <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" th:field="*{nickName}" type="text">
     <br><br>
 
     <label for="user-avatar">Avatar:</label>
-    <input id="user-avatar" name="avatar" placeholder="Avatar benennen" required th:field="*{avatar}" type="text">
+    <input id="user-avatar" name="avatar" placeholder="Avatar benennen" th:field="*{avatar}" type="text">
     <br><br>
 
     <label for="user-is-expert">Experte?</label>
@@ -44,12 +44,14 @@
     <br><br>
 
     <label for="user-category">Katrgorie:</label>
-    <input id="user-category" name="category" placeholder="1" required th:field="*{category}" type="number">
+    <input id="user-category" name="category" placeholder=1 th:field="*{category}" type="number">
     <br><br>
 
     <input type="submit" value="Send">
 </form>
 <br>
-<a href="/admin/users">Return</a>
+<a href="/admin/users">Return to Users</a>
+<br>
+<a href="/admin">Return to Admin </a>
 </body>
 </html>
