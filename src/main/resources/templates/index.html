@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <title>SkillHub</title>
@@ -28,14 +29,15 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">
-                <a class="nav-link" href="#">Profil bearbeiten</a>
+                <a class="nav-link" href="./login">Login</a>
               </li>    
-  
           </ul>
         </div>  
       </nav>
 
-
+    <div sec:authorize="isAuthenticated()">
+        Authenticated as <span sec:authentication="name"></span>
+    </div>
 <div class="jumbotron text-center">
   <h1>SkillHub</h1>
   <p>Frag einen Experten</p> 
@@ -50,16 +52,18 @@
     </div>
     <div class="col-sm-4">
       <h3>Javasript</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      <p><i>"Wofür nutze ich Javascript? Ist das nicht sowas ähnliches wie Java?..."</i><a href="#">  mehr</a></p>
     </div>
     <div class="col-sm-4">
       <h3>CSS</h3>        
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      <p><i>"CSS Anweisungen kombinieren</i></p>
+      <p><i>"Ich stehe vor folgendem Problem, dass ich gerne die komplette Formatierung in eine Klasse packen möchte..."</i><a href="#">  mehr</a></p>
     </div>
   </div>
 </div>
 
+<script>
+
+</script>
 </body>
 </html>
