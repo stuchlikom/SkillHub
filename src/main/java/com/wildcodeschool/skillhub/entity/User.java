@@ -86,7 +86,7 @@ public class User
         return admin;
     }
     public void setAdmin(boolean admin) {
-        this.expert = admin;
+        this.admin = admin;
     }
 
     public String getMailAdress() {
