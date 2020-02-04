@@ -7,48 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository implements CrudDao<User> {
+public class AdminRepository implements CrudDao<User> {
 
     private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
     private final static String DB_USER = "sh_admin";
     private final static String DB_PASSWORD = "sPfdA-1234";
-
-    /*  DB-Dump vom 30.01.2020
-    CREATE TABLE `user` (
-    `userid` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(45) DEFAULT NULL,
-    `firstname` varchar(45) DEFAULT NULL,
-    `nickname` varchar(45) DEFAU
-        System.out.print(">|" + resultSet.getLong("userid") + "|" + userid + "|");
-        System.out.print(">|" + resultSet.getString("name") + "|" + name + "|");
-        System.out.print(">|" + resultSet.getString("firstname") + "|" + firstname + "|");
-        System.out.print(">|" + resultSet.getString("nickname") + "|" + nickname + "|");
-        System.out.print(">|" + resultSet.getString("avatar") + "|" + avatar + "|");
-        System.out.print(">|" + resultSet.getBoolean("expert") + "|" + expert + "|");
-        System.out.print(">|" + resultSet.getString("mailadress") + "|" + mailadress + "|");
-        System.out.print(">|" + resultSet.getString("password") + "|" + password + "|");
-        System.out.print(">|" + resultSet.getInt("category") + "|" + category + "|");
-
-NULL,
-    `mailadress` varchar(45) DEFAULT NULL,
-    `password` varchar(45) DEFAULT NULL,
-    `category` int(11) NOT NULL,
-    PRIMARY KEY (`userid`),
-    KEY `fk_user_1_idx` (`category`),
-    CONSTRAINT `fk_user_category-id` FOREIGN KEY (`category`) REFERENCES `category` (`categoryid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-    )   
-
-INSERT INTO user VALUES
- (12,'test12','test12','test12','',1,1,'','test12',1)
-,(13,'test13','test13','test13','',1,1,'','test13',2)
-,(14,'test14','test14','test14','',1,1,'','test14',3)
-,(15,'test15','test15','test15','',1,1,'','test15',4)
-,(16,'test16','test16','test16','',1,1,'','test16',5)
-,(17,'test17','test17','test17','',1,1,'','test17',6)
-,(18,'test18','test18','test18','',1,1,'','test18',7);
-
-
-        */
 
         @Override
         public List<User> findAll(Long filter) {
