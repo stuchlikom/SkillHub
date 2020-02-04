@@ -6,11 +6,11 @@ public interface CrudDao<T> {
 
     T save(T entity);
 
-    T findById(Long id);
+    T findById(Long userid);
 
     List<T> findAll(Long filter);
 
     T update(T entity);
 
-    void deleteById(Long id);
+    void deleteById(Long userid);
 }

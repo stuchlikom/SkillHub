@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wildcodeschool.wildandwizard.util.JdbcUtils;
+import com.wildcodeschool.skillhub.util.JdbcUtils;
 
 @Repository
 public class QuestionRepository implements CrudDao<Question> {
@@ -27,11 +27,12 @@ public class QuestionRepository implements CrudDao<Question> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "INSERT INTO question (text, category) VALUES (?, ?)",
+                    "INSERT INTO question (questioner, date, text, category) VALUES (?, NOW(), ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
-            statement.setString(1, question.getQuestionText());
-            statement.setLong(2, question.getCategory());
+            statement.setLong(1, question.getQuestioner());
+            statement.setString(2, question.getQuestionText());
+            statement.setLong(3, question.getCategory());
 
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("failed to insert data");
@@ -90,14 +91,12 @@ public class QuestionRepository implements CrudDao<Question> {
     }
 
     @Override
-    public List<Question> findAll(Long filter) {
+    public List<Question> findAll(Long filter) {    // findAll(Long filter)
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;           
         try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD );
             String catQuery;
             if (filter != 0) {
                 catQuery = " WHERE question.category=" + filter +" ";

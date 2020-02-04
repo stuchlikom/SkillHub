@@ -1,4 +1,4 @@
-package com.wildcodeschool.wildandwizard.util;
+package com.wildcodeschool.skillhub.util;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
