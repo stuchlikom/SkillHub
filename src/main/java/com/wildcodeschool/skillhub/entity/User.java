@@ -8,7 +8,7 @@ public class User
     private String nickname;
     private String avatar;
     private boolean expert;
-    private boolean admin;
+    private String role;
     private String mailadress;
     private String password;
     private int category;
@@ -22,7 +22,7 @@ public class User
     String nickname,
     String avatar,
     boolean expert,
-    boolean admin,
+    String role,
     String mailadress,
     String password,
     int category)
@@ -34,7 +34,7 @@ public class User
         this.nickname = nickname;
         this.avatar = avatar;
         this.expert = expert;
-        this.admin = admin;
+        this.role = role;
         this.mailadress = mailadress;
         this.password = password;
         this.category = category;
@@ -82,11 +82,11 @@ public class User
         this.expert = expert;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public String getRole() {
+        return role;
     }
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getMailAdress() {
@@ -110,3 +110,4 @@ public class User
         this.category = category;
     }
 }
+
