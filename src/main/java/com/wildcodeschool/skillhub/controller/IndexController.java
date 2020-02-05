@@ -1,6 +1,5 @@
 package com.wildcodeschool.skillhub.controller;
 
-import org.springframework.ui.*;
 import com.wildcodeschool.skillhub.entity.Question;
 import com.wildcodeschool.skillhub.entity.Answer;
 import com.wildcodeschool.skillhub.entity.Category;
@@ -9,13 +8,21 @@ import com.wildcodeschool.skillhub.repository.AnswerRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
 import com.wildcodeschool.skillhub.repository.CrudDao;
 import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class IndexController {
-
 
     private CrudDao<Question> questionRepository = new QuestionRepository();
     private CrudDao<Answer> answerRepository = new AnswerRepository();
@@ -27,12 +34,24 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/user")
-    public String user() {
+    @GetMapping("/questions")
+    public String getAll(Model model, @RequestParam(required = false) Long catSelected) {
 
-        return "user";
+        if (catSelected == null) catSelected = 0L;
+        //catSelected++;
+        model.addAttribute("catSelected", catSelected);
+        model.addAttribute("categories", categoryRepository.findAll(null));
+        model.addAttribute("questions", questionRepository.findAll(catSelected));
+        //model.addAttribute("answers", answerRepository.findAll(null));
+
+/*
+    WebContext ctx = 
+        new WebContext(request, response, servletContext, request.getLocale());
+    ctx.setVariable("catSelected", catSelected);        
+*/
+        return "questions";
+        //return "filter: " + catSelected;
     }    
-
 
 /*
     private CategoryRepository categoryRepository = new CategoryRepository();
@@ -106,6 +125,5 @@ public class IndexController {
 
         return "redirect:/questions";
     }
+
 }
-
-

@@ -33,6 +33,7 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
         "FROM category c, user u " +
         "WHERE u.username = ?" +
         "AND u.userid = c.categoryid");
+      //.roles("ADMIN","USER");
   }
 
   @Bean
@@ -49,7 +50,7 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
                   "/",
                   "/logout",
                   "/login").permitAll()
-              .antMatchers("/admin/**").hasRole("admin")
-              .antMatchers("/user/**").hasRole("user");
+              .antMatchers("/admin/**").permitAll()//.hasRole("ADMIN")
+              .antMatchers("/user/**").permitAll();//.hasRole("USER");
   }  
 }
