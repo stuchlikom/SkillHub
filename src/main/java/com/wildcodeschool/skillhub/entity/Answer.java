@@ -9,16 +9,18 @@ public class Answer {
     private Long expert;
     private Date date;
     private String answerText;
+    private Long category;
 
     public Answer() {
     }
 
-    public Answer(Long answerId, Long question, Long expert, Date date, String answerText) {
+    public Answer(Long answerId, Long question, Long expert, Date date, String answerText, Long category) {
         this.answerId = answerId;
         this.question = question;
         this.expert = expert;
         this.date = date;
         this.answerText = answerText;
+        this.category = category;
     }
 
     public Long getAnswerId() {
@@ -61,4 +63,11 @@ public class Answer {
         this.answerText = answerText;
     }
 
+    public Long getCategory() {
+        return category;
+    }
+
+    public void setCategory(Long category) {
+        this.category = category;
+    }
 }
