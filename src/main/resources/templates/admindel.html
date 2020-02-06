@@ -15,11 +15,9 @@
         <li th:text="|firstname: ${user.firstName}|">$firstname</li>
         <li th:text="|nickname: ${user.nickName}|">$nickname</li>
         <li th:text="|avatar: ${user.avatar}|">$avatar</li>
-        <li th:text="|expert: ${user.expert}|">$expert</li>
-        <li th:text="|expert: ${user.admin}|">$expert</li>
+        <li th:text="|role: ${user.role}|">$role</li>
         <li th:text="|mailadress: ${user.mailAdress}|">$mailadress</li>
         <li th:text="|password: ${user.passWord}|">$password</li>
-        <li th:text="|category: ${user.category}|">$category</li>
     </ul>
 
     <form action="/admin/user/delete" method="get">
