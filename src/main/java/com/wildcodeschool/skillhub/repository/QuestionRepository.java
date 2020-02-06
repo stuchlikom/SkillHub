@@ -74,11 +74,11 @@ public class QuestionRepository implements CrudDao<Question> {
 
             if (resultSet.next()) {
                 Long questioner = resultSet.getLong("questioner");
-                Date date = resultSet.getDate("date");
+                Date questionDate = resultSet.getDate("questio.date");
                 String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
-                return new Question(questionId, questioner, date, questionText, category, categoryName, null);
+                return new Question(questionId, questioner, questionDate, null, questionText, category, categoryName, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,7 +104,7 @@ public class QuestionRepository implements CrudDao<Question> {
                 catQuery = " ";
             }
             statement = connection.prepareStatement(
-                    "SELECT question.*, category.categoryname, answer.text FROM question " +
+                    "SELECT question.*, category.categoryname, answer.text, answer.date FROM question " +
                     "LEFT OUTER JOIN answer ON answer.question=questionid " +
                     "INNER JOIN category ON question.category=category.categoryid " + catQuery +
                     "ORDER BY question.questionid;"
@@ -116,12 +116,13 @@ public class QuestionRepository implements CrudDao<Question> {
             while (resultSet.next()) {
                 Long questionId = resultSet.getLong("questionid");
                 Long questioner = resultSet.getLong("questioner");
-                Date date = resultSet.getDate("date");
+                Date questionDate = resultSet.getDate("question.date");
+                Date answerDate = resultSet.getDate("answer.date");
                 String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
                 String answerText = resultSet.getString("answer.text");
-                questions.add(new Question(questionId, questioner, date, questionText, category, categoryName, answerText));
+                questions.add(new Question(questionId, questioner, questionDate, answerDate, questionText, category, categoryName, answerText));
             }
             return questions;
         } catch (SQLException e) {
