@@ -1,7 +1,5 @@
 package com.wildcodeschool.skillhub.entity;
 
-import java.sql.Date;
-
 public class Category {
 
     private Long categoryId;

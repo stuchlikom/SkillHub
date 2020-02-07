@@ -4,6 +4,7 @@ import com.wildcodeschool.skillhub.entity.User;
 
 
 import java.sql.*;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,25 +33,23 @@ public class AdminRepository implements CrudDao<User> {
                     String name = resultSet.getString("name");                    
                     String firstname = resultSet.getString("firstname");                    
                     String nickname = resultSet.getString("nickname");                    
-                    String avatar = resultSet.getString("avatar");                    
-                    boolean expert = resultSet.getBoolean("expert");                    
-                    boolean admin = resultSet.getBoolean("admin");                    
+                    Blob avatar = resultSet.getBlob("avatar");
+                    String role = resultSet.getString("role");                    
                     String mailadress = resultSet.getString("mailadress");                    
                     String password = resultSet.getString("password");                    
-                    int category = resultSet.getInt("category");
-                    users.add(new User(userid, name, firstname, nickname, avatar, expert, admin, mailadress, password, category));
-/*
+
+                    users.add(new User(userid, name, firstname, nickname, avatar, role, mailadress, password));
+
                     System.out.print(">|" + resultSet.getLong("userid") + "|" + userid + "|");
                     System.out.print(">|" + resultSet.getString("name") + "|" + name + "|");
                     System.out.print(">|" + resultSet.getString("firstname") + "|" + firstname + "|");
                     System.out.print(">|" + resultSet.getString("nickname") + "|" + nickname + "|");
-                    System.out.print(">|" + resultSet.getString("avatar") + "|" + avatar + "|");
-                    System.out.print(">|" + resultSet.getBoolean("expert") + "|" + expert + "|");
+                    System.out.print(">|" + resultSet.getBlob("avatar") + "|" + avatar + "|");
+                    System.out.print(">|" + resultSet.getString("role") + "|" + role + "|");
                     System.out.print(">|" + resultSet.getString("mailadress") + "|" + mailadress + "|");
                     System.out.print(">|" + resultSet.getString("password") + "|" + password + "|");
-                    System.out.print(">|" + resultSet.getInt("category") + "|" + category + "|");
                     System.out.println("end while>|"+userid+"|");
-*/                    
+                   
                 }
                 
                 return users;
@@ -70,19 +69,18 @@ public class AdminRepository implements CrudDao<User> {
             );
             PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO "
-                + "SkillHubDB.user (name, firstname, nickname, avatar, expert, admin, mailadress, password, category)"
-                + "VALUES (?,?,?,?,?,?,?,?,?)"
+                + "SkillHubDB.user (name, firstname, nickname, avatar, role, mailadress, password)"
+                + "VALUES (?,?,?,?,?,?,?,?)"
             );
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
-            statement.setString(4, user.getAvatar());
-            statement.setBoolean(5, user.isExpert());
-            statement.setBoolean(6, user.isAdmin());
-            statement.setString(7, user.getMailAdress());
-            statement.setString(8, user.getPassWord());
-            statement.setInt(9, user.getCategory());
+            statement.setBlob(4, user.getAvatar());
+            statement.setString(5, user.getRole());
+            statement.setString(6, user.getMailAdress());
+            statement.setString(7, user.getPassWord());
+
 
             if (statement.executeUpdate() != 1) 
             {
@@ -124,14 +122,12 @@ public class AdminRepository implements CrudDao<User> {
                 String name = resultSet.getString("name");
                 String firstname = resultSet.getString("firstname");
                 String nickname = resultSet.getString("nickname");
-                String avatar = resultSet.getString("avatar");
-                boolean expert = resultSet.getBoolean("expert");
-                boolean admin = resultSet.getBoolean("admin");
+                Blob avatar = resultSet.getBlob("avatar");
+                String role = resultSet.getString("role");
                 String mailadress = resultSet.getString("mailadress");
                 String password = resultSet.getString("password");
-                int category = resultSet.getInt("category");
 
-                return new User(userid, name, firstname, nickname, avatar, expert, admin, mailadress, password, category);
+                return new User(userid, name, firstname, nickname, avatar, role, mailadress, password);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -147,18 +143,16 @@ public class AdminRepository implements CrudDao<User> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE SkillHubDB.user SET name=?, firstname=?, nickname=?, avatar=?, expert=?, admin=?, mailadress=?, password=?, category=? WHERE userid=?"
+                    "UPDATE SkillHubDB.user SET name=?, firstname=?, nickname=?, avatar=?, role=?, mailadress=?, password=? WHERE userid=?"
             );
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
-            statement.setString(4, user.getAvatar());
-            statement.setBoolean(5, user.isExpert());
-            statement.setBoolean(6, user.isAdmin());
-            statement.setString(7, user.getMailAdress());
-            statement.setString(8, user.getPassWord());
-            statement.setInt(9, user.getCategory());
-            statement.setLong(10, user.getUserId());
+            statement.setBlob(4, user.getAvatar());
+            statement.setString(5, user.getRole());
+            statement.setString(6, user.getMailAdress());
+            statement.setString(7, user.getPassWord());
+            statement.setLong(9, user.getUserId());
 
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("failed to update data");

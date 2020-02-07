@@ -1,17 +1,17 @@
 package com.wildcodeschool.skillhub.entity;
 
+import java.sql.Blob;
+
 public class User
 {
     private Long userid;
     private String name;
     private String firstname;
     private String nickname;
-    private String avatar;
-    private boolean expert;
-    private boolean admin;
+    private Blob avatar;
+    private String role;
     private String mailadress;
     private String password;
-    private int category;
 
     public User() { }
 
@@ -20,12 +20,10 @@ public class User
     String name,
     String firstname,
     String nickname,
-    String avatar,
-    boolean expert,
-    boolean admin,
+    Blob avatar,
+    String role,
     String mailadress,
-    String password,
-    int category)
+    String password)
 
     {
         this.userid = userid;
@@ -33,11 +31,9 @@ public class User
         this.firstname = firstname;
         this.nickname = nickname;
         this.avatar = avatar;
-        this.expert = expert;
-        this.admin = admin;
+        this.role = role;
         this.mailadress = mailadress;
         this.password = password;
-        this.category = category;
     }
 
     public Long getUserId() {
@@ -68,26 +64,19 @@ public class User
         this.nickname = nickname;
     }
 
-    public String getAvatar() {
+    public Blob getAvatar() {
         return avatar;
     }
-    public void setAvatar(String avatar) {
+    public void setAvatar(Blob avatar) {
         this.avatar = avatar;
     }
 
-    public boolean isExpert() {
-        return expert;
-    }
-    public void setExpert(boolean expert) {
-        this.expert = expert;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
+        public String getRole() {
+            return role;
+        }
+        public void setRole(String role) {
+            this.role = role;
+        }
 
     public String getMailAdress() {
         return mailadress;
@@ -101,12 +90,5 @@ public class User
     }
     public void setPassWord(String password) {
         this.password = password;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-    public void setCategory(int category) {
-        this.category = category;
     }
 }
