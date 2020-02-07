@@ -22,3 +22,64 @@
   color: black;
   opacity: 1;
 }
+
+.s-bubble-q {
+  position: relative;
+  background: #d3d3d3;
+  border-radius: .4em;
+  margin-top: 1em;
+}
+
+.s-bubble-q:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1em;
+  width: 0;
+  height: 0;
+  border: 1.25em solid transparent;
+  border-right-color: #d3d3d3;
+  border-left: 0;
+  border-top: 0;
+  margin-top: -0.625em;
+  margin-left: -1.25em;
+}
+
+.s-bubble-a {
+  position: relative;
+  background: #a4a4a4;
+  border-radius: .4em;
+  margin-top: 0.5em;
+}
+
+.s-bubble-a:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 1em;
+  width: 0;
+  height: 0;
+  border: 1.25em solid transparent;
+  border-left-color: #a4a4a4;
+  border-right: 0;
+  border-top: 0;
+  margin-top: -0.625em;
+  margin-right: -1.25em;
+}
+
+textarea {
+    width: 100%;
+    position: relative;
+}
+
+#newQuestion {
+    height: 90%;
+    position: fixed;
+    top: 5%;
+}
+
+#newAnswer {
+    height: 90%;
+    position: fixed;
+    top: 5%;
+}
