@@ -34,6 +34,12 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/register")
+    public String register() {
+
+        return "register";
+    }
+    
     @GetMapping("/questions")
     public String getAll(Model model, @RequestParam(required = false) Long catSelected) {
 
