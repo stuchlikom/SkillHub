@@ -6,12 +6,9 @@ public class User
     private String name;
     private String firstname;
     private String nickname;
-    private String avatar;
-    private boolean expert;
     private String role;
     private String mailadress;
     private String password;
-    private int category;
 
     public User() { }
 
@@ -20,24 +17,18 @@ public class User
     String name,
     String firstname,
     String nickname,
-    String avatar,
-    boolean expert,
     String role,
     String mailadress,
-    String password,
-    int category)
+    String password)
 
     {
         this.userid = userid;
         this.name = name;
         this.firstname = firstname;
         this.nickname = nickname;
-        this.avatar = avatar;
-        this.expert = expert;
         this.role = role;
         this.mailadress = mailadress;
         this.password = password;
-        this.category = category;
     }
 
     public Long getUserId() {
@@ -68,20 +59,6 @@ public class User
         this.nickname = nickname;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public boolean isExpert() {
-        return expert;
-    }
-    public void setExpert(boolean expert) {
-        this.expert = expert;
-    }
-
     public String getRole() {
         return role;
     }
@@ -101,13 +78,6 @@ public class User
     }
     public void setPassWord(String password) {
         this.password = password;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-    public void setCategory(int category) {
-        this.category = category;
     }
 }
 
