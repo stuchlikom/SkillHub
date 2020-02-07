@@ -1,7 +1,16 @@
 package com.wildcodeschool.skillhub.entity;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class User
 {
+
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
+
     private Long userid;
     private String name;
     private String firstname;
@@ -11,7 +20,6 @@ public class User
     private String role;
     private String mailadress;
     private String password;
-    private int category;
 
     public User() { }
 
@@ -24,8 +32,7 @@ public class User
     boolean expert,
     String role,
     String mailadress,
-    String password,
-    int category)
+    String password)
 
     {
         this.userid = userid;
@@ -37,9 +44,37 @@ public class User
         this.role = role;
         this.mailadress = mailadress;
         this.password = password;
-        this.category = category;
     }
 
+    public User findById(Long userid) {
+
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM db02eylw.user WHERE userid = ?"
+            );
+            statement.setLong(1, userid);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String firstname = resultSet.getString("firstname");
+                String nickname = resultSet.getString("nickname");
+                String avatar = resultSet.getString("avatar");
+                boolean expert = resultSet.getBoolean("expert");
+                String role = resultSet.getString("role");
+                String mailadress = resultSet.getString("mailadress");
+                String password = resultSet.getString("password");
+
+                return new User(userid, name, firstname, nickname, avatar, expert, role, mailadress, password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public Long getUserId() {
         return userid;
     }
@@ -101,13 +136,6 @@ public class User
     }
     public void setPassWord(String password) {
         this.password = password;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-    public void setCategory(int category) {
-        this.category = category;
     }
 }
 
