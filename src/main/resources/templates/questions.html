@@ -49,18 +49,20 @@
 <div class="container">
     <h3>Skill Hub</h3>
     <br>
-    <div class="col">
-        <div scope="col">Questions - <span class="text-nowrap"><i>Select skill: </i>
-            <form method="get" th:action="@{/questions}" th:object="${catSelected}">
-                <select id="catSelected" name="catSelected" onchange="this.form.submit()">
-                    <option th:value=0>- all -</option>
-                    <option th:each="category : ${categories}"
-                            th:value="${category.categoryId}"
-                            th:text="${category.categoryName}"
-                            th:selected="${category.categoryId} == ${catSelected}">
-                    </option>
-                </select>
-            </form></span>                        
+    <div class="col chat">
+        <div scope="col">
+            <div class="s-bubble-f">Questions - <span class="text-nowrap"><i>Select skill: </i>
+                <form method="get" th:action="@{/questions}" th:object="${catSelected}">
+                    <select id="catSelected" name="catSelected" onchange="this.form.submit()">
+                        <option th:value=0>- all -</option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.categoryId}"
+                                th:text="${category.categoryName}"
+                                th:selected="${category.categoryId} == ${catSelected}">
+                        </option>
+                    </select>
+                </form></span>
+            </div>                      
         </div>
         <div th:each="question : ${questions}">
             <div class="s-bubble-q">
