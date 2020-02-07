@@ -38,6 +38,10 @@
 
     <div sec:authorize="isAuthenticated()">
         Authenticated as <span sec:authentication="name"></span>
+        <p th:each="authority : ${#authentication.getAuthorities()}"
+        th:if="${authority.getAuthority().startsWith('ROLE_')}"
+        th:text="${authority.getAuthority().replaceFirst('ROLE_', '')}">
+     </p>
     </div>
 <div class="jumbotron text-center">
   <h1>SkillHub</h1>
@@ -57,7 +61,7 @@
     </div>
     <div class="col-sm-4">
       <h3>CSS</h3>        
-      <p><i>"CSS Anweisungen kombinieren</i></p>
+      <p><i>"CSS Anweisungen kombinieren"</i></p>
       <p><i>"Ich stehe vor folgendem Problem, dass ich gerne die komplette Formatierung in eine Klasse packen möchte..."</i><a href="#">  mehr</a></p>
     </div>
   </div>
