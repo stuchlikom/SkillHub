@@ -23,16 +23,8 @@
     <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" th:field="*{nickName}" type="text">
     <br><br>
 
-    <label for="user-avatar">Avatar:</label>
-    <input id="user-avatar" name="avatar" placeholder="Avatar benennen" th:field="*{avatar}" type="text">
-    <br><br>
-
-    <label for="user-is-expert">Experte?</label>
-    <input id="user-is-expert" name="expert" th:field="*{expert}" type="checkbox">
-    <br><br>
-
-    <label for="user-is-admin">Admin?</label>
-    <input id="user-is-admin" name="admin" th:field="*{admin}" type="checkbox">
+    <label for="user-is-role">Rolle:</label>
+    <input id="user-is-role" name="role" placeholder="Rolle benennen" th:field="*{role}" type="text">
     <br><br>
 
     <label for="user-mailadress">Mailadresse:</label>
@@ -41,10 +33,6 @@
 
     <label for="user-password">Password:</label>
     <input id="user-password" name="password" placeholder="Password eintragen" required th:field="*{passWord}" type="text">
-    <br><br>
-
-    <label for="user-category">Katrgorie:</label>
-    <input id="user-category" name="category" placeholder=1 th:field="*{category}" type="number">
     <br><br>
 
     <input type="submit" value="Send">
