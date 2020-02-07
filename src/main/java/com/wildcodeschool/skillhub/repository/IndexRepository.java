@@ -6,8 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.wildcodeschool.skillhub.entity.Question;
 import com.wildcodeschool.skillhub.util.JdbcUtils;
@@ -35,11 +33,11 @@ public class IndexRepository {
 
             if (resultSet.next()) {
                 Long questioner = resultSet.getLong("questioner");
-                Date date = resultSet.getDate("date");
+                Date questionDate = resultSet.getDate("question.date");
                 String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
-                return new Question(filter, questioner, date, questionText, category, categoryName, null);
+                return new Question(filter, questioner, questionDate, null, questionText, category, categoryName, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
