@@ -6,7 +6,8 @@ public class Question {
 
     private Long questionId;
     private Long questioner;
-    private Date date;
+    private Date questionDate;
+    private Date answerDate;
     private String questionText;
     private Long category;
     private String categoryName;
@@ -15,10 +16,11 @@ public class Question {
     public Question() {
     }
 
-    public Question(Long questionId, Long questioner, Date date, String questionText, Long category, String categoryName, String answerText) {
+    public Question(Long questionId, Long questioner, Date questionDate, Date answerDate, String questionText, Long category, String categoryName, String answerText) {
         this.questionId = questionId;
         this.questioner = questioner;
-        this.date = date;
+        this.questionDate = questionDate;
+        this.answerDate = answerDate;
         this.questionText = questionText;
         this.category = category;
         this.categoryName = categoryName;
@@ -41,12 +43,20 @@ public class Question {
         this.questioner = questioner;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getQuestionDate() {
+        return questionDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setQuestionDate(Date questionDate) {
+        this.questionDate = questionDate;
+    }
+
+    public Date getAnswerDate() {
+        return answerDate;
+    }
+
+    public void setAnswerDate(Date answerDate) {
+        this.answerDate = answerDate;
     }
 
     public String getQuestionText() {
