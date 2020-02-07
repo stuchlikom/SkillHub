@@ -1,15 +1,11 @@
 package com.wildcodeschool.skillhub.entity;
 
-import java.sql.Blob;
-
 public class User
 {
     private Long userid;
     private String name;
     private String firstname;
     private String nickname;
-    private Blob avatar;
-
     private String role;
     private String mailadress;
     private String password;
@@ -21,7 +17,6 @@ public class User
     String name,
     String firstname,
     String nickname,
-    Blob avatar,
     String role,
     String mailadress,
     String password)
@@ -31,7 +26,6 @@ public class User
         this.name = name;
         this.firstname = firstname;
         this.nickname = nickname;
-        this.avatar = avatar;
         this.role = role;
         this.mailadress = mailadress;
         this.password = password;
@@ -65,19 +59,12 @@ public class User
         this.nickname = nickname;
     }
 
-    public Blob getAvatar() {
-        return avatar;
+    public String getRole() {
+        return role;
     }
-    public void setAvatar(Blob avatar) {
-        this.avatar = avatar;
+    public void setRole(String role) {
+        this.role = role;
     }
-
-        public String getRole() {
-            return role;
-        }
-        public void setRole(String role) {
-            this.role = role;
-        }
 
     public String getMailAdress() {
         return mailadress;
