@@ -8,12 +8,8 @@ public class User
     private String name;
     private String firstname;
     private String nickname;
-<<<<<<< HEAD
     private Blob avatar;
-=======
-    private String avatar;
-    private boolean expert;
->>>>>>> dev
+
     private String role;
     private String mailadress;
     private String password;
@@ -25,12 +21,7 @@ public class User
     String name,
     String firstname,
     String nickname,
-<<<<<<< HEAD
     Blob avatar,
-=======
-    String avatar,
-    boolean expert,
->>>>>>> dev
     String role,
     String mailadress,
     String password)
@@ -41,10 +32,6 @@ public class User
         this.firstname = firstname;
         this.nickname = nickname;
         this.avatar = avatar;
-<<<<<<< HEAD
-=======
-        this.expert = expert;
->>>>>>> dev
         this.role = role;
         this.mailadress = mailadress;
         this.password = password;
@@ -85,28 +72,12 @@ public class User
         this.avatar = avatar;
     }
 
-<<<<<<< HEAD
         public String getRole() {
             return role;
         }
         public void setRole(String role) {
             this.role = role;
         }
-=======
-    public boolean isExpert() {
-        return expert;
-    }
-    public void setExpert(boolean expert) {
-        this.expert = expert;
-    }
-
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
->>>>>>> dev
 
     public String getMailAdress() {
         return mailadress;
