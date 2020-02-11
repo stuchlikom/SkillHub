@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Benutzer</title>
+    
+    <style>
+    fieldset {
+        border: none;
+    }
+    
+    label::after {
+        content: "";
+        display: block;
+    }
+    </style>
 
 </head>
 <body>
@@ -23,8 +34,15 @@
     <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" th:field="*{nickName}" type="text">
     <br><br>
 
-    <label for="user-is-role">Rolle:</label>
-    <input id="user-is-role" name="role" placeholder="Rolle benennen" th:field="*{role}" type="text">
+    <div>Rolle:</div>
+    <fieldset>
+        <input type="radio" id="user-is-user" name="role" required th:field="*{role}" th:value="ROLE_USER">
+        <label for="user-is-user"> Portalnutzer</label>
+        <input type="radio" id="user-is-expert" name="role" required th:field="*{role}" th:value="ROLE_EXPERT">
+        <label for="user-is-expert"> Experte</label>
+        <input type="radio" id="user-is-admin" name="role" required th:field="*{role}" th:value="ROLE_ADMIN">
+        <label for="user-is-admin"> Administrator</label>
+    </fieldset>
     <br><br>
 
     <label for="user-mailadress">Mailadresse:</label>
@@ -35,9 +53,12 @@
     <input id="user-password" name="password" placeholder="Password eintragen" required th:field="*{passWord}" type="text">
     <br><br>
 
-    <input type="submit" value="Send">
+    <input type="submit" value="  Send  ">
+    <button type="reset">Eingaben zurücksetzen</button>
+
 </form>
 <br>
+
 <a href="/admin/users">Return to Users</a>
 <br>
 <a href="/admin">Return to Admin </a>
