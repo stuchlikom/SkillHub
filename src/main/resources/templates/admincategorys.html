@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzerliste</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 5px;
+        text-align: left;
+    }
+</style>
+<body>
+<h3>Users</h3>
+<a href="/admin/category">Add a new category !</a>
+<br><br>
+<table>
+    <thead>
+    <tr>
+       <th>category-Id</th>
+       <th>category</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="category : ${categorys}">
+
+        <td th:text="${category.categoryId}">categoryid</td>
+        <td th:text="${category.categoryName}">categoryname</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a href="/admin">Return to Admin </a>
+</body>
+</html>

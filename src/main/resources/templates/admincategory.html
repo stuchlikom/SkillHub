@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+
+</head>
+<body>
+<h3> Category</h3>
+<form method="post" th:action="@{/admin/category}" th:object="${category}">
+
+    <label for="cateogory-name">Kategorie:</label>
+    <input id="cateogory-name" name="categoryname" placeholder="Kategorie eintragen" required th:field="${category.categoryName}" type="text">
+    <br><br>
+    
+    <input type="submit" value="Send">
+</form>
+<br>
+<a href="/admin/categorys">Return to categorys</a>
+<br>
+<a href="/admin">Return to Admin </a>
+</body>
+</html>
