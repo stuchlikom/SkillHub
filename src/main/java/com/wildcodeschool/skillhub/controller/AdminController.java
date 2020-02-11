@@ -1,7 +1,9 @@
 package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.User;
+import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.repository.AdminRepository;
+import com.wildcodeschool.skillhub.repository.CategoryRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,63 +14,82 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
-    private AdminRepository repository = new AdminRepository();
+    private AdminRepository adminrepository = new AdminRepository();
+    private CategoryRepository categoryrepository = new CategoryRepository();
 
     @GetMapping("/admin")
     public String start() {
         return "admin";
     }
-
     @GetMapping("/admin/users")
-    public String getAll(Model model, @RequestParam(required = false) Long catSelected)
-    {
-        model.addAttribute("users", repository.findAll(null));
+    public String getAllUser(Model model, @RequestParam(required = false) Long catSelected) {
+        model.addAttribute("users", adminrepository.findAll(null));
         System.out.println("/admin/users-getAll");
         return "adminusers";
-    }
+        }
 
     @GetMapping("/admin/user")
-    public String getUser(Model model, @RequestParam(required = false) Long userid)
-    {
+    public String getUser(Model model, @RequestParam(required = false) Long userid) {
         User user = new User();
         if (userid != null) {
-            user = repository.findById(userid);
+            user = adminrepository.findById(userid);
         }
         model.addAttribute("user", user);
         System.out.println("/admin/user-getUser |" + user.getUserId());
         return "adminuser";
-    }
+        }
 
     @PostMapping("/admin/user")
-    public String postUser(@ModelAttribute User user) 
-    {
+    public String postUser(@ModelAttribute User user) {
         if (user.getUserId() != null) {
-            repository.update(user);
+            adminrepository.update(user);
         } else {
-            repository.save(user);
+            adminrepository.save(user);
         }
         System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
         return "redirect:/admin/users";
-    }
+        }
 
     @GetMapping("/admin/del-id")
-      public String getById(Model model, @RequestParam Long userid)
-      {
-         model.addAttribute("user", repository.findById(userid));
+      public String getById(Model model, @RequestParam Long userid) {
+         model.addAttribute("user", adminrepository.findById(userid));
          System.out.println("/admin/user-getById |" + "|");
          return "admindel";
       }
 
-
-      @GetMapping("/admin/user/delete")
-      public String deleteUser(@RequestParam Long userid)
-      {
-         repository.deleteById(userid);
+    @GetMapping("/admin/user/delete")
+      public String deleteUser(@RequestParam Long userid) {
+        adminrepository.deleteById(userid);
          System.out.println("/admin/user/delete |" + "|");
          return "redirect:/admin/users";
       }
+  
+      // nachfolgend category
 
-
-
-
+    @GetMapping("/admin/categorys")
+      public String getAllCategory(Model model, @RequestParam(required = false) Long catSelected) {
+        model.addAttribute("categorys", categoryrepository.findAll(null));
+        System.out.println("/admin/categorys-getAll");
+        return "admincategorys";
+        }
+    
+    @GetMapping("/admin/category")
+      public String getCategory(Model model, @RequestParam(required = false) Long userid) {
+        Category category = new Category();
+        model.addAttribute("category", category);
+        System.out.println("/admin/category-getCategory |");
+        return "admincategory";
+        }
+      
+    @PostMapping("/admin/category")
+      public String postCategory(@ModelAttribute Category category) {
+        
+        System.out.println("/admin/user-postUser 1. |"  + category.getCategoryName() + "|");
+        
+        categoryrepository.save(category);
+        
+        System.out.println("/admin/user-postUser 2. |"  + category + "|");
+        return "redirect:/admin/categorys";
+        }
+        
 }
