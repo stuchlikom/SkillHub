@@ -9,10 +9,10 @@ import java.util.List;
 
 public class AdminRepository implements CrudDao<User> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
-   
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
+  
     
         @Override
         public List<User> findAll(Long filter) {
@@ -23,7 +23,7 @@ public class AdminRepository implements CrudDao<User> {
     
             try {
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                statement = connection.prepareStatement("SELECT * FROM SkillHubDB.user");
+                statement = connection.prepareStatement("SELECT * FROM db02eylw.user");
                 resultSet = statement.executeQuery();
     
                 List<User> users = new ArrayList<>();
@@ -70,7 +70,7 @@ public class AdminRepository implements CrudDao<User> {
             );
             PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO "
-                + "SkillHubDB.user (name, firstname, nickname, role, mailadress, password)"
+                + "db02eylw.user (name, firstname, nickname, role, mailadress, password)"
                 + "VALUES (?,?,?,?,?,?)"
 
             );
@@ -115,7 +115,7 @@ public class AdminRepository implements CrudDao<User> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM SkillHubDB.user WHERE userid = ?"
+                    "SELECT * FROM db02eylw.user WHERE userid = ?"
             );
             statement.setLong(1, userid);
             ResultSet resultSet = statement.executeQuery();
@@ -146,7 +146,7 @@ public class AdminRepository implements CrudDao<User> {
             );
             PreparedStatement statement = connection.prepareStatement(
 
-                    "UPDATE SkillHubDB.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
+                    "UPDATE db02eylw.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
 
             );
             statement.setString(1, user.getName());
@@ -175,7 +175,7 @@ public class AdminRepository implements CrudDao<User> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM SkillHubDB.user WHERE userid=?"
+                    "DELETE FROM db02eylw.user WHERE userid=?"
             );
             statement.setLong(1, userid);
 
