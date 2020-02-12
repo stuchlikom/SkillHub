@@ -33,10 +33,11 @@ public class UserRepository implements CrudDao<User> {
                     String name = resultSet.getString("name");                    
                     String firstname = resultSet.getString("firstname");                    
                     String nickname = resultSet.getString("nickname");
+                    String role = resultSet.getString("role");                    
                     String mailadress = resultSet.getString("mailadress");                    
                     String password = resultSet.getString("password");                    
 
-                    users.add(new User(userid, name, firstname, nickname, mailadress, password));
+                    users.add(new User(userid, name, firstname, nickname, role, mailadress, password));
                 }
                 
                 return users;
@@ -56,7 +57,7 @@ public class UserRepository implements CrudDao<User> {
             );
             PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO "
-                + "user (name, firstname, nickname, mailadress, password)"
+                + "user (name, firstname, nickname, role, mailadress, password)"
                 + "VALUES (?,?,?,?,?)"
 
             );
@@ -64,6 +65,7 @@ public class UserRepository implements CrudDao<User> {
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
+            statement.setString(4, user.getRole());
             statement.setString(5, user.getMailAdress());
             statement.setString(6, user.getPassWord());
 
@@ -109,10 +111,11 @@ public class UserRepository implements CrudDao<User> {
                 String name = resultSet.getString("name");
                 String firstname = resultSet.getString("firstname");
                 String nickname = resultSet.getString("nickname");
+                String role = resultSet.getString("role");
                 String mailadress = resultSet.getString("mailadress");
                 String password = resultSet.getString("password");
 
-                return new User(userid, name, firstname, nickname, mailadress, password);
+                return new User(userid, name, firstname, nickname, role, mailadress, password);
 
             }
         } catch (SQLException e) {
@@ -130,12 +133,13 @@ public class UserRepository implements CrudDao<User> {
             );
             PreparedStatement statement = connection.prepareStatement(
 
-                    "UPDATE user SET name=?, firstname=?, nickname=?, mailadress=?, password=? WHERE userid=?"
+                    "UPDATE user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
 
             );
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
+            statement.setString(4, user.getRole());
             statement.setString(5, user.getMailAdress());
             statement.setString(6, user.getPassWord());
             statement.setLong(7, user.getUserId());
