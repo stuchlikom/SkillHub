@@ -18,9 +18,9 @@ public class UserController {
 
 	private UserRepository repository = new UserRepository();
 
-	@GetMapping("/user/profile")
-	public String viewProfile(Model model) {
-        User user = new User();
+//	@GetMapping("/user/profile")
+//	public String viewProfile(Model model) {
+/*        User user = new User();
         User optionalUser = new User();
 		user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = user.getUserId();
@@ -33,7 +33,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "user/profile";
     }
-
+*/
 
 	@GetMapping("/register")
 	public String getUser(Model model, @RequestParam(required = false) Long userid)
@@ -43,7 +43,7 @@ public class UserController {
 			user = repository.findById(userid);
 		}
 		model.addAttribute("user", user);
-		return "user";
+		return "register";
 	}
 
 	@PostMapping("/register")

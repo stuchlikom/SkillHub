@@ -1,7 +1,7 @@
 package com.wildcodeschool.skillhub.repository;
 
 import com.wildcodeschool.skillhub.entity.User;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +13,8 @@ public class UserRepository implements CrudDao<User> {
     private final static String DB_USER = "sh_admin";
     private final static String DB_PASSWORD = "sPfdA-1234";
     String role;
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String hashedPassword;
 
         @Override
         public List<User> findAll(Long filter) {
@@ -58,16 +60,18 @@ public class UserRepository implements CrudDao<User> {
             PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO "
                 + "user (name, firstname, nickname, role, mailadress, password)"
-                + "VALUES (?,?,?,?,?)"
+                + "VALUES (?,?,?,?,?,?)"
 
             );
+
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
             statement.setString(4, user.getRole());
             statement.setString(5, user.getMailAdress());
-            statement.setString(6, user.getPassWord());
+            hashedPassword = passwordEncoder.encode(user.getPassWord());
+            statement.setString(6, hashedPassword);
 
 
 
