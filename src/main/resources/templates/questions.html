@@ -49,18 +49,20 @@
 <div class="container">
     <h3>Skill Hub</h3>
     <br>
-    <div class="col">
-        <div scope="col">Questions - <span class="text-nowrap"><i>Select skill: </i>
-            <form method="get" th:action="@{/questions}" th:object="${catSelected}">
-                <select id="catSelected" name="catSelected" onchange="this.form.submit()">
-                    <option th:value=0>- all -</option>
-                    <option th:each="category : ${categories}"
-                            th:value="${category.categoryId}"
-                            th:text="${category.categoryName}"
-                            th:selected="${category.categoryId} == ${catSelected}">
-                    </option>
-                </select>
-            </form></span>                        
+    <div class="col chat">
+        <div scope="col">
+            <div class="s-bubble-f">Questions - <span class="text-nowrap"><i>Select skill: </i>
+                <form method="get" th:action="@{/questions}" th:object="${catSelected}">
+                    <select id="catSelected" name="catSelected" onchange="this.form.submit()">
+                        <option th:value=0>- all -</option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.categoryId}"
+                                th:text="${category.categoryName}"
+                                th:selected="${category.categoryId} == ${catSelected}">
+                        </option>
+                    </select>
+                </form></span>
+            </div>                      
         </div>
         <div th:each="question : ${questions}">
             <div class="s-bubble-q">
@@ -78,7 +80,7 @@
                 <span th:text="${question.answerText}">answerText</span><br>
                 <span class="badge badge-secondary" th:text="${question.answerDate}">answerDate</span> 
             </div>
-            <div th:if="${question.answerText == null}" class="s-bubble-a">
+            <div th:if="${question.answerText == null and #lists.contains(expertCategories, question.category)}" class="s-bubble-a">
                 <button type="button" class="btn btn-primary" data-toggle="modal"
                 	
                     th:attr="data-qid=${question.questionId}, data-qt=${question.questionText}, data-qc=${catSelected}"
@@ -114,7 +116,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div id="questionText">Frage:</div><br>
+                        <div id="questionText">Question:</div><br>
                         <form method="post" th:action="@{/answer}" th:object="${answer}">
                             <label for="answerText"><b>Answer:</b></label><br>
                             <textarea id="answerText" name="answerText" rows="4" required placeholder="Fill in your answer."></textarea>

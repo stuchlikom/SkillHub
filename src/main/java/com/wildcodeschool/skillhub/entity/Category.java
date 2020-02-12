@@ -1,7 +1,5 @@
 package com.wildcodeschool.skillhub.entity;
 
-import java.sql.Date;
-
 public class Category {
 
     private Long categoryId;
@@ -28,7 +26,7 @@ public class Category {
         return categoryName;
     }
 
-    public void setCategoryNName(String categoryName) {
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 

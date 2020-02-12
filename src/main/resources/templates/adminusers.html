@@ -26,7 +26,8 @@
 </style>
 <body>
 <h3>Users</h3>
-<a href="/admin/user">Add a new user !</a>
+<a href="/admin/user">Add a new user !</a> <br>
+<a href="/admin">Return to Admin </a>
 <br><br>
 <table>
     <thead>
@@ -35,12 +36,9 @@
        <th>Name</th>
        <th>Firstname</th>
        <th>Nickname</th>
-       <th>Avatar</th>
-       <th>Expert</th>
-       <th>Admin</th>
+       <th>Rolle</th>
        <th>Mailadress</th>
        <th>Password</th>
-       <th>Category</th>
        <th></th>
        <th></th>
     </tr>
@@ -53,12 +51,9 @@
         <td th:text="${user.name}">name</td>
         <td th:text="${user.firstName}">firstname</td>
         <td th:text="${user.nickName}">nickname</td>
-        <td th:text="${user.avatar}">avatar</td>
-        <td th:text="${user.expert}">expert</td>
-        <td th:text="${user.admin}">admin</td>
+        <td th:text="${user.role}">role</td>
         <td th:text="${user.mailAdress}">mailadress</td>
         <td th:text="${user.passWord}">password</td>
-        <td th:text="${user.category}">category</td>
         <td><a th:href="@{/admin/user(userid=${user.userId})}">Edit</a></td>
         <td><a th:href="@{/admin/del-id(userid=${user.userId})}">Remove / Delete</a></td>
     </tr>
