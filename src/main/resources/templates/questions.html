@@ -66,19 +66,21 @@
         </div>
         <div th:each="question : ${questions}">
             <div class="s-bubble-q">
-                <!-- Teste Bildanzeige   -->
-                <span> <img th:src="@{'/image/' + *{question.questioner}}" height=120/></span><br> <!-- ? /{id} ? -->
-                <span class="badge badge-pill badge-danger" th:text="${question.categoryName}">categoryName</span><br>
-               
-               	
+                <div class="avatarBox">
+                    <span class="badge badge-pill badge-danger" th:text="${question.categoryName}">categoryName</span><br>
+                    <span><img th:src="@{'/image/' + *{question.questioner}}" class="avatarPic"/></span><br>
+                    <span class="badge badge-pill badge-warning" th:text="${question.questionNick}">questionNick</span><br>
+                    <span class="badge badge-secondary" th:text="${question.questionDate}">questionDate</span><br>
+                </div>
                 <span th:text="${question.questionText}">questionText</span><br>
-                <span class="badge badge-secondary" th:text="${question.questionDate}">questionDate</span>
             </div>
             <div th:if="${question.answerText != null}" class="s-bubble-a">
-                <!-- Teste Bildanzeige   -->
-               <span> <img th:src="@{'/image/' + *{question.questioner}}" height=120/></span>
+                <div class="avatarBox">
+                    <span> <img th:src="@{'/image/' + *{question.expert}}" class="avatarPic"/></span><br>
+                    <span class="badge badge-pill badge-warning" th:text="${question.answerNick}">questionNick</span><br>
+                    <span class="badge badge-secondary" th:text="${question.answerDate}">answerDate</span><br>
+                </div>
                 <span th:text="${question.answerText}">answerText</span><br>
-                <span class="badge badge-secondary" th:text="${question.answerDate}">answerDate</span> 
             </div>
             <div th:if="${question.answerText == null and #lists.contains(expertCategories, question.category)}" class="s-bubble-a">
                 <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -104,7 +106,7 @@
                             <label for="questionText">Question:</label>
                             <textarea id="questionText" name="questionText" cols="80" rows="4" required placeholder="Fill in your question."></textarea>
                             <br>
-                            <input id="questioner" name="questioner" value="1" type="hidden">
+                            <input id="questioner" name="questioner" th:value="${loggedInUserId}" type="hidden">
                             <button type="submit" value="Add">Add</button>
                             <button type="cancel" value="Cancel" data-dismiss="modal">Cancel</button>
                         </form>
@@ -121,7 +123,7 @@
                             <label for="answerText"><b>Answer:</b></label><br>
                             <textarea id="answerText" name="answerText" rows="4" required placeholder="Fill in your answer."></textarea>
                             <br>
-                            <input id="expert" name="expert" value="1" type="hidden">
+                            <input id="expert" name="expert" th:value="${loggedInUserId}" type="hidden">
                             <input id="question" name="question" value="" type="hidden">
                             <input id="category" name="category" value="" type="hidden">
                             <button type="submit" value="Add">Add</button>
