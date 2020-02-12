@@ -7,6 +7,11 @@
 </head>
 <body>
 <h3> Category</h3>
+<br>
+<a href="/admin/categorys">Return to categorys</a>
+<br>
+<a href="/admin">Return to Admin </a>
+
 <form method="post" th:action="@{/admin/category}" th:object="${category}">
 
     <label for="cateogory-name">Kategorie:</label>
@@ -15,8 +20,6 @@
     
     <input type="submit" value="Send">
 </form>
-<br>
-<a href="/admin/categorys">Return to categorys</a>
 <br>
 <a href="/admin">Return to Admin </a>
 </body>

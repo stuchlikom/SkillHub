@@ -26,7 +26,6 @@
 </style>
 <body>
 <h3>Users</h3>
-<a href="/admin/user">Add a new user !</a> <br>
 <a href="/admin">Return to Admin </a>
 <br><br>
 <table>
@@ -36,10 +35,7 @@
        <th>Name</th>
        <th>Firstname</th>
        <th>Nickname</th>
-
-       
-       <th></th>
-       <th></th>
+       <th>Kategorie</th>
     </tr>
     </thead>
 
@@ -51,13 +47,14 @@
         <td th:text="${user.firstName}">firstname</td>
         <td th:text="${user.nickName}">nickname</td>
 
-        
-        <td><a th:href="@{/admin/user(userid=${user.userId})}">Edit</a></td>
-        <td><a th:href="@{/admin/del-id(userid=${user.userId})}">Remove / Delete</a></td>
+        <tr th:each="category : ${categorys}">
+            <td th:text="${category.categoryId}">categoryid</td>
+            <td th:text="${category.categoryName}">categoryname</td>
+        </tr>
+
     </tr>
     </tbody>
 </table>
 <br>
-<a href="/admin">Return to Admin </a>
 </body>
 </html>
