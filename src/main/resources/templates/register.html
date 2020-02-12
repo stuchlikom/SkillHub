@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<style>
+       body {
+         font-family: Arial, Helvetica, sans-serif;
+         background-color: black;
+       }
+       
+       * {
+         box-sizing: border-box;
+       }
+       
+       /* Add padding to containers */
+       .container {
+         padding: 16px;
+         background-color: white;
+       }
+       
+       /* Full-width input fields */
+       input[type=text], input[type=password] {
+         width: 100%;
+         padding: 15px;
+         margin: 5px 0 22px 0;
+         display: inline-block;
+         border: none;
+         background: #f1f1f1;
+       }
+       
+       input[type=text]:focus, input[type=password]:focus {
+         background-color: #ddd;
+         outline: none;
+       }
+       
+       /* Overwrite default styles of hr */
+       hr {
+         border: 1px solid #f1f1f1;
+         margin-bottom: 25px;
+       }
+       
+       /* Set a style for the submit button */
+       .registerbtn {
+         background-color: grey;
+         color: white;
+         padding: 16px 20px;
+         margin: 8px 0;
+         border: none;
+         cursor: pointer;
+         width: 100%;
+         opacity: 0.9;
+       }
+       
+       .registerbtn:hover {
+         opacity: 1;
+       }
+       
+       /* Add a blue text color to links */
+       a {
+         color: dodgerblue;
+       }
+       
+       /* Set a grey background color and center the text of the "sign in" section */
+       .signin {
+         background-color: #f1f1f1;
+         text-align: center;
+       }
+       </style>
+
+<head>
+    <title>SkillHub</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+
+</head>
+<body>
+    <h1>SkillHub Registrierung</h1>
+    <p>Bitte fülle alle Felder aus, um dir einen Account anzulegen.</p>
+
+    <form method="post" th:action="@{/register}" th:object="${user}">
+
+          <input name="userid" th:field="*{userId}" type="hidden">
+      
+          <label for="firstName-text"><b>Vorname:</b></label>
+          <input id="firstName-text" name="firstname" placeholder="Vorname" required th:field="*{firstname}" type="text"> 
+ 
+          <label for="lastName-text"><b>Nachname:</b></label>
+          <input id="lastName-text" name="name" placeholder="Nachname" required th:field="*{name}" type="text">
+ 
+          <label for="email-text"><b>eMail</b></label>
+          <input id="email-text" name="email" placeholder="eMail" required th:field="*{email}">
+          
+          <label for="nickname-text"><b>Nickname</b></label>
+          <input id ="nickname-text" name="nickname" placeholder="Nickname (Anmeldename)" required th:field="*{nickname}"
+          
+          <label for="password-text"><b>Password</b></label>
+          <input id="password-text" name="password" placeholder="Password" required th:field="*{password}">
+          
+          <p>Mit deiner Anmeldung akzeptierst du unsere <a href="terms">Nutzungsbedingungen</a>.</p>
+          <button type="submit" class="registerbtn">Absenden</button>
+    </form>
+            
+    <div class="container signin">
+      <p>Du hast schon einen Account? <a href="/login">Hier gehts zum Login</a>.</p>
+    </div>
+</body>
+</html>
