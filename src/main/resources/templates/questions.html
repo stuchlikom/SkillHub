@@ -74,7 +74,7 @@
                 <span th:text="${question.answerText}">answerText</span><br>
                 <span class="badge badge-secondary" th:text="${question.answerDate}">answerDate</span> 
             </div>
-            <div th:if="${question.answerText == null}" class="s-bubble-a">
+            <div th:if="${question.answerText == null and #lists.contains(expertCategories, question.category)}" class="s-bubble-a">
                 <button type="button" class="btn btn-primary" data-toggle="modal"
                     th:attr="data-qid=${question.questionId}, data-qt=${question.questionText}, data-qc=${catSelected}"
                     data-target="#newAnswer">+ ANSWER</button>
@@ -109,7 +109,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div id="questionText">Frage:</div><br>
+                        <div id="questionText">Question:</div><br>
                         <form method="post" th:action="@{/answer}" th:object="${answer}">
                             <label for="answerText"><b>Answer:</b></label><br>
                             <textarea id="answerText" name="answerText" rows="4" required placeholder="Fill in your answer."></textarea>

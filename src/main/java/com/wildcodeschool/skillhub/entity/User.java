@@ -56,13 +56,11 @@ public class User
                 String name = resultSet.getString("name");
                 String firstname = resultSet.getString("firstname");
                 String nickname = resultSet.getString("nickname");
-                String avatar = resultSet.getString("avatar");
-                boolean expert = resultSet.getBoolean("expert");
                 String role = resultSet.getString("role");
                 String mailadress = resultSet.getString("mailadress");
                 String password = resultSet.getString("password");
 
-                return new User(userid, name, firstname, nickname, avatar, expert, role, mailadress, password);
+                return new User(userid, name, firstname, nickname, role, mailadress, password);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -12,8 +12,8 @@ public class AdminRepository implements CrudDao<User> {
     private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
     private final static String DB_USER = "sh_admin";
     private final static String DB_PASSWORD = "sPfdA-1234";
-    String role;
-
+   
+    
         @Override
         public List<User> findAll(Long filter) {
 
@@ -39,7 +39,7 @@ public class AdminRepository implements CrudDao<User> {
 
                     users.add(new User(userid, name, firstname, nickname, role, mailadress, password));
 
-
+/*
                     System.out.print(">|" + resultSet.getLong("userid") + "|" + userid + "|");
                     System.out.print(">|" + resultSet.getString("name") + "|" + name + "|");
                     System.out.print(">|" + resultSet.getString("firstname") + "|" + firstname + "|");
@@ -47,17 +47,19 @@ public class AdminRepository implements CrudDao<User> {
                     System.out.print(">|" + resultSet.getString("role") + "|" + role + "|");
                     System.out.print(">|" + resultSet.getString("mailadress") + "|" + mailadress + "|");
                     System.out.print(">|" + resultSet.getString("password") + "|" + password + "|");
-                    System.out.println("end while>|"+userid+"|");
-                   
-                }
+                    System.out.println("end while mit user "+userid+"|");
+*/          
+               }
+
                 
+
                 return users;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             return null;
         }
-        
+     
     @Override
     public User save(User user) 
     {
@@ -184,4 +186,4 @@ public class AdminRepository implements CrudDao<User> {
             e.printStackTrace();
         }
     }
-}
+ }
