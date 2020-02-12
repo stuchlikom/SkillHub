@@ -1,6 +1,5 @@
 package com.wildcodeschool.skillhub.repository;
 
-import com.wildcodeschool.skillhub.repository.CrudDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

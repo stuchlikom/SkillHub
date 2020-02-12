@@ -21,10 +21,11 @@ public class AdminController {
     public String start() {
         return "admin";
     }
+
     @GetMapping("/admin/users")
     public String getAllUser(Model model, @RequestParam(required = false) Long catSelected) {
         model.addAttribute("users", adminrepository.findAll(null));
-        System.out.println("/admin/users-getAll");
+        System.out.println("/admin/getAllUser");
         return "adminusers";
         }
 
@@ -35,7 +36,7 @@ public class AdminController {
             user = adminrepository.findById(userid);
         }
         model.addAttribute("user", user);
-        System.out.println("/admin/user-getUser |" + user.getUserId());
+        System.out.println("/admin/getUser |" + user.getUserId());
         return "adminuser";
         }
 
@@ -69,7 +70,7 @@ public class AdminController {
     @GetMapping("/admin/categorys")
       public String getAllCategory(Model model, @RequestParam(required = false) Long catSelected) {
         model.addAttribute("categorys", categoryrepository.findAll(null));
-        System.out.println("/admin/categorys-getAll");
+        System.out.println("/admin/getAllCategory");
         return "admincategorys";
         }
     
@@ -77,7 +78,7 @@ public class AdminController {
       public String getCategory(Model model, @RequestParam(required = false) Long userid) {
         Category category = new Category();
         model.addAttribute("category", category);
-        System.out.println("/admin/category-getCategory |");
+        System.out.println("/admin/getCategory |");
         return "admincategory";
         }
       
@@ -91,5 +92,15 @@ public class AdminController {
         System.out.println("/admin/user-postUser 2. |"  + category + "|");
         return "redirect:/admin/categorys";
         }
-        
+ 
+        // nachfolgend expert
+
+        @GetMapping("/admin/experts")
+        public String getAllExpert(Model model, @RequestParam(required = false) Long catSelected) {
+          model.addAttribute("experts", adminrepository.findAll(null));
+          System.out.println("/admin/experts-getAllExperts");
+          return "adminexperts";
+          }
+
+
 }
