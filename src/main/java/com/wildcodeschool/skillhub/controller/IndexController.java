@@ -1,11 +1,13 @@
 package com.wildcodeschool.skillhub.controller;
 
+import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.entity.Question;
 import com.wildcodeschool.skillhub.entity.Answer;
 import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.repository.QuestionRepository;
 import com.wildcodeschool.skillhub.repository.AnswerRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
+import com.wildcodeschool.skillhub.repository.AdminRepository;
 import com.wildcodeschool.skillhub.repository.CrudDao;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class IndexController {
 
+    private CrudDao<User> userRepository = new AdminRepository();
     private CrudDao<Question> questionRepository = new QuestionRepository();
     private CrudDao<Answer> answerRepository = new AnswerRepository();
     private CrudDao<Category> categoryRepository = new CategoryRepository();
@@ -27,10 +30,9 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/register")
-    public String register() {
-
-        return "register";
+    @GetMapping("/user")
+    public String userIndex() {
+        return "user/index";
     }
     
     @GetMapping("/questions")
