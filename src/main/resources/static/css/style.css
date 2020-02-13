@@ -25,6 +25,7 @@
 
 .s-bubble-q {
   position: relative;
+  display: flow-root;
   left: 6%;
   width: 94%;
   background: #ccffcc;
@@ -34,6 +35,7 @@
   padding-right: 10px;
   padding-bottom: 10px;
   padding-left: 10px;
+  text-align: justify;
 }
 
 .s-bubble-q:after {
@@ -53,6 +55,7 @@
 
 .s-bubble-a {
   position: relative;
+  display: flow-root;
   width: 94%;
   background: #f2f2f2;
   border-radius: .4em;
@@ -60,7 +63,8 @@
   padding-top: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
-  padding-left: 10px;  
+  padding-left: 10px;
+  text-align: justify;
 }
 
 .s-bubble-a:after {
@@ -122,4 +126,28 @@ textarea {
   padding-right: 10px;
   padding-bottom: 10px;
   padding-left: 10px;  
+}
+
+.avatarPic{
+  height: 65px;
+  width: 65px;
+  object-fit: cover;
+  object-position:center;
+}
+
+.avatarBox{
+  position: relative;
+  clear: left;
+  left: 1px;
+  top: 1px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;  
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+#questionText {
+  text-align: justify;
 }

@@ -12,11 +12,14 @@ public class Question {
     private Long category;
     private String categoryName;
     private String answerText;
+    private String questionNick;
+    private String answerNick;
+    private Long expert;
 
     public Question() {
     }
 
-    public Question(Long questionId, Long questioner, Date questionDate, Date answerDate, String questionText, Long category, String categoryName, String answerText) {
+    public Question(Long questionId, Long questioner, Date questionDate, Date answerDate, String questionText, Long category, String categoryName, String answerText, String questionNick, String answerNick, Long expert) {
         this.questionId = questionId;
         this.questioner = questioner;
         this.questionDate = questionDate;
@@ -25,6 +28,9 @@ public class Question {
         this.category = category;
         this.categoryName = categoryName;
         this.answerText = answerText;
+        this.questionNick = questionNick;
+        this.answerNick = answerNick;
+        this.expert = expert;
     }
 
     public Long getQuestionId() {
@@ -90,4 +96,29 @@ public class Question {
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
     }
+
+    public String getQuestionNick() {
+        return questionNick;
+    }
+
+    public void setQuestionNick(String questionNick) {
+        this.questionNick = questionNick;
+    }
+
+    public String getAnswerNick() {
+        return answerNick;
+    }
+
+    public void setAnswerNick(String answerNick) {
+        this.answerNick = answerNick;
+    }
+
+    public Long getExpert() {
+        return expert;
+    }
+
+    public void setExpert(Long expert) {
+        this.expert = expert;
+    }
+
 }

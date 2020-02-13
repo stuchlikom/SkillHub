@@ -3,6 +3,9 @@ package com.wildcodeschool.skillhub.repository;
 import com.wildcodeschool.skillhub.entity.Question;
 import com.wildcodeschool.skillhub.repository.CrudDao;
 import org.springframework.stereotype.Repository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class QuestionRepository implements CrudDao<Question> {
 
     @Override
     public Question findById(Long questionId) {
+/*
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;         
@@ -78,7 +82,7 @@ public class QuestionRepository implements CrudDao<Question> {
                 String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
-                return new Question(questionId, questioner, questionDate, null, questionText, category, categoryName, null);
+                return new Question(questionId, questioner, questionDate, null, questionText, category, categoryName, null, null, null, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,7 +91,9 @@ public class QuestionRepository implements CrudDao<Question> {
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }
+*/
         return null;
+
     }
 
     @Override
@@ -104,8 +110,30 @@ public class QuestionRepository implements CrudDao<Question> {
                 catQuery = " ";
             }
             statement = connection.prepareStatement(
-                    "SELECT question.*, category.categoryname, answer.text, answer.date FROM question " +
+                    "SELECT " +
+                        "question.questionid, " +
+                        "question.questioner, " +
+                        "question.date, " +
+                        "question.text, " +
+                        "question.category, " +
+                        "category.categoryname, " +
+                        "answer.text, " +
+                        "answer.date, " +
+                        "answer.expert, " +
+                        "uq.userid, " +
+                        "ua.userid, " +
+                        "uq.nickname, " +
+                        "ua.nickname, " +
+                        "aq.avatarid, " +
+                        "aa.avatarid, " +
+                        "aq.avatar, " +
+                        "aa.avatar " +
+                            "FROM question " +
                     "LEFT OUTER JOIN answer ON answer.question=questionid " +
+                    "LEFT OUTER JOIN user uq ON question.questioner=uq.userid " +
+                    "LEFT OUTER JOIN user ua ON answer.expert=ua.userid " +
+                    "LEFT OUTER JOIN avatar aq ON aq.avatarid=uq.userid " +
+                    "LEFT OUTER JOIN avatar aa ON aa.avatarid=ua.userid " +
                     "INNER JOIN category ON question.category=category.categoryid " + catQuery +
                     "ORDER BY question.questionid;"
             );
@@ -119,10 +147,14 @@ public class QuestionRepository implements CrudDao<Question> {
                 Date questionDate = resultSet.getDate("question.date");
                 Date answerDate = resultSet.getDate("answer.date");
                 String questionText = resultSet.getString("question.text");
-                Long category = resultSet.getLong("category");
+                Long category = resultSet.getLong("question.category");
                 String categoryName = resultSet.getString("categoryname");
                 String answerText = resultSet.getString("answer.text");
-                questions.add(new Question(questionId, questioner, questionDate, answerDate, questionText, category, categoryName, answerText));
+                String questionNick = resultSet.getString("uq.nickname");
+                String answerNick = resultSet.getString("ua.nickname");
+                Long expert = resultSet.getLong("answer.expert");
+                //System.out.println("qN: " + questionNick + " aN: " + answerNick + " E: " + expert);
+                questions.add(new Question(questionId, questioner, questionDate, answerDate, questionText, category, categoryName, answerText, questionNick, answerNick, expert));
             }
             return questions;
         } catch (SQLException e) {

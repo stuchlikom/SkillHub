@@ -7,6 +7,7 @@ import com.wildcodeschool.skillhub.repository.QuestionRepository;
 import com.wildcodeschool.skillhub.repository.AnswerRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
 import com.wildcodeschool.skillhub.repository.ExpertCategoryRepository;
+import com.wildcodeschool.skillhub.repository.LoggedInUserRepository;
 import com.wildcodeschool.skillhub.repository.CrudDao;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,9 @@ public class IndexController {
         model.addAttribute("categories", categoryRepository.findAll(null));
         model.addAttribute("questions", questionRepository.findAll(catSelected));
         List<Long> expertCategories = ExpertCategoryRepository.findAll();
-        model.addAttribute("expertCategories", expertCategories);            
+        model.addAttribute("expertCategories", expertCategories);
+        Long loggedInUserId = LoggedInUserRepository.findId();
+        model.addAttribute("loggedInUserId", loggedInUserId);
 
 /*
     WebContext ctx = 
