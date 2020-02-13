@@ -55,7 +55,6 @@ public class IndexController {
 
 /*
     private CategoryRepository categoryRepository = new CategoryRepository();
-
     @RequestMapping(value = { "/categoryList" }, method = RequestMethod.GET)
     public String categoryList(Model model) {
  
@@ -73,13 +72,11 @@ public class IndexController {
     @GetMapping("/question")
     public String getQuestion(Model model,
                             @RequestParam(required = false) Long questionId) {
-
         Question question = new Question();
         if (questionId != null) {
             question = questionRepository.findById(questionId);
         }
         model.addAttribute("question", question);
-
         return "question";
     }
 */
@@ -109,7 +106,6 @@ public class IndexController {
 /*
     @PostMapping("/ServerRequestInfoOperations operations = new ServerRequestInfoOperations();")
     public String postQuestion(@ModelAttribute Question question) {
-
         if (question.getQuestionId() != null) {
             questionRepository.update(question);
         } else {

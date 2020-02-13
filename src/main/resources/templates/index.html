@@ -25,22 +25,21 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Experten finden</a>
             </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">
-                <a class="nav-link" href="./login">Login</a>
-              </li>    
+              <a class="nav-link" href="/register">Account anlegen</a>
+            </li>
+          </ul>
+          
+          <ul class="nav navbar-nav navbar-right">
+            <li th:if="${#authorization.expression('!isAuthenticated()')}">
+              <a class="nav-link" href="./login">Login</a>
+            </li>
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+              <a class="nav-link" href="./logout">Logout</a>
+            </li>
           </ul>
         </div>  
       </nav>
-
-    <div sec:authorize="isAuthenticated()">
-        Authenticated as <span sec:authentication="name"></span>
-        <p th:each="authority : ${#authentication.getAuthorities()}"
-        th:if="${authority.getAuthority().startsWith('ROLE_')}"
-        th:text="${authority.getAuthority().replaceFirst('ROLE_', '')}">
-     </p>
-    </div>
 <div class="jumbotron text-center">
   <h1>SkillHub</h1>
   <p>Frag einen Experten</p> 
