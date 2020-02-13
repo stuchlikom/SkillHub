@@ -36,20 +36,22 @@
        <th>Firstname</th>
        <th>Nickname</th>
        <th>Kategorie</th>
+       <th></th>
     </tr>
     </thead>
 
     <tbody>
     <tr th:each="expert : ${experts}">
-
+        <td><a th:href="@{/admin/user(userid=${expert.userId})}">Edit</a></td>
         <td th:text="${expert.userId}">expertId</td>
         <td th:text="${expert.name}">name</td>
         <td th:text="${expert.firstName}">firstName</td>
         <td th:text="${expert.nickName}">nickName</td>
-
-
-        
+        <span th:each="category : ${expert.categoryList}">
+            <td th:text="${category.categoryName}">categoryName</td>
+        </span>
     </tr>
+
     </tbody>
 </table>
 <br>

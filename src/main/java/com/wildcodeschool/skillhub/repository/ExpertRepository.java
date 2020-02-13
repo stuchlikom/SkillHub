@@ -44,9 +44,14 @@ public class ExpertRepository implements CrudDao<Expert> {
                     System.out.print(">|" + nickName + "||");
 
                     List<Category> categorys = new ArrayList<>();
+                    // categorys.add(new Category (0L,"noch keine Kategorie"));
+                    //System.out.print(">Init|" + categorys.get(0).getCategoryId() + "||");
+                    //System.out.print(">Init|" + categorys.get(0).getCategoryName() + "||");
+
                     while (resultSetCategory.next()) {
                         Long categoryId = resultSetCategory.getLong("categoryId");
                         String categoryName = resultSetCategory.getString("categoryName");
+
                         categorys.add(new Category(categoryId, categoryName));
                         
                         System.out.print(">CatId|" + categoryId + "||");
