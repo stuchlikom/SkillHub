@@ -1,74 +1,66 @@
 package com.wildcodeschool.skillhub.entity;
 
+import java.util.List;
+
 public class Expert
 {
-    private Long userid;
-    private Long categoryid;
+    private Long userId;
     private String name;
-    private String firstname;
-    private String nickname;
-    private String categoryname;
+    private String firstName;
+    private String nickName;
+    private List <Category> categoryList;
 
     public Expert() { }
 
     public Expert(
-    Long userid,
-    Long categoryid,
+    Long userId,
     String name,
-    String firstname,
-    String nickname,
-    String categoryname
+    String firstName,
+    String nickName,
+    List <Category> categoryList // id und Name
     )
 
     {
-        this.userid = userid;
-        this.categoryid = categoryid;
+        this.userId = userId;
         this.name = name;
-        this.firstname = firstname;
-        this.nickname = nickname;
-        this.categoryname = categoryname;
+        this.firstName = firstName;
+        this.nickName = nickName;
+        this.categoryList = categoryList;
     }
 
-    public Long getExpertId() {
-        return userid;
+    public Long getUserId() {
+        return userId;
     }
-    public void setExpertId(Long userid) {
-        this.userid = userid;
-    }
-
-    public Long getExpertCategoryId() {
-        return categoryid;
-    }
-    public void setExpertCategoryId(Long categoryid) {
-        this.categoryid = categoryid;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
     
-    public String getExpertName() {
+    public String getName() {
         return name;
     }
-    public void setExpertName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
-
-    public String getExpertFirstName() {
-        return firstname;
+    
+    public String getFirstName() {
+        return firstName;
     }
-    public void setExpertFirstName(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getExpertNickName() {
-        return nickname;
-    }
-    public void setExpertNickName(String nickname) {
-        this.nickname = nickname;
+        public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getExpertCategoryName() {
-        return categoryname;
+    public String getNickName() {
+        return nickName;
     }
-    public void setExpertCategoryName(String categoryname) {
-        this.categoryname = categoryname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public List <Category> getCategoryList() {
+        return categoryList;
+    }
+    public void setCategoryList(List <Category> categoryList) {
+        this.categoryList = categoryList;
     }
 }
    

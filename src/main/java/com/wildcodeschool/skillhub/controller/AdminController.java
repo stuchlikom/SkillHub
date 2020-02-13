@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
-    private AdminRepository adminrepository = new AdminRepository();
-    private CategoryRepository categoryrepository = new CategoryRepository();
+    private AdminRepository adminRepository = new AdminRepository();
+    private CategoryRepository categoryRepository = new CategoryRepository();
+    private ExpertRepository expertRepository = new ExpertRepository();
+
 
     @GetMapping("/admin")
     public String start() {
@@ -25,7 +27,7 @@ public class AdminController {
 
     @GetMapping("/admin/users")
     public String getAllUser(Model model, @RequestParam(required = false) Long catSelected) {
-        model.addAttribute("users", adminrepository.findAll(null));
+        model.addAttribute("users", adminRepository.findAll(null));
         System.out.println("/admin/getAllUser");
         return "adminusers";
         }
@@ -34,7 +36,7 @@ public class AdminController {
     public String getUser(Model model, @RequestParam(required = false) Long userid) {
         User user = new User();
         if (userid != null) {
-            user = adminrepository.findById(userid);
+            user = adminRepository.findById(userid);
         }
         model.addAttribute("user", user);
         System.out.println("/admin/getUser |" + user.getUserId());
@@ -44,9 +46,9 @@ public class AdminController {
     @PostMapping("/admin/user")
     public String postUser(@ModelAttribute User user) {
         if (user.getUserId() != null) {
-            adminrepository.update(user);
+          adminRepository.update(user);
         } else {
-            adminrepository.save(user);
+          adminRepository.save(user);
         }
         System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
         return "redirect:/admin/users";
@@ -54,14 +56,14 @@ public class AdminController {
 
     @GetMapping("/admin/del-id")
       public String getById(Model model, @RequestParam Long userid) {
-         model.addAttribute("user", adminrepository.findById(userid));
+         model.addAttribute("user", adminRepository.findById(userid));
          System.out.println("/admin/user-getById |" + "|");
          return "admindel";
       }
 
     @GetMapping("/admin/user/delete")
       public String deleteUser(@RequestParam Long userid) {
-        adminrepository.deleteById(userid);
+        adminRepository.deleteById(userid);
          System.out.println("/admin/user/delete |" + "|");
          return "redirect:/admin/users";
       }
@@ -70,7 +72,7 @@ public class AdminController {
 
     @GetMapping("/admin/categorys")
       public String getAllCategory(Model model, @RequestParam(required = false) Long catSelected) {
-        model.addAttribute("categorys", categoryrepository.findAll(null));
+        model.addAttribute("categorys", categoryRepository.findAll(null));
         System.out.println("/admin/getAllCategory");
         return "admincategorys";
         }
@@ -88,7 +90,7 @@ public class AdminController {
         
         System.out.println("/admin/user-postUser 1. |"  + category.getCategoryName() + "|");
         
-        categoryrepository.save(category);
+        categoryRepository.save(category);
         
         System.out.println("/admin/user-postUser 2. |"  + category + "|");
         return "redirect:/admin/categorys";
@@ -98,7 +100,7 @@ public class AdminController {
 
     @GetMapping("/admin/experts")
       public String getAllExpert(Model model, @RequestParam(required = false) Long catSelected) {
-        model.addAttribute("experts", expertrepository.findAll(null));
+        model.addAttribute("experts", expertRepository.findAll(null));
         System.out.println("/admin/experts-getAllExperts");
         return "adminexperts";
         }

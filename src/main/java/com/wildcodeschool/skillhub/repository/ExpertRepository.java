@@ -1,5 +1,5 @@
 package com.wildcodeschool.skillhub.repository;
-
+import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.entity.Expert;
 
 import java.sql.*;
@@ -17,27 +17,47 @@ public class ExpertRepository implements CrudDao<Expert> {
         public List<Expert> findAll(Long filter) {
 
             Connection connection = null;
-            PreparedStatement statement = null;
-            ResultSet resultSet = null;  
+            PreparedStatement statementExpert = null;
+            PreparedStatement statementCategory = null;
+            ResultSet resultSetExpert = null; 
+            ResultSet resultSetCategory = null;  
     
             try {
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                statement = connection.prepareStatement("SELECT * FROM SkillHubDB.user where role = 'ROLE_EXPERT' or role = 'ROLE_ADMIN'");
-                resultSet = statement.executeQuery();
+                statementExpert = connection.prepareStatement("SELECT * FROM SkillHubDB.user where role = 'ROLE_EXPERT' or role = 'ROLE_ADMIN'");
+                resultSetExpert = statementExpert.executeQuery();
     
                 List<Expert> experts = new ArrayList<>();
+                while (resultSetExpert.next()) {
+                    Long userId = resultSetExpert.getLong("userId");
+                    String name = resultSetExpert.getString("name");
+                    String firstName = resultSetExpert.getString("firstName");                    
+                    String nickName = resultSetExpert.getString("nickName");
+                    
+                    statementCategory = connection.prepareStatement("SELECT * FROM category c left join usercategory uc  on uc.categoryid = c.categoryid  where uc.userid = ?");
+                    statementCategory.setLong(1, userId);
+                    resultSetCategory = statementCategory.executeQuery();
 
-                while (resultSet.next()) {
-                    Long userid = resultSet.getLong("userid");  
-                    Long categoryid = resultSet.getLong("categoryid");         
-                    String name = resultSet.getString("name");
-                    String firstname = resultSet.getString("firstname");                    
-                    String nickname = resultSet.getString("nickname");
-                    String categoryname = resultSet.getString("categoryname");
+                    System.out.print(">|" + userId + "||");
+                    System.out.print(">|" + name + "||");
+                    System.out.print(">|" + firstName + "||");
+                    System.out.print(">|" + nickName + "||");
 
-                    experts.add(new Expert(userid, categoryid, name, firstname, nickname, categoryname));
+                    List<Category> categorys = new ArrayList<>();
+                    while (resultSetCategory.next()) {
+                        Long categoryId = resultSetCategory.getLong("categoryId");
+                        String categoryName = resultSetCategory.getString("categoryName");
+                        categorys.add(new Category(categoryId, categoryName));
+                        
+                        System.out.print(">CatId|" + categoryId + "||");
+                        System.out.print(">Name|" + categoryName + "||");
 
-               }
+                    }
+
+                    experts.add(new Expert(userId, name, firstName, nickName, categorys));
+                                   
+                    System.out.println("end while mit user "+userId+"|");
+                }
 
                return experts;
             } catch (SQLException e) {
@@ -47,133 +67,30 @@ public class ExpertRepository implements CrudDao<Expert> {
         }
    
 
- /*       
+      
     @Override
-    public User save(User user) 
-    {
-        try 
-        {
-            Connection connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO "
-                + "SkillHubDB.user (name, firstname, nickname, role, mailadress, password)"
-                + "VALUES (?,?,?,?,?,?)"
-
-            );
-
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getNickName());
-            statement.setString(4, user.getRole());
-            statement.setString(5, user.getMailAdress());
-            statement.setString(6, user.getPassWord());
-
-
-
-            if (statement.executeUpdate() != 1) 
-            {
-                throw new SQLException("failed to insert data");
-            }
-
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-
-            if (generatedKeys.next()) 
-            {
-                Long userid = generatedKeys.getLong(1);
-                user.setUserId(userid);
-                return user;
-            } else 
-            {
-                throw new SQLException("failed to get inserted userid");
-            }
-        } catch (SQLException e) 
-        {
-            e.printStackTrace();
-        }
+    public Expert save(Expert user) {
         return null;
     }
 
     @Override
-    public User findById(Long userid) {
-
-        try {
-            Connection connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM SkillHubDB.user WHERE userid = ?"
-            );
-            statement.setLong(1, userid);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String firstname = resultSet.getString("firstname");
-                String nickname = resultSet.getString("nickname");
-                String role = resultSet.getString("role");
-                String mailadress = resultSet.getString("mailadress");
-                String password = resultSet.getString("password");
-
-                return new User(userid, name, firstname, nickname, role, mailadress, password);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Expert findById(Long userid) {
         return null;
     }
 
     
     @Override
-    public User update(User user) {
-        try {
-            Connection connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            PreparedStatement statement = connection.prepareStatement(
-
-                    "UPDATE SkillHubDB.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
-
-            );
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getNickName());
-            statement.setString(4, user.getRole());
-            statement.setString(5, user.getMailAdress());
-            statement.setString(6, user.getPassWord());
-            statement.setLong(7, user.getUserId());
-
-
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to update data");
-            }
-            return user;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Expert update(Expert user) {
         return null;
     }
 
     @Override
-    public void deleteById(Long userid) {
-        try {
-            Connection connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM SkillHubDB.user WHERE userid=?"
-            );
-            statement.setLong(1, userid);
+    public void deleteById(Long userid) {}
 
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to delete data");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
- */
+
+
+	public Object findAllExpert(Object object) {
+		return null;
+	}
 
 }

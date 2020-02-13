@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Benutzerliste</title>
+    <title>Expertenliste</title>
 </head>
 <style>
     table {
@@ -40,18 +40,15 @@
     </thead>
 
     <tbody>
-    <tr th:each="user : ${users}">
+    <tr th:each="expert : ${experts}">
 
-        <td th:text="${user.userId}">userid</td>
-        <td th:text="${user.name}">name</td>
-        <td th:text="${user.firstName}">firstname</td>
-        <td th:text="${user.nickName}">nickname</td>
+        <td th:text="${expert.userId}">expertId</td>
+        <td th:text="${expert.name}">name</td>
+        <td th:text="${expert.firstName}">firstName</td>
+        <td th:text="${expert.nickName}">nickName</td>
 
-        <tr th:each="category : ${categorys}">
-            <td th:text="${category.categoryId}">categoryid</td>
-            <td th:text="${category.categoryName}">categoryname</td>
-        </tr>
 
+        
     </tr>
     </tbody>
 </table>
