@@ -4,6 +4,7 @@ import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.repository.AdminRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
+import com.wildcodeschool.skillhub.repository.ExpertRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,12 +96,12 @@ public class AdminController {
  
         // nachfolgend expert
 
-        @GetMapping("/admin/experts")
-        public String getAllExpert(Model model, @RequestParam(required = false) Long catSelected) {
-          model.addAttribute("experts", adminrepository.findAll(null));
-          System.out.println("/admin/experts-getAllExperts");
-          return "adminexperts";
-          }
+    @GetMapping("/admin/experts")
+      public String getAllExpert(Model model, @RequestParam(required = false) Long catSelected) {
+        model.addAttribute("experts", expertrepository.findAll(null));
+        System.out.println("/admin/experts-getAllExperts");
+        return "adminexperts";
+        }
 
 
 }
