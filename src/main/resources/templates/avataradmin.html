@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Avatar verwalten</title>
+    
+    <style>
+    fieldset {
+        border: none;
+    }
+    
+    label::after {
+        content: "";
+        display: block;
+    }
+    </style>
+
+</head>
+
+
+<body>
+
+
+<h2>Avatar verwalten</h2>
+
+
+<form enctype="multipart/form-data" action="#" th:action="@{/avataradmin}" th:object="${avatar}" method="post">
+
+  	
+	<div class="form-group row">
+		<label for="image" >Image:</label> <!-- class="col-sm-2 col-form-label"   -->
+		<div > <!--   class="col-sm-10"   -->
+			<input type="file" th:field="*{avatar}" class="form-control-file" id="avatar" required>
+		</div>
+		<span th:if="${#fields.hasErrors('*{avatar}')}" th:errors="*{avatar}">Image error</span>
+	</div>
+    <br><br>
+
+</form>
+
+
+<form>
+
+    <input type="submit" value="  Send  ">
+    <button type="reset">Eingaben zurücksetzen</button>
+
+</form>
+
+
+<br><br><br><br>
+
+<a href="/admin/users">Return to Users</a>
+<br>
+<a href="/admin">Return to Admin </a>
+</body>
+
+</html>
+
