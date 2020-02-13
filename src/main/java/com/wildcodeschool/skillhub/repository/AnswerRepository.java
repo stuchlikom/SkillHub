@@ -13,9 +13,9 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 @Repository
 public class AnswerRepository implements CrudDao<Answer> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     @Override
     public Answer save(Answer answer) {
@@ -27,7 +27,7 @@ public class AnswerRepository implements CrudDao<Answer> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "INSERT INTO answer (question, expert, date, text) VALUES (?, ?, NOW(), ?)",
+                    "INSERT INTO db02eylw.answer (question, expert, date, text) VALUES (?, ?, NOW(), ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setLong(1, answer.getQuestion());
@@ -64,7 +64,7 @@ public class AnswerRepository implements CrudDao<Answer> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM answer  WHERE answerid = ?;"
+                    "SELECT * FROM db02eylw.answer  WHERE answerid = ?;"
             );
             statement.setLong(1, answerId);
             ResultSet resultSet = statement.executeQuery();
@@ -89,7 +89,7 @@ public class AnswerRepository implements CrudDao<Answer> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM answer;"
+                    "SELECT * FROM db02eylw.answer;"
             );
             ResultSet resultSet = statement.executeQuery();
 
@@ -117,7 +117,7 @@ public class AnswerRepository implements CrudDao<Answer> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE answer SET question=?, expert=?, date=?, text=? WHERE answerid=?"
+                    "UPDATE db02eylw.answer SET question=?, expert=?, date=?, text=? WHERE answerid=?"
             );
             statement.setLong(1, answer.getQuestion());
             statement.setLong(2, answer.getExpert());
@@ -141,7 +141,7 @@ public class AnswerRepository implements CrudDao<Answer> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM answer WHERE answerid=?"
+                    "DELETE FROM db02eylw.answer WHERE answerid=?"
             );
             statement.setLong(1, answerId);
 

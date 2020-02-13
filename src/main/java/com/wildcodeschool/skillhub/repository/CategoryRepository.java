@@ -8,12 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wildcodeschool.skillhub.util.JdbcUtils;
+
 @Repository
 public class CategoryRepository implements CrudDao<Category> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     @Override
     public Category save(Category category) {
@@ -22,7 +24,7 @@ public class CategoryRepository implements CrudDao<Category> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO category (categoryname) VALUES (?)",
+                    "INSERT INTO db02eylw.category (categoryname) VALUES (?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setString(1, category.getCategoryName());
@@ -53,7 +55,7 @@ public class CategoryRepository implements CrudDao<Category> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM category WHERE categoryid = ?;"
+                    "SELECT * FROM db02eylw.category WHERE categoryid = ?;"
             );
             statement.setLong(1, categoryId);
             ResultSet resultSet = statement.executeQuery();
@@ -70,14 +72,17 @@ public class CategoryRepository implements CrudDao<Category> {
 
     @Override
     public List<Category> findAll(Long filter) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM category ORDER by categoryname;"
+            statement = connection.prepareStatement(
+                    "SELECT * FROM db02eylw.category ORDER by categoryname;"
             );
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             List<Category> categories = new ArrayList<>();
 
@@ -89,7 +94,12 @@ public class CategoryRepository implements CrudDao<Category> {
             return categories;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
+
         return null;
     }
 
@@ -100,7 +110,7 @@ public class CategoryRepository implements CrudDao<Category> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE category SET categoryname=? WHERE categoryid=?"
+                    "UPDATE db02eylw.category SET categoryname=? WHERE categoryid=?"
             );
             statement.setString(1, category.getCategoryName());
 
@@ -121,7 +131,7 @@ public class CategoryRepository implements CrudDao<Category> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM category WHERE categoryid=?"
+                    "DELETE FROM db02eylw.category WHERE categoryid=?"
             );
             statement.setLong(1, categoryId);
 

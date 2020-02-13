@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wildcodeschool.skillhub.util.JdbcUtils;
+
 public class UserRepository implements CrudDao<User> {
 
     private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
@@ -47,6 +49,10 @@ public class UserRepository implements CrudDao<User> {
                 return users;
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                JdbcUtils.closeResultSet(resultSet);
+                JdbcUtils.closeStatement(statement);
+                JdbcUtils.closeConnection(connection);
             }
             return null;
         }
@@ -54,12 +60,15 @@ public class UserRepository implements CrudDao<User> {
     @Override
     public User save(User user) 
     {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
         try 
         {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                 "INSERT INTO "
                 + "db02eylw.user (name, firstname, nickname, role, mailadress, password)"
                 + "VALUES (?,?,?,?,?,?)"
@@ -82,7 +91,7 @@ public class UserRepository implements CrudDao<User> {
                 throw new SQLException("failed to insert data");
             }
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) 
             {
@@ -93,9 +102,12 @@ public class UserRepository implements CrudDao<User> {
             {
                 throw new SQLException("failed to get inserted userid");
             }
-        } catch (SQLException e) 
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(generatedKeys);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }

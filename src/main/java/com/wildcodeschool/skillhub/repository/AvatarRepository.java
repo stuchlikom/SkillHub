@@ -15,9 +15,9 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 @Repository
 public class AvatarRepository implements CrudDao<Avatar> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     @Override
     public Avatar save(Avatar avatar) {
@@ -29,7 +29,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "INSERT INTO avatar (avatar) VALUES (?)",
+                    "INSERT INTO db02eylw.avatar (avatar) VALUES (?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setBytes(1, avatar.getAvatar());
@@ -64,7 +64,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM avatar WHERE avatarid = ?;"
+                    "SELECT * FROM db02eylw.avatar WHERE avatarid = ?;"
             );
             statement.setLong(1, avatarId);
             ResultSet resultSet = statement.executeQuery();
