@@ -1,18 +1,22 @@
 package com.wildcodeschool.skillhub.repository;
 
 import com.wildcodeschool.skillhub.entity.User;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminRepository implements CrudDao<User> {
+public class UserRepository implements CrudDao<User> {
 
     private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
     private final static String DB_USER = "db02eylw_aevsybn";
     private final static String DB_PASSWORD = "3GQMpC*X";
-  
+    String role;
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String hashedPassword;
+
+
     
         @Override
         public List<User> findAll(Long filter) {
@@ -38,28 +42,15 @@ public class AdminRepository implements CrudDao<User> {
                     String password = resultSet.getString("password");                    
 
                     users.add(new User(userid, name, firstname, nickname, role, mailadress, password));
-
-/*
-                    System.out.print(">|" + resultSet.getLong("userid") + "|" + userid + "|");
-                    System.out.print(">|" + resultSet.getString("name") + "|" + name + "|");
-                    System.out.print(">|" + resultSet.getString("firstname") + "|" + firstname + "|");
-                    System.out.print(">|" + resultSet.getString("nickname") + "|" + nickname + "|");
-                    System.out.print(">|" + resultSet.getString("role") + "|" + role + "|");
-                    System.out.print(">|" + resultSet.getString("mailadress") + "|" + mailadress + "|");
-                    System.out.print(">|" + resultSet.getString("password") + "|" + password + "|");
-                    System.out.println("end while mit user "+userid+"|");
-*/          
-               }
-
+                }
                 
-
                 return users;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             return null;
         }
-     
+        
     @Override
     public User save(User user) 
     {
@@ -75,12 +66,14 @@ public class AdminRepository implements CrudDao<User> {
 
             );
 
+
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
-            statement.setString(4, user.getRole());
+            statement.setString(4, "ROLE_USER");
             statement.setString(5, user.getMailAdress());
-            statement.setString(6, user.getPassWord());
+            hashedPassword = passwordEncoder.encode(user.getPassWord());
+            statement.setString(6, hashedPassword);
 
 
 
@@ -137,7 +130,38 @@ public class AdminRepository implements CrudDao<User> {
         return null;
     }
 
-    
+//    @Override
+    public User findByNick(String nick) {
+
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM db02eylw.user WHERE nickname = ?"
+            );
+            statement.setString(1, nick);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Long userid = resultSet.getLong("userid");
+                String name = resultSet.getString("name");
+                String firstname = resultSet.getString("firstname");
+                String nickname = resultSet.getString("nickname");
+                String role = resultSet.getString("role");
+                String mailadress = resultSet.getString("mailadress");
+                String password = resultSet.getString("password");
+
+                return new User(userid, name, firstname, nickname, role, mailadress, password);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }    
+
+
     @Override
     public User update(User user) {
         try {
@@ -186,4 +210,4 @@ public class AdminRepository implements CrudDao<User> {
             e.printStackTrace();
         }
     }
- }
+}

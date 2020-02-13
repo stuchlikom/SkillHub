@@ -27,10 +27,10 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
       .dataSource(dataSource)
       //.passwordEncoder(passwordEncoder())
       .usersByUsernameQuery(
-        "SELECT nickname, password, true FROM user WHERE nickname = ?")
+        "SELECT nickname, password, true FROM db02eylw.user WHERE nickname = ?")
       .authoritiesByUsernameQuery(
         "SELECT nickname, role " +
-        "FROM user " +
+        "FROM db02eylw.user " +
         "WHERE nickname = ?");
       //.rolePrefix("ADMIN");
       //.roles("ADMIN","USER");
@@ -48,6 +48,7 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
       http.authorizeRequests()
               .antMatchers(
                   "/logout",
+                  "/register*",
                   "/login").permitAll()
               .antMatchers("/admin/**").hasRole("ADMIN")
               .antMatchers("/questions/**").hasAnyRole("ADMIN","EXPERT","USER");
