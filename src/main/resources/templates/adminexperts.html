@@ -25,24 +25,27 @@
     }
 </style>
 <body>
-<h3>Users</h3>
-<a href="/admin">Return to Admin </a>
-<br><br>
+<h3>Expertlist</h3><br>
+<a href="/admin">Return to Admin </a><br>
+<a href="/admin/users">Userlist</a><br>
+<a href="/admin/categorys">Categorylist</a>
+<br><br><br>
+
 <table>
     <thead>
     <tr>
-       <th>User-Id</th>
-       <th>Name</th>
-       <th>Firstname</th>
-       <th>Nickname</th>
-       <th>Kategorie</th>
-       <th></th>
+        <th></th>
+        <th>User-Id</th>
+        <th>Name</th>
+        <th>Firstname</th>
+        <th>Nickname</th>
+        <th>Kategorie</th>
     </tr>
     </thead>
 
     <tbody>
     <tr th:each="expert : ${experts}">
-        <td><a th:href="@{/admin/user(userid=${expert.userId})}">Edit</a></td>
+        <td><a th:href="@{/admin/user(userid=${expert.userId})}">Edit User</a></td>
         <td th:text="${expert.userId}">expertId</td>
         <td th:text="${expert.name}">name</td>
         <td th:text="${expert.firstName}">firstName</td>
