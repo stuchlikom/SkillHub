@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 
 
 @Controller
@@ -50,10 +51,11 @@ public class UserController {
 	public String postUser(@ModelAttribute User user) 
 	{
 		if (user.getUserId() != null) {
-			repository.update(user);
-		} else {
-			repository.save(user);
-		}
-		return "register";
-	} 
+            repository.update(user);
+        } else {
+            repository.save(user);
+        }
+        return "redirect:/";
+    }
+
 }

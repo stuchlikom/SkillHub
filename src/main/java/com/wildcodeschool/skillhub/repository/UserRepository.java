@@ -9,13 +9,15 @@ import java.util.List;
 
 public class UserRepository implements CrudDao<User> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
     String role;
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     String hashedPassword;
 
+
+    
         @Override
         public List<User> findAll(Long filter) {
 
@@ -25,7 +27,7 @@ public class UserRepository implements CrudDao<User> {
     
             try {
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                statement = connection.prepareStatement("SELECT * FROM user");
+                statement = connection.prepareStatement("SELECT * FROM db02eylw.user");
                 resultSet = statement.executeQuery();
     
                 List<User> users = new ArrayList<>();
@@ -59,7 +61,7 @@ public class UserRepository implements CrudDao<User> {
             );
             PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO "
-                + "user (name, firstname, nickname, role, mailadress, password)"
+                + "db02eylw.user (name, firstname, nickname, role, mailadress, password)"
                 + "VALUES (?,?,?,?,?,?)"
 
             );
@@ -68,7 +70,7 @@ public class UserRepository implements CrudDao<User> {
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
-            statement.setString(4, user.getRole());
+            statement.setString(4, "ROLE_USER");
             statement.setString(5, user.getMailAdress());
             hashedPassword = passwordEncoder.encode(user.getPassWord());
             statement.setString(6, hashedPassword);
@@ -106,7 +108,7 @@ public class UserRepository implements CrudDao<User> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM user WHERE userid = ?"
+                    "SELECT * FROM db02eylw.user WHERE userid = ?"
             );
             statement.setLong(1, userid);
             ResultSet resultSet = statement.executeQuery();
@@ -128,7 +130,38 @@ public class UserRepository implements CrudDao<User> {
         return null;
     }
 
-    
+//    @Override
+    public User findByNick(String nick) {
+
+        try {
+            Connection connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM db02eylw.user WHERE nickname = ?"
+            );
+            statement.setString(1, nick);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Long userid = resultSet.getLong("userid");
+                String name = resultSet.getString("name");
+                String firstname = resultSet.getString("firstname");
+                String nickname = resultSet.getString("nickname");
+                String role = resultSet.getString("role");
+                String mailadress = resultSet.getString("mailadress");
+                String password = resultSet.getString("password");
+
+                return new User(userid, name, firstname, nickname, role, mailadress, password);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }    
+
+
     @Override
     public User update(User user) {
         try {
@@ -137,7 +170,7 @@ public class UserRepository implements CrudDao<User> {
             );
             PreparedStatement statement = connection.prepareStatement(
 
-                    "UPDATE user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
+                    "UPDATE db02eylw.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
 
             );
             statement.setString(1, user.getName());
@@ -166,7 +199,7 @@ public class UserRepository implements CrudDao<User> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM user WHERE userid=?"
+                    "DELETE FROM db02eylw.user WHERE userid=?"
             );
             statement.setLong(1, userid);
 
