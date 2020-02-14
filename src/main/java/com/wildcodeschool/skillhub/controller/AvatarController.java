@@ -18,29 +18,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.wildcodeschool.skillhub.entity.Avatar;
 import com.wildcodeschool.skillhub.repository.AdminRepository;
 import com.wildcodeschool.skillhub.repository.AvatarRepository;
+import com.wildcodeschool.skillhub.repository.LoggedInUserRepository;
 
 @Controller
 public class AvatarController {
 
 	private AvatarRepository repository = new AvatarRepository(); // Deklaration des Repositories
-
-//	@PostMapping("/avataradmin")
-//	public ResponseEntity<String> imageload() {
-//		return ResponseEntity.ok("avataradmin");
-//	}
+	private LoggedInUserRepository logrepository = new LoggedInUserRepository(); // Deklaration
 
 	@GetMapping("/avataradmin")
-	public String imageuploadform(Model model) {
+	public String imageuploadform(Model model, Principal principal) {
 		model.addAttribute("avatar", new Avatar());
+		model.addAttribute("username", principal.getName());
 		
 		return "avataradmin";
 	}
 	
 	@PostMapping("/avataradmin")
-	public String imageload(Avatar avatar, Principal principal) {
+	public String imageload(Avatar avatar /*,Principal principal*/) {
+		Long avatarId = logrepository.findId();
+		avatar.setAvatarId(avatarId);
 		repository.save(avatar);
-		principal.
-		return "redirect:/adminuser";
+		return "redirect:/admin/user";
 	}
 //	
 //	}	

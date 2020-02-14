@@ -26,6 +26,10 @@
 
 <form enctype="multipart/form-data" action="#" th:action="@{/avataradmin}" th:object="${avatar}" method="post">
 
+<div>
+	<span th:text="${username}"></span>  	
+  	
+  	
   	
 	<div class="form-group row">
 		<label for="image" >Image:</label> <!-- class="col-sm-2 col-form-label"   -->
@@ -35,11 +39,6 @@
 		<span th:if="${#fields.hasErrors('*{avatar}')}" th:errors="*{avatar}">Image error</span>
 	</div>
     <br><br>
-
-</form>
-
-
-<form>
 
     <input type="submit" value="  Send  ">
     <button type="reset">Eingaben zurücksetzen</button>
