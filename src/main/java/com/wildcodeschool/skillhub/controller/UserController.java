@@ -48,14 +48,19 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public String postUser(@ModelAttribute User user) 
+	public String postUser(@ModelAttribute User user, BindingResult bindingResult) 
 	{
-		if (user.getUserId() != null) {
-            repository.update(user);
-        } else {
-            repository.save(user);
-        }
-        return "redirect:/";
-    }
-
+		if (!bindingResult.hasErrors()){
+			
+			if (user.getUserId() != null) {
+				repository.update(user);
+			} else {
+				repository.save(user);
+			}
+			return "redirect:/";
+		}
+		else {
+			return "register";
+		}
+	}
 }

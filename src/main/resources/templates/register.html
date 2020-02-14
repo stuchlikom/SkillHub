@@ -19,23 +19,28 @@
 
         <form method="post" th:action="@{/register}" th:object="${user}">
 
-              <input name="userid" th:field="*{userId}" type="hidden">
-              <input name="role" th:field="*{role}" type="hidden">
+              <input type="hidden" name="userid" th:field="*{userId}">
+              <input type="hidden" name="role" th:field="*{role}">
           
-              <label for="firstName-text"><b>Vorname:</b></label>
-              <input id="firstName-text" name="firstname" placeholder="Vorname" required th:field="*{firstName}" type="text"> 
+              <label for="firstname-text"><b>Vorname:</b></label>
+              <input type="text" placeholder="Vorname" th:field="*{firstName}"> 
+              <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Firstname Error</p>
     
               <label for="lastName-text"><b>Nachname:</b></label>
-              <input id="lastName-text" name="name" placeholder="Nachname" required th:field="*{name}" type="text">
+              <input type="text" placeholder="Nachname" th:field="*{name}">
+              <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
     
               <label for="email-text"><b>eMail</b></label>
-              <input id="email-text" name="email" placeholder="eMail" required th:field="*{mailAdress}" type="text">
+              <input type="text" placeholder="eMail" th:field="*{mailAdress}">
+              <p th:if="${#fields.hasErrors('mailAdress')}" th:errors="*{mailAdress}">Mail Error</p>
               
               <label for="nickname-text"><b>Nickname</b></label>
-              <input id ="nickname-text" name="nickname" placeholder="Nickname (Anmeldename)" required th:field="*{nickName}" type="text">
+              <input type="text" placeholder="Nickname (Anmeldename)" th:field="*{nickName}">
+              <p th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Nickname Error</p>
               
               <label for="password-text"><b>Password</b></label>
-              <input id="password-text" name="password" placeholder="Password" required th:field="*{passWord}" type="password">
+              <input type="password" placeholder="Password" th:field="*{passWord}">
+              <p th:if="${#fields.hasErrors('passWord')}" th:errors="*{passWord}">Password Error</p>
               
               <p>Mit deiner Anmeldung akzeptierst du unsere <a href="terms">Nutzungsbedingungen</a>.</p>
               <button type="submit" class="registerbtn">Absenden</button>
