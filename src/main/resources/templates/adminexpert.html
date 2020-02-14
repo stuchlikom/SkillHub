@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Experte</title>
+    
+    <style>
+    fieldset {
+        border: none;
+    }
+    
+    label::after {
+        content: "";
+        display: block;
+    }
+    </style>
+
+</head>
+<body>
+<h3 th:text="${user.userId} ? 'Edit User' : 'Create User'">User</h3>
+<form method="post" th:action="@{/admin/user}" th:object="${user}">
+
+    <input name="userid" th:field="*{userId}" type="hidden">
+
+    <label for="user-first-name">Vorname:</label>
+    <input id="user-first-name" name="firstname" placeholder="Vornamen eintragen" required th:field="*{firstName}" type="text">
+    <br><br>
+  
+    <label for="user-last-name">Nachname:</label>
+    <input id="user-last-name" name="name" placeholder="Nachnamen eintragen" required th:field="*{name}" type="text">
+    <br><br>
+
+    <label for="user-nick-name">Nickname:</label>
+    <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" th:field="*{nickName}" type="text">
+    <br><br>
+
+    <!-- platzhalter category -->
+
+    <div>Expertengebiet:</div>
+	<fieldset>
+        <input type="checkbox" name="category" id="c1" value="1"> <!-- th:value="1" th:field="*{categoryId}"> -->
+        <label for="c1">JavaScript</label>
+        <input type="checkbox" name="category" id="c2" value="1"> <!-- th:value="2" th:field="*{categoryId}"> -->
+        <label for="c2">HTML</label>
+        <input type="checkbox" name="category" id="c3" value="1"> <!-- th:value="3" th:field="*{categoryId}"> -->
+        <label for="c3">Java</label>
+        <input type="checkbox" name="category" id="c4" value="1"> <!-- th:value="4" th:field="*{categoryId}"> -->
+        <label for="c4">CSS</label>
+        <input type="checkbox" name="category" id="c5" value="1"> <!-- th:value="5"  th:field="*{categoryId}"> -->
+        <label for="c5">MySQL</label>
+        <input type="checkbox" name="category" id="c6" value="1"> <!-- th:value="6"  th:field="*{categoryId}"> -->
+        <label for="c6">TypeScript</label>
+        <input type="checkbox" name="category" id="c7" value="1"> <!-- th:value="7"  th:field="*{categoryId}"> -->
+        <label for="c6">Rocketscience</label>
+	</fieldset>
+</form>
+
+    <input type="submit" value="  Send  ">
+    <button type="reset">Eingaben zurücksetzen</button>
+
+</form>
+<br>
+
+<a href="/admin/experts">Return to experts</a>
+<br>
+<a href="/admin">Return to Admin </a>
+</body>
+</html>
