@@ -19,11 +19,14 @@ public class CategoryRepository implements CrudDao<Category> {
 
     @Override
     public Category save(Category category) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "INSERT INTO db02eylw.category (categoryname) VALUES (?)",
                     Statement.RETURN_GENERATED_KEYS
             );
@@ -33,7 +36,7 @@ public class CategoryRepository implements CrudDao<Category> {
                 throw new SQLException("failed to insert data");
             }
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) {
                 Long categoryId = generatedKeys.getLong(1);
@@ -44,21 +47,28 @@ public class CategoryRepository implements CrudDao<Category> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(generatedKeys);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public Category findById(Long categoryId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM db02eylw.category WHERE categoryid = ?;"
             );
             statement.setLong(1, categoryId);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 String categoryName = resultSet.getString("categoryname");
@@ -66,6 +76,10 @@ public class CategoryRepository implements CrudDao<Category> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
@@ -105,11 +119,13 @@ public class CategoryRepository implements CrudDao<Category> {
 
     @Override
     public Category update(Category category) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "UPDATE db02eylw.category SET categoryname=? WHERE categoryid=?"
             );
             statement.setString(1, category.getCategoryName());
@@ -120,17 +136,22 @@ public class CategoryRepository implements CrudDao<Category> {
             return category;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+             JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public void deleteById(Long categoryId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "DELETE FROM db02eylw.category WHERE categoryid=?"
             );
             statement.setLong(1, categoryId);
@@ -140,6 +161,9 @@ public class CategoryRepository implements CrudDao<Category> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
     }
 

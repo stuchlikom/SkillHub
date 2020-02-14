@@ -59,15 +59,18 @@ public class AnswerRepository implements CrudDao<Answer> {
 
     @Override
     public Answer findById(Long answerId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;           
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM db02eylw.answer  WHERE answerid = ?;"
             );
             statement.setLong(1, answerId);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 Long question = resultSet.getLong("question");
@@ -78,20 +81,27 @@ public class AnswerRepository implements CrudDao<Answer> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public List<Answer> findAll(Long filter) {   // findAll(Long filter)
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;           
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM db02eylw.answer;"
             );
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             List<Answer> answers = new ArrayList<>();
 
@@ -106,17 +116,23 @@ public class AnswerRepository implements CrudDao<Answer> {
             return answers;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public Answer update(Answer answer) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "UPDATE db02eylw.answer SET question=?, expert=?, date=?, text=? WHERE answerid=?"
             );
             statement.setLong(1, answer.getQuestion());
@@ -130,17 +146,22 @@ public class AnswerRepository implements CrudDao<Answer> {
             return answer;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public void deleteById(Long answerId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "DELETE FROM db02eylw.answer WHERE answerid=?"
             );
             statement.setLong(1, answerId);
@@ -150,6 +171,9 @@ public class AnswerRepository implements CrudDao<Answer> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
     }
 
