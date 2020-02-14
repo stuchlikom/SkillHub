@@ -18,8 +18,8 @@ public class ExpertRepository implements CrudDao<Expert> {
 
             Connection connection = null;
             PreparedStatement statementExpert = null;
+            ResultSet resultSetExpert = null;
             PreparedStatement statementCategory = null;
-            ResultSet resultSetExpert = null; 
             ResultSet resultSetCategory = null;  
     
             try {
@@ -79,8 +79,37 @@ public class ExpertRepository implements CrudDao<Expert> {
     }
 
     @Override
-    public Expert findById(Long userid) {
-        return null;
+    public Expert findById(Long userId) {
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            PreparedStatement statementExpert = connection.prepareStatement("SELECT * FROM SkillHubDB.user WHERE userid = ?");
+            statementExpert.setLong(1, userId);
+            ResultSet resultSetExpert = statementExpert.executeQuery();
+
+            PreparedStatement statementCategory = connection.prepareStatement("SELECT * FROM category c left join usercategory uc  on uc.categoryid = c.categoryid  where uc.userid = ?");
+            statementCategory.setLong(1, userId);
+            ResultSet resultSetCategory = statementCategory.executeQuery();  
+
+            if (resultSetExpert.next()) {
+            
+                String name = resultSetExpert.getString("name");
+                String firstName = resultSetExpert.getString("firstName");
+                String nickName = resultSetExpert.getString("nickName");
+                
+                List<Category> categorysId = new ArrayList<>();
+                while (resultSetCategory.next()) {
+                    Long categoryId = resultSetCategory.getLong("categoryId");
+                    String categoryName = resultSetCategory.getString("categoryName");
+
+                    categorysId.add(new Category(categoryId, categoryName));
+                }
+                return new Expert(userId, name, firstName, nickName, categorysId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+       return null;
     }
 
     
@@ -91,11 +120,5 @@ public class ExpertRepository implements CrudDao<Expert> {
 
     @Override
     public void deleteById(Long userid) {}
-
-
-
-	public Object findAllExpert(Object object) {
-		return null;
-	}
 
 }

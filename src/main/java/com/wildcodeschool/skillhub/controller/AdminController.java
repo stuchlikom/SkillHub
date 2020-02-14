@@ -2,6 +2,7 @@ package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.entity.Category;
+import com.wildcodeschool.skillhub.entity.Expert;
 import com.wildcodeschool.skillhub.repository.AdminRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
 import com.wildcodeschool.skillhub.repository.ExpertRepository;
@@ -105,5 +106,15 @@ public class AdminController {
         return "adminexperts";
         }
 
-
+    @GetMapping("/admin/expert")
+      public String getExpert(Model model, @RequestParam(required = false) Long userid) {
+        Expert expert = new Expert();
+        if (userid != null) {
+            expert = expertRepository.findById(userid);
+        }
+        model.addAttribute("expert", expert);
+        System.out.println("/admin/getExpert |" + expert.getUserId());
+        return "adminexpert";
+        }
+      
 }

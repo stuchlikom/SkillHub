@@ -11,32 +11,27 @@
     
     label::after {
         content: "";
-        display: block;
+
     }
     </style>
 
 </head>
-<body>
-<h3 th:text="${user.userId} ? 'Edit User' : 'Create User'">User</h3>
-<form method="post" th:action="@{/admin/user}" th:object="${user}">
+<body>>
+<h3> Ecpertengebiete zuordnen</h3><br>
+<a href="/admin/experts">Return to experts</a><br>
+<a href="/admin">Return to Admin </a><br><br>
+
+<form method="post" th:action="@{/admin/expert}" th:object="${expert}">
 
     <input name="userid" th:field="*{userId}" type="hidden">
 
-    <label for="user-first-name">Vorname:</label>
-    <input id="user-first-name" name="firstname" placeholder="Vornamen eintragen" required th:field="*{firstName}" type="text">
-    <br><br>
-  
-    <label for="user-last-name">Nachname:</label>
-    <input id="user-last-name" name="name" placeholder="Nachnamen eintragen" required th:field="*{name}" type="text">
-    <br><br>
-
-    <label for="user-nick-name">Nickname:</label>
-    <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" th:field="*{nickName}" type="text">
-    <br><br>
+    <label>Vorname:</label> <span th:text="*{firstName}" ></span><br>
+    <label>Nachname:</label> <span th:text="*{name}" ></span><br>
+    <label>Nickname:</label> <span th:text="*{nickName}" ></span><br><br>
 
     <!-- platzhalter category -->
 
-    <div>Expertengebiet:</div>
+    <div>Expertengebiete:</div><br>
 	<fieldset>
         <input type="checkbox" name="category" id="c1" value="1"> <!-- th:value="1" th:field="*{categoryId}"> -->
         <label for="c1">JavaScript</label>
@@ -54,13 +49,13 @@
         <label for="c6">Rocketscience</label>
 	</fieldset>
 </form>
-
+<br><br>
     <input type="submit" value="  Send  ">
     <button type="reset">Eingaben zurücksetzen</button>
 
 </form>
 <br>
-
+<br><br>
 <a href="/admin/experts">Return to experts</a>
 <br>
 <a href="/admin">Return to Admin </a>

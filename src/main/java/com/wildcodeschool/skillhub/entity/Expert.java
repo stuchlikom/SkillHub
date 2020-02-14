@@ -1,6 +1,5 @@
 package com.wildcodeschool.skillhub.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Expert
@@ -62,10 +61,6 @@ public class Expert
     }
     public void setCategoryList(List <Category> categoryList) {
         this.categoryList = categoryList;
-    }
-
-    public List<String> getDummyList(){
-        return new ArrayList<>();
     }
 }
    
