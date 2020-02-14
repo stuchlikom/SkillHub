@@ -69,13 +69,13 @@ public class CategoryRepository implements CrudDao<Category> {
     }
 
     @Override
-    public List<Category> findAll(Long filter) {    
+    public List<Category> findAll(Long filter) {
         try {
             Connection connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM category;"
+                    "SELECT * FROM category ORDER by categoryname;"
             );
             ResultSet resultSet = statement.executeQuery();
 

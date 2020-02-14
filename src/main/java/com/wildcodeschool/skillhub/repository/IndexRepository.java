@@ -37,7 +37,7 @@ public class IndexRepository {
                 String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
-                return new Question(filter, questioner, questionDate, null, questionText, category, categoryName, null);
+                return new Question(filter, questioner, questionDate, null, questionText, category, categoryName, null, null, null, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
