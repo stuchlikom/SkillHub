@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.wildcodeschool.skillhub.util.JdbcUtils;
@@ -16,6 +17,43 @@ public class CategoryRepository implements CrudDao<Category> {
     private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
     private final static String DB_USER = "db02eylw_aevsybn";
     private final static String DB_PASSWORD = "3GQMpC*X";
+
+    @Override
+    public List<Category> findAll(Long filter) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            statement = connection.prepareStatement(
+                    "SELECT * FROM db02eylw.category ORDER by categoryname;"
+            );
+            resultSet = statement.executeQuery();
+
+            List<Category> categorys = new ArrayList<>();
+
+            while (resultSet.next()) {
+                Long categoryId = resultSet.getLong("categoryid");
+                String categoryName = resultSet.getString("categoryname");
+                categorys.add(new Category(categoryId, categoryName));
+            }
+            // **************************** sortieren der Ausgabe nach Id mit 'implements Comparable<Category>' in entity 
+            Collections.sort(categorys);
+
+            return categorys;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+
+        return null;
+    }
 
     @Override
     public Category save(Category category) {
@@ -81,39 +119,6 @@ public class CategoryRepository implements CrudDao<Category> {
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }
-        return null;
-    }
-
-    @Override
-    public List<Category> findAll(Long filter) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "SELECT * FROM db02eylw.category ORDER by categoryname;"
-            );
-            resultSet = statement.executeQuery();
-
-            List<Category> categories = new ArrayList<>();
-
-            while (resultSet.next()) {
-                Long categoryId = resultSet.getLong("categoryid");
-                String categoryName = resultSet.getString("categoryname");
-                categories.add(new Category(categoryId, categoryName));
-            }
-            return categories;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeResultSet(resultSet);
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-
         return null;
     }
 
