@@ -52,9 +52,10 @@
         <td th:text="${expert.name}">name</td>
         <td th:text="${expert.firstName}">firstName</td>
         <td th:text="${expert.nickName}">nickName</td>
-        <span th:each="category : ${expert.categoryList}">
-            <td th:text="${category.categoryName}">categoryName</td>
-        </span>
+        <td th:if="!${#lists.isEmpty(expert.categoryList)}">|
+            <span th:each="category : ${expert.categoryList}" th:text="' ' + ${category.categoryName} + ' |'">categoryName</span>
+        </td>
+        <td th:if="${#lists.isEmpty(expert.categoryList)}"> </td>
     </tr>
 
     </tbody>

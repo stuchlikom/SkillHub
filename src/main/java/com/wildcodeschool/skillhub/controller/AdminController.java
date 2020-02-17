@@ -3,7 +3,7 @@ package com.wildcodeschool.skillhub.controller;
 import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.entity.Expert;
-import com.wildcodeschool.skillhub.repository.AdminRepository;
+import com.wildcodeschool.skillhub.repository.UserRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
 import com.wildcodeschool.skillhub.repository.ExpertRepository;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
-    private AdminRepository adminRepository = new AdminRepository();
+    private UserRepository userRepository = new UserRepository();
     private CategoryRepository categoryRepository = new CategoryRepository();
     private ExpertRepository expertRepository = new ExpertRepository();
 
@@ -28,7 +28,7 @@ public class AdminController {
 
     @GetMapping("/admin/users")
     public String getAllUser(Model model, @RequestParam(required = false) Long catSelected) {
-        model.addAttribute("users", adminRepository.findAll(null));
+        model.addAttribute("users", userRepository.findAll(null));
         System.out.println("/admin/getAllUser");
         return "adminusers";
         }
@@ -37,7 +37,7 @@ public class AdminController {
     public String getUser(Model model, @RequestParam(required = false) Long userid) {
         User user = new User();
         if (userid != null) {
-            user = adminRepository.findById(userid);
+            user = userRepository.findById(userid);
         }
         model.addAttribute("user", user);
         System.out.println("/admin/getUser |" + user.getUserId());
@@ -47,9 +47,9 @@ public class AdminController {
     @PostMapping("/admin/user")
     public String postUser(@ModelAttribute User user) {
         if (user.getUserId() != null) {
-          adminRepository.update(user);
+          userRepository.update(user);
         } else {
-          adminRepository.save(user);
+          userRepository.save(user);
         }
         System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
         return "redirect:/admin/users";
@@ -57,14 +57,14 @@ public class AdminController {
 
     @GetMapping("/admin/del-id")
       public String getById(Model model, @RequestParam Long userid) {
-         model.addAttribute("user", adminRepository.findById(userid));
+         model.addAttribute("user", userRepository.findById(userid));
          System.out.println("/admin/user-getById |" + "|");
          return "admindel";
       }
 
     @GetMapping("/admin/user/delete")
       public String deleteUser(@RequestParam Long userid) {
-        adminRepository.deleteById(userid);
+        userRepository.deleteById(userid);
          System.out.println("/admin/user/delete |" + "|");
          return "redirect:/admin/users";
       }
