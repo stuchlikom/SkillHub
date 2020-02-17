@@ -29,7 +29,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
             );
             statement = connection.prepareStatement(
 /////
-            		"SELECT * from avatar WHERE avatarid=?",
+            		"SELECT * from db02eylw.avatar WHERE avatarid=?",
             		Statement.RETURN_GENERATED_KEYS);	
             statement.setLong(1, avatar.getAvatarId());
             
@@ -38,7 +38,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
             } else {
                     
             statement = connection.prepareStatement(
-            		"UPDATE avatar SET avatar=? WHERE avatarid=?", 
+            		"UPDATE db02eylw.avatar SET avatar=? WHERE avatarid=?", 
                     Statement.RETURN_GENERATED_KEYS					
                     );
                     ///
@@ -145,7 +145,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "SELECT * FROM avatar;"
+                    "SELECT * FROM db02eylw.avatar;"
             );
             resultSet = statement.executeQuery();
 
@@ -180,10 +180,10 @@ public class AvatarRepository implements CrudDao<Avatar> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "UPDATE avatar SET avatar=? WHERE avatarId=?"
+                    "INSERT INTO db02eylw.avatar (avatar) VALUES (?)"
             );
             statement.setBytes(1, avatar.getAvatar());
-            statement.setLong(2, avatar.getAvatarId());
+//            statement.setLong(2, avatar.getAvatarId());
             
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("failed to update data");

@@ -67,9 +67,11 @@ public class UserRepository implements CrudDao<User> {
             statement = connection.prepareStatement(
                 "INSERT INTO "
                 + "db02eylw.user (name, firstname, nickname, role, mailadress, password)"
-                + "VALUES (?,?,?,?,?,?)"
+                + "VALUES (?,?,?,?,?,?);"
+         
                 , Statement.RETURN_GENERATED_KEYS
             );
+         
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
@@ -85,7 +87,15 @@ public class UserRepository implements CrudDao<User> {
             }
 
             generatedKeys = statement.getGeneratedKeys();
-
+            
+            PreparedStatement avatarstatement = connection.prepareStatement(
+                    "INSERT INTO db02eylw.avatar (avatarid, avatar) VALUES (?, null)"
+            );
+            User neuUser = findByNick(user.getNickName());
+            avatarstatement.setLong(1, neuUser.getUserId());
+            
+            avatarstatement.executeUpdate();
+            
             if (generatedKeys.next()) 
             {
                 Long userid = generatedKeys.getLong(1);
