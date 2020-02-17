@@ -74,7 +74,7 @@ public class UserRepository implements CrudDao<User> {
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
-            statement.setString(4, "ROLE_USER");
+            statement.setString(4, user.getRole());
             statement.setString(5, user.getMailAdress());
             hashedPassword = passwordEncoder.encode(user.getPassWord());
             statement.setString(6, hashedPassword);
