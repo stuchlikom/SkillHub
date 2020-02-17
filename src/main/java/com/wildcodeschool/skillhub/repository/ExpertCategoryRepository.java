@@ -14,9 +14,9 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 @Repository
 public class ExpertCategoryRepository {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     public static List<Long> findAll() {    // findAll(Long filter)
         Connection connection = null;
@@ -30,7 +30,7 @@ public class ExpertCategoryRepository {
             //System.out.println("User name: " + userDetails.getUsername());
 
             statement = connection.prepareStatement(
-                    "SELECT usercategory.categoryid FROM usercategory JOIN user ON usercategory.userid = user.userid WHERE nickname = ?;"
+                    "SELECT uc.categoryid FROM db02eylw.usercategory AS uc JOIN db02eylw.user AS u ON uc.userid = u.userid WHERE u.nickname = ?;"
             );
             statement.setString(1, userDetails.getUsername());
             resultSet = statement.executeQuery();
@@ -38,7 +38,7 @@ public class ExpertCategoryRepository {
             List<Long> expertCategories = new ArrayList<>();
 
             while (resultSet.next()) {
-                Long categoryId = resultSet.getLong("usercategory.categoryid");
+                Long categoryId = resultSet.getLong("uc.categoryid");
                 expertCategories.add(new Long(categoryId));
             }
 

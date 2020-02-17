@@ -13,9 +13,9 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 
 public class IndexRepository {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin@localhost";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     public Question findByCategory(Long filter) {
         Connection connection = null;
