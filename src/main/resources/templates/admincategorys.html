@@ -25,9 +25,15 @@
     }
 </style>
 <body>
-<h3>Users</h3>
-<a href="/admin/category">Add a new category !</a>
-<br><br>
+<h3>Categorylist</h3><br>
+<a href="/admin/category">Add a new category !</a><br>
+
+<br>
+<a href="/admin">Return to Admin </a><br>
+<a href="/admin/users">Userlist</a><br>
+<a href="/admin/experts">Expertlist</a><br>
+<br><br><br>
+
 <table>
     <thead>
     <tr>
@@ -38,7 +44,6 @@
 
     <tbody>
     <tr th:each="category : ${categorys}">
-
         <td th:text="${category.categoryId}">categoryid</td>
         <td th:text="${category.categoryName}">categoryname</td>
     </tr>

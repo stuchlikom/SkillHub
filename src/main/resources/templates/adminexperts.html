@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Expertenliste</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 5px;
+        text-align: left;
+    }
+</style>
+<body>
+<h3>Expertlist</h3><br>
+<a href="/admin">Return to Admin </a><br>
+<a href="/admin/users">Userlist</a><br>
+<a href="/admin/categorys">Categorylist</a>
+<br><br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>go to User</th>
+        <th>go to Category</th>
+        <th>User-Id</th>
+        <th>Name</th>
+        <th>Firstname</th>
+        <th>Nickname</th>
+        <th>Kategorie(en) </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="expert : ${experts}">
+        <td><a th:href="@{/admin/user(userid=${expert.userId})}">Edit User</a></td>
+        <td><a th:href="@{/admin/expert(userid=${expert.userId})}">Edit Category</a></td>
+        <td th:text="${expert.userId}">expertId</td>
+        <td th:text="${expert.name}">name</td>
+        <td th:text="${expert.firstName}">firstName</td>
+        <td th:text="${expert.nickName}">nickName</td>
+        <span th:each="category : ${expert.categoryList}">
+            <td th:text="${category.categoryName}">categoryName</td>
+        </span>
+    </tr>
+
+    </tbody>
+</table>
+<br>
+</body>
+</html>
