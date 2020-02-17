@@ -1,6 +1,7 @@
 package com.wildcodeschool.skillhub.repository;
 
 import com.wildcodeschool.skillhub.entity.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ public class AdminRepository implements CrudDao<User> {
     private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
     private final static String DB_USER = "db02eylw_aevsybn";
     private final static String DB_PASSWORD = "3GQMpC*X";
-  
+    String role;
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String hashedPassword;
     
         @Override
         public List<User> findAll(Long filter) {
@@ -83,7 +86,8 @@ public class AdminRepository implements CrudDao<User> {
             statement.setString(3, user.getNickName());
             statement.setString(4, user.getRole());
             statement.setString(5, user.getMailAdress());
-            statement.setString(6, user.getPassWord());
+            hashedPassword = passwordEncoder.encode(user.getPassWord());
+            statement.setString(6, hashedPassword);
 
             if (statement.executeUpdate() != 1) 
             {
@@ -108,6 +112,41 @@ public class AdminRepository implements CrudDao<User> {
                 JdbcUtils.closeResultSet(generatedKeys);
                 JdbcUtils.closeStatement(statement);
                 JdbcUtils.closeConnection(connection);
+        }
+        return null;
+    }
+
+    @Override
+    public User update(User user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            statement = connection.prepareStatement(
+                    "UPDATE db02eylw.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
+            );
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getFirstName());
+            statement.setString(3, user.getNickName());
+            statement.setString(4, user.getRole());
+            statement.setString(5, user.getMailAdress());
+            hashedPassword = passwordEncoder.encode(user.getPassWord());
+            statement.setString(6, hashedPassword);
+            statement.setLong(7, user.getUserId());
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to update data");
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
@@ -143,40 +182,6 @@ public class AdminRepository implements CrudDao<User> {
                 JdbcUtils.closeResultSet(resultSet);
                 JdbcUtils.closeStatement(statement);
                 JdbcUtils.closeConnection(connection);
-        }
-        return null;
-    }
-
-    @Override
-    public User update(User user) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "UPDATE db02eylw.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
-            );
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getNickName());
-            statement.setString(4, user.getRole());
-            statement.setString(5, user.getMailAdress());
-            statement.setString(6, user.getPassWord());
-            statement.setLong(7, user.getUserId());
-
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to update data");
-            }
-            return user;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeResultSet(resultSet);
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
