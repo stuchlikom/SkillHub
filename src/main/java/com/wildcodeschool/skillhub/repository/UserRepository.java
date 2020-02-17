@@ -1,5 +1,6 @@
 package com.wildcodeschool.skillhub.repository;
 
+import com.wildcodeschool.skillhub.entity.Avatar;
 import com.wildcodeschool.skillhub.entity.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -16,6 +17,8 @@ public class UserRepository implements CrudDao<User> {
     private final static String DB_PASSWORD = "3GQMpC*X";
     String role;
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    AvatarRepository avatarRepository = new AvatarRepository();
+    		
     String hashedPassword;
 
         @Override
@@ -87,14 +90,22 @@ public class UserRepository implements CrudDao<User> {
             }
 
             generatedKeys = statement.getGeneratedKeys();
+ 
+            /////////////
+//            PreparedStatement avatarstatement = connection.prepareStatement(
+//                    "INSERT INTO db02eylw.avatar (avatarid, avatar) VALUES (?, ?)"
+//            );
+//            User neuUser = findByNick(user.getNickName());
+//            avatarstatement.setLong(1, neuUser.getUserId());
+//            avatarstatement.setBytes(2, getResourceAsStream("/defaultavatar.jpg")
+//            
+//            avatarstatement.executeUpdate();
+            ////////// 
             
-            PreparedStatement avatarstatement = connection.prepareStatement(
-                    "INSERT INTO db02eylw.avatar (avatarid, avatar) VALUES (?, null)"
-            );
-            User neuUser = findByNick(user.getNickName());
-            avatarstatement.setLong(1, neuUser.getUserId());
-            
-            avatarstatement.executeUpdate();
+            Avatar neuAvatar = new Avatar();
+            User avatarUser = findByNick(user.getNickName());
+            neuAvatar.setAvatarId(avatarUser.getUserId());
+            avatarRepository.save(neuAvatar);
             
             if (generatedKeys.next()) 
             {

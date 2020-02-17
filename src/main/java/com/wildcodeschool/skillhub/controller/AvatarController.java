@@ -35,12 +35,18 @@ public class AvatarController {
 	public String imageload(Avatar avatar /*,Principal principal*/) {
 		Long avatarId = logrepository.findId();
 		avatar.setAvatarId(avatarId);
-		repository.save(avatar);
-		return "redirect:/admin/user";
+		repository.update(avatar);
+		return "redirect:/questions";
 	}
-//	
-//	}	
 	
+	@PostMapping("/avataruser")
+	public String imageloadUser(Avatar avatar /*,Principal principal*/) {
+		Long avatarId = logrepository.findId();
+		avatar.setAvatarId(avatarId);
+		repository.update(avatar);
+		return "redirect:/questions";
+	}
+
 	@GetMapping("/image/{avatarId}")
 	public ResponseEntity<byte[]> loadImage(@PathVariable(required = false) Long avatarId) {
 
