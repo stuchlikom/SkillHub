@@ -6,12 +6,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wildcodeschool.skillhub.util.JdbcUtils;
+
 public class ExpertRepository implements CrudDao<Expert> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
-   
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
     
         @Override
         public List<Expert> findAll(Long filter) {
@@ -24,7 +25,7 @@ public class ExpertRepository implements CrudDao<Expert> {
     
             try {
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                statementExpert = connection.prepareStatement("SELECT * FROM SkillHubDB.user where role = 'ROLE_EXPERT' or role = 'ROLE_ADMIN'");
+                statementExpert = connection.prepareStatement("SELECT * FROM db02eylw.user WHERE role = 'ROLE_EXPERT' OR role = 'ROLE_ADMIN'");
                 resultSetExpert = statementExpert.executeQuery();
     
                 List<Expert> experts = new ArrayList<>();
@@ -34,7 +35,7 @@ public class ExpertRepository implements CrudDao<Expert> {
                     String firstName = resultSetExpert.getString("firstName");                    
                     String nickName = resultSetExpert.getString("nickName");
                     
-                    statementCategory = connection.prepareStatement("SELECT * FROM category c left join usercategory uc  on uc.categoryid = c.categoryid  where uc.userid = ?");
+                    statementCategory = connection.prepareStatement("SELECT * FROM db02eylw.category c LEFT JOIN db02eylw.usercategory uc ON uc.categoryid = c.categoryid WHERE uc.userid = ?");
                     statementCategory.setLong(1, userId);
                     resultSetCategory = statementCategory.executeQuery();
 
@@ -56,23 +57,25 @@ public class ExpertRepository implements CrudDao<Expert> {
                         
                         System.out.print(">CatId|" + categoryId + "||");
                         System.out.print(">Name|" + categoryName + "||");
-
                     }
 
                     experts.add(new Expert(userId, name, firstName, nickName, categorys));
-                                   
                     System.out.println("end while mit user "+userId+"|");
                 }
 
                return experts;
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+            JdbcUtils.closeResultSet(resultSetExpert);
+            JdbcUtils.closeResultSet(resultSetCategory);
+            JdbcUtils.closeStatement(statementExpert);
+            JdbcUtils.closeStatement(statementCategory);
+            JdbcUtils.closeConnection(connection);
             }
             return null;
         }
    
-
-      
     @Override
     public Expert save(Expert user) {
         return null;
@@ -80,18 +83,22 @@ public class ExpertRepository implements CrudDao<Expert> {
 
     @Override
     public Expert findById(Long userId) {
-
+        Connection connection = null;
+        PreparedStatement statementExpert = null;
+        PreparedStatement statementCategory = null;
+        ResultSet resultSetExpert = null;
+        ResultSet resultSetCategory = null;
         try {
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            PreparedStatement statementExpert = connection.prepareStatement("SELECT * FROM SkillHubDB.user WHERE userid = ?");
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            statementExpert = connection.prepareStatement("SELECT * FROM db02eylw.user WHERE userid = ?");
             statementExpert.setLong(1, userId);
-            ResultSet resultSetExpert = statementExpert.executeQuery();
+            resultSetExpert = statementExpert.executeQuery();
 
             if (resultSetExpert.next()) {
 
-                PreparedStatement statementCategory = connection.prepareStatement("SELECT * FROM category c left join usercategory uc  on uc.categoryid = c.categoryid  where uc.userid = ?");
+                statementCategory = connection.prepareStatement("SELECT * FROM db02eylw.category c LEFT JOIN db02eylw.usercategory uc ON uc.categoryid = c.categoryid WHERE uc.userid = ?");
                 statementCategory.setLong(1, userId);
-                ResultSet resultSetCategory = statementCategory.executeQuery();  
+                resultSetCategory = statementCategory.executeQuery();  
             
                 String name = resultSetExpert.getString("name");
                 String firstName = resultSetExpert.getString("firstName");
@@ -109,6 +116,12 @@ public class ExpertRepository implements CrudDao<Expert> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSetExpert);
+            JdbcUtils.closeResultSet(resultSetCategory);
+            JdbcUtils.closeStatement(statementExpert);
+            JdbcUtils.closeStatement(statementCategory);
+            JdbcUtils.closeConnection(connection);
         }
        return null;
     }
