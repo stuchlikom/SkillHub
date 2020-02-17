@@ -15,9 +15,9 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 @Repository
 public class AvatarRepository implements CrudDao<Avatar> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     @Override
     public Avatar save(Avatar avatar) {
@@ -29,7 +29,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "INSERT INTO avatar (avatar) VALUES (?)",
+                    "INSERT INTO db02eylw.avatar (avatar) VALUES (?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setBytes(1, avatar.getAvatar());
@@ -59,15 +59,18 @@ public class AvatarRepository implements CrudDao<Avatar> {
 
     @Override
     public Avatar findById(Long avatarId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;  
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM avatar WHERE avatarid = ?;"
+            statement = connection.prepareStatement(
+                    "SELECT * FROM db02eylw.avatar WHERE avatarid = ?;"
             );
             statement.setLong(1, avatarId);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
             	//avatarId = resultSet.getLong("avatarId");
@@ -77,24 +80,27 @@ public class AvatarRepository implements CrudDao<Avatar> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
-
-
-
-
     @Override
     public List<Avatar> findAll(Long avatarId) { 
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;  
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM avatar;"
             );
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             List<Avatar> avatars = new ArrayList<>();
 
@@ -106,17 +112,23 @@ public class AvatarRepository implements CrudDao<Avatar> {
             return avatars;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public Avatar update (Avatar avatar) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "UPDATE avatar SET avatar=? WHERE avatarId=?"
             );
             statement.setBytes(1, avatar.getAvatar());
@@ -128,17 +140,22 @@ public class AvatarRepository implements CrudDao<Avatar> {
             return avatar;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public void deleteById(Long avatarId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "DELETE FROM avatar WHERE avatarId=?"
             );
             statement.setLong(1, avatarId);
@@ -148,6 +165,9 @@ public class AvatarRepository implements CrudDao<Avatar> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
     }
 

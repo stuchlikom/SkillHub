@@ -14,9 +14,9 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 @Repository
 public class LoggedInUserRepository {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     public static Long findId() {    // findAll(Long filter)
         Connection connection = null;
@@ -29,14 +29,14 @@ public class LoggedInUserRepository {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
             statement = connection.prepareStatement(
-                    "SELECT user.userid FROM user WHERE nickname = ?;"
+                    "SELECT userid FROM db02eylw.user WHERE nickname = ?;"
             );
             statement.setString(1, userDetails.getUsername());
             resultSet = statement.executeQuery();
 
             Long loggedInUserId = 0l;
             while (resultSet.next()) {
-                loggedInUserId = resultSet.getLong("user.userid");
+                loggedInUserId = resultSet.getLong("userid");
             }
 
             //System.out.println("lU: " + loggedInUserId);

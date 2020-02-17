@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wildcodeschool.skillhub.util.JdbcUtils;
+
 public class UserRepository implements CrudDao<User> {
 
     private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
@@ -16,15 +18,11 @@ public class UserRepository implements CrudDao<User> {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     String hashedPassword;
 
-
-    
         @Override
         public List<User> findAll(Long filter) {
-
             Connection connection = null;
             PreparedStatement statement = null;
             ResultSet resultSet = null;  
-    
             try {
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                 statement = connection.prepareStatement("SELECT * FROM db02eylw.user");
@@ -47,6 +45,10 @@ public class UserRepository implements CrudDao<User> {
                 return users;
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                JdbcUtils.closeResultSet(resultSet);
+                JdbcUtils.closeStatement(statement);
+                JdbcUtils.closeConnection(connection);
             }
             return null;
         }
@@ -54,18 +56,20 @@ public class UserRepository implements CrudDao<User> {
     @Override
     public User save(User user) 
     {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
         try 
         {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                 "INSERT INTO "
                 + "db02eylw.user (name, firstname, nickname, role, mailadress, password)"
                 + "VALUES (?,?,?,?,?,?)"
-
+                , Statement.RETURN_GENERATED_KEYS
             );
-
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
@@ -75,14 +79,12 @@ public class UserRepository implements CrudDao<User> {
             hashedPassword = passwordEncoder.encode(user.getPassWord());
             statement.setString(6, hashedPassword);
 
-
-
             if (statement.executeUpdate() != 1) 
             {
                 throw new SQLException("failed to insert data");
             }
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) 
             {
@@ -93,25 +95,30 @@ public class UserRepository implements CrudDao<User> {
             {
                 throw new SQLException("failed to get inserted userid");
             }
-        } catch (SQLException e) 
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(generatedKeys);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public User findById(Long userid) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM db02eylw.user WHERE userid = ?"
             );
             statement.setLong(1, userid);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
@@ -122,26 +129,31 @@ public class UserRepository implements CrudDao<User> {
                 String password = resultSet.getString("password");
 
                 return new User(userid, name, firstname, nickname, role, mailadress, password);
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
 //    @Override
     public User findByNick(String nick) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;  
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "SELECT * FROM db02eylw.user WHERE nickname = ?"
             );
             statement.setString(1, nick);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 Long userid = resultSet.getLong("userid");
@@ -157,6 +169,10 @@ public class UserRepository implements CrudDao<User> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }    
@@ -164,14 +180,14 @@ public class UserRepository implements CrudDao<User> {
 
     @Override
     public User update(User user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
-
+            statement = connection.prepareStatement(
                     "UPDATE db02eylw.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
-
             );
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
@@ -181,24 +197,28 @@ public class UserRepository implements CrudDao<User> {
             statement.setString(6, user.getPassWord());
             statement.setLong(7, user.getUserId());
 
-
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("failed to update data");
             }
             return user;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
         return null;
     }
 
     @Override
     public void deleteById(Long userid) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     DB_URL, DB_USER, DB_PASSWORD
             );
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "DELETE FROM db02eylw.user WHERE userid=?"
             );
             statement.setLong(1, userid);
@@ -208,6 +228,9 @@ public class UserRepository implements CrudDao<User> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
     }
 }
