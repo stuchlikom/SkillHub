@@ -1,9 +1,11 @@
 package com.wildcodeschool.skillhub.repository;
+
 import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.entity.Expert;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.wildcodeschool.skillhub.util.JdbcUtils;
@@ -58,6 +60,8 @@ public class ExpertRepository implements CrudDao<Expert> {
                         System.out.print(">CatId|" + categoryId + "||");
                         System.out.print(">Name|" + categoryName + "||");
                     }
+
+                    Collections.sort(categorys);
 
                     experts.add(new Expert(userId, name, firstName, nickName, categorys));
                     System.out.println("end while mit user "+userId+"|");
