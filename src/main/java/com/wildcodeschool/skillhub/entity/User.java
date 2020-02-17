@@ -2,8 +2,6 @@ package com.wildcodeschool.skillhub.entity;
 
 import javax.persistence.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "nickname"))
 public class User

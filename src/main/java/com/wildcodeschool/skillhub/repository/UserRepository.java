@@ -76,7 +76,7 @@ public class UserRepository implements CrudDao<User> {
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
             statement.setString(3, user.getNickName());
-            statement.setString(4, "ROLE_USER");
+            statement.setString(4, user.getRole());
             statement.setString(5, user.getMailAdress());
             hashedPassword = passwordEncoder.encode(user.getPassWord());
             statement.setString(6, hashedPassword);
@@ -109,6 +109,39 @@ public class UserRepository implements CrudDao<User> {
             e.printStackTrace();
         } finally {
             JdbcUtils.closeResultSet(generatedKeys);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+        return null;
+    }
+
+    @Override
+    public User update(User user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            statement = connection.prepareStatement(
+                    "UPDATE db02eylw.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
+            );
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getFirstName());
+            statement.setString(3, user.getNickName());
+            statement.setString(4, user.getRole());
+            statement.setString(5, user.getMailAdress());
+            hashedPassword = passwordEncoder.encode(user.getPassWord());
+            statement.setString(6, hashedPassword);
+            statement.setLong(7, user.getUserId());
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to update data");
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }
@@ -186,39 +219,6 @@ public class UserRepository implements CrudDao<User> {
         }
         return null;
     }    
-
-
-    @Override
-    public User update(User user) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "UPDATE db02eylw.user SET name=?, firstname=?, nickname=?, role=?, mailadress=?, password=? WHERE userid=?"
-            );
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getNickName());
-            statement.setString(4, user.getRole());
-            statement.setString(5, user.getMailAdress());
-            statement.setString(6, user.getPassWord());
-            statement.setLong(7, user.getUserId());
-
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to update data");
-            }
-            return user;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-        return null;
-    }
 
     @Override
     public void deleteById(Long userid) {
