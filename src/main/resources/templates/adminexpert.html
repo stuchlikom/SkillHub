@@ -17,38 +17,48 @@
 
 </head>
 <body>>
-<h3> Ecpertengebiete zuordnen</h3><br>
+<h3> Expertengebiete zuordnen</h3><br>
 <a href="/admin/experts">Return to experts</a><br>
 <a href="/admin">Return to Admin </a><br><br>
 
 <form method="post" th:action="@{/admin/expert}" th:object="${expert}">
 
     <input name="userid" th:field="*{userId}" type="hidden">
-
+    
+    <p> Experte </h3><p>
     <label>Vorname:</label> <span th:text="*{firstName}" ></span><br>
     <label>Nachname:</label> <span th:text="*{name}" ></span><br>
     <label>Nickname:</label> <span th:text="*{nickName}" ></span><br><br>
 
-    <!-- platzhalter category -->
+    <div>Expertengebietenliste aktuell:<br>
+    <fieldset>
+        <tr th:each="categoryId : ${expert.categoryList}">
+            <label>   |   </label> 
+            <span th:text="${categoryId.categoryName}">categoryName</span>
+            <label> (</label> 
+            <span th:text="${categoryId.categoryId}">categoryId</span>
+            <label>)</label> 
+            <br>
+        </tr>
+    </fieldset>
 
-    <div>Expertengebiete:</div><br>
-	<fieldset>
-        <input type="checkbox" name="category" id="c1" value="1"> <!-- th:value="1" th:field="*{categoryId}"> -->
-        <label for="c1">JavaScript</label>
-        <input type="checkbox" name="category" id="c2" value="1"> <!-- th:value="2" th:field="*{categoryId}"> -->
-        <label for="c2">HTML</label>
-        <input type="checkbox" name="category" id="c3" value="1"> <!-- th:value="3" th:field="*{categoryId}"> -->
-        <label for="c3">Java</label>
-        <input type="checkbox" name="category" id="c4" value="1"> <!-- th:value="4" th:field="*{categoryId}"> -->
-        <label for="c4">CSS</label>
-        <input type="checkbox" name="category" id="c5" value="1"> <!-- th:value="5"  th:field="*{categoryId}"> -->
-        <label for="c5">MySQL</label>
-        <input type="checkbox" name="category" id="c6" value="1"> <!-- th:value="6"  th:field="*{categoryId}"> -->
-        <label for="c6">TypeScript</label>
-        <input type="checkbox" name="category" id="c7" value="1"> <!-- th:value="7"  th:field="*{categoryId}"> -->
-        <label for="c6">Rocketscience</label>
-	</fieldset>
-</form>
+    <div>Expertengebietenliste neu:</div><br>
+    <fieldset>
+        <tr th:each="category,i : ${categorys}">
+            
+            <input type="checkbox" 
+                id="i" 
+                name="category"
+                th:value= Vektorlöschen (i) = ("${userId}","${category.categoryId}")>
+                th:value= Vektorneu (i) = ("${userId}","${category.categoryId}")>
+            <label for="i">
+                <td th:text="${i.count}">count</td>
+                <td th:text="${category.categoryId}">categoryId</td>
+                    <td th:text="${category.categoryName}">categoryName</td>
+            </label>
+            <br>
+        </tr>
+    </fieldset>
 <br><br>
     <input type="submit" value="  Send  ">
     <button type="reset">Eingaben zurücksetzen</button>

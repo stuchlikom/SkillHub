@@ -87,17 +87,18 @@ public class ExpertRepository implements CrudDao<Expert> {
             statementExpert.setLong(1, userId);
             ResultSet resultSetExpert = statementExpert.executeQuery();
 
-            PreparedStatement statementCategory = connection.prepareStatement("SELECT * FROM category c left join usercategory uc  on uc.categoryid = c.categoryid  where uc.userid = ?");
-            statementCategory.setLong(1, userId);
-            ResultSet resultSetCategory = statementCategory.executeQuery();  
-
             if (resultSetExpert.next()) {
+
+                PreparedStatement statementCategory = connection.prepareStatement("SELECT * FROM category c left join usercategory uc  on uc.categoryid = c.categoryid  where uc.userid = ?");
+                statementCategory.setLong(1, userId);
+                ResultSet resultSetCategory = statementCategory.executeQuery();  
             
                 String name = resultSetExpert.getString("name");
                 String firstName = resultSetExpert.getString("firstName");
                 String nickName = resultSetExpert.getString("nickName");
                 
                 List<Category> categorysId = new ArrayList<>();
+
                 while (resultSetCategory.next()) {
                     Long categoryId = resultSetCategory.getLong("categoryId");
                     String categoryName = resultSetCategory.getString("categoryName");

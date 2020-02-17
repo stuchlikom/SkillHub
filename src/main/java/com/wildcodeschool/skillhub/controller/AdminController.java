@@ -113,8 +113,20 @@ public class AdminController {
             expert = expertRepository.findById(userid);
         }
         model.addAttribute("expert", expert);
+        model.addAttribute("categorys", categoryRepository.findAll(null));
+        
         System.out.println("/admin/getExpert |" + expert.getUserId());
         return "adminexpert";
         }
       
+    @PostMapping("/admin/expert")
+      public String postExpert(@ModelAttribute Expert expert) {
+          
+          System.out.println("/admin/expert-postUser 1. |"  + expert.getUserId() + "|");
+          
+///
+          
+          //System.out.println("/admin/user-postUser 2. |"  + category + "|");
+          return "redirect:/admin/experts";
+          }
 }
