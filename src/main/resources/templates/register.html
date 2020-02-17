@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+      <title>SkillHub</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+      <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" />
+      <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+
+  </head>
+  <body>
+    <div class="container">
+      <h1>SkillHub Registrierung</h1>
+      <p>Bitte fülle alle Felder aus, um dir einen Account anzulegen.</p>
+
+        <form method="post" th:action="@{/register}" th:object="${user}">
+
+              <input name="userid" th:field="*{userId}" type="hidden">
+              <input name="role" th:field="*{role}" type="hidden">
+          
+              <label for="firstName-text"><b>Vorname:</b></label>
+              <input id="firstName-text" name="firstname" placeholder="Vorname" required th:field="*{firstName}" type="text"> 
+    
+              <label for="lastName-text"><b>Nachname:</b></label>
+              <input id="lastName-text" name="name" placeholder="Nachname" required th:field="*{name}" type="text">
+    
+              <label for="email-text"><b>eMail</b></label>
+              <input id="email-text" name="email" placeholder="eMail" required th:field="*{mailAdress}" type="text">
+              
+              <label for="nickname-text"><b>Nickname</b></label>
+              <input id ="nickname-text" name="nickname" placeholder="Nickname (Anmeldename)" required th:field="*{nickName}" type="text">
+              
+              <label for="password-text"><b>Password</b></label>
+              <input id="password-text" name="password" placeholder="Password" required th:field="*{passWord}" type="password">
+              
+              <p>Mit deiner Anmeldung akzeptierst du unsere <a href="terms">Nutzungsbedingungen</a>.</p>
+              <button type="submit" class="registerbtn">Absenden</button>
+        </form>
+                
+        <div class="container signin">
+        <p>Du hast schon einen Account? Hier gehts zum <a href="/login">Login</a>.</p>
+        </div>
+      </div>
+  </body>
+</html>
