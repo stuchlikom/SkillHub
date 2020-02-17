@@ -2,8 +2,10 @@ package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.entity.Category;
+import com.wildcodeschool.skillhub.entity.Expert;
 import com.wildcodeschool.skillhub.repository.AdminRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
+import com.wildcodeschool.skillhub.repository.ExpertRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,17 +16,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
-    private AdminRepository adminrepository = new AdminRepository();
-    private CategoryRepository categoryrepository = new CategoryRepository();
+    private AdminRepository adminRepository = new AdminRepository();
+    private CategoryRepository categoryRepository = new CategoryRepository();
+    private ExpertRepository expertRepository = new ExpertRepository();
+
 
     @GetMapping("/admin")
     public String start() {
         return "admin";
     }
+
     @GetMapping("/admin/users")
     public String getAllUser(Model model, @RequestParam(required = false) Long catSelected) {
-        model.addAttribute("users", adminrepository.findAll(null));
-        System.out.println("/admin/users-getAll");
+        model.addAttribute("users", adminRepository.findAll(null));
+        System.out.println("/admin/getAllUser");
         return "adminusers";
         }
 
@@ -32,19 +37,19 @@ public class AdminController {
     public String getUser(Model model, @RequestParam(required = false) Long userid) {
         User user = new User();
         if (userid != null) {
-            user = adminrepository.findById(userid);
+            user = adminRepository.findById(userid);
         }
         model.addAttribute("user", user);
-        System.out.println("/admin/user-getUser |" + user.getUserId());
+        System.out.println("/admin/getUser |" + user.getUserId());
         return "adminuser";
         }
 
     @PostMapping("/admin/user")
     public String postUser(@ModelAttribute User user) {
         if (user.getUserId() != null) {
-            adminrepository.update(user);
+          adminRepository.update(user);
         } else {
-            adminrepository.save(user);
+          adminRepository.save(user);
         }
         System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
         return "redirect:/admin/users";
@@ -52,14 +57,14 @@ public class AdminController {
 
     @GetMapping("/admin/del-id")
       public String getById(Model model, @RequestParam Long userid) {
-         model.addAttribute("user", adminrepository.findById(userid));
+         model.addAttribute("user", adminRepository.findById(userid));
          System.out.println("/admin/user-getById |" + "|");
          return "admindel";
       }
 
     @GetMapping("/admin/user/delete")
       public String deleteUser(@RequestParam Long userid) {
-        adminrepository.deleteById(userid);
+        adminRepository.deleteById(userid);
          System.out.println("/admin/user/delete |" + "|");
          return "redirect:/admin/users";
       }
@@ -68,8 +73,8 @@ public class AdminController {
 
     @GetMapping("/admin/categorys")
       public String getAllCategory(Model model, @RequestParam(required = false) Long catSelected) {
-        model.addAttribute("categorys", categoryrepository.findAll(null));
-        System.out.println("/admin/categorys-getAll");
+        model.addAttribute("categorys", categoryRepository.findAll(null));
+        System.out.println("/admin/getAllCategory");
         return "admincategorys";
         }
     
@@ -77,7 +82,7 @@ public class AdminController {
       public String getCategory(Model model, @RequestParam(required = false) Long userid) {
         Category category = new Category();
         model.addAttribute("category", category);
-        System.out.println("/admin/category-getCategory |");
+        System.out.println("/admin/getCategory |");
         return "admincategory";
         }
       
@@ -86,10 +91,42 @@ public class AdminController {
         
         System.out.println("/admin/user-postUser 1. |"  + category.getCategoryName() + "|");
         
-        categoryrepository.save(category);
+        categoryRepository.save(category);
         
         System.out.println("/admin/user-postUser 2. |"  + category + "|");
         return "redirect:/admin/categorys";
         }
+ 
+        // nachfolgend expert
+
+    @GetMapping("/admin/experts")
+      public String getAllExpert(Model model, @RequestParam(required = false) Long catSelected) {
+        model.addAttribute("experts", expertRepository.findAll(null));
+        System.out.println("/admin/experts-getAllExperts");
+        return "adminexperts";
+        }
+
+    @GetMapping("/admin/expert")
+      public String getExpert(Model model, @RequestParam(required = false) Long userid) {
+        Expert expert = new Expert();
+        if (userid != null) {
+            expert = expertRepository.findById(userid);
+        }
+        model.addAttribute("expert", expert);
+        model.addAttribute("categorys", categoryRepository.findAll(null));
         
+        System.out.println("/admin/getExpert |" + expert.getUserId());
+        return "adminexpert";
+        }
+      
+    @PostMapping("/admin/expert")
+      public String postExpert(@ModelAttribute Expert expert) {
+          
+          System.out.println("/admin/expert-postUser 1. |"  + expert.getUserId() + "|");
+          
+///
+          
+          //System.out.println("/admin/user-postUser 2. |"  + category + "|");
+          return "redirect:/admin/experts";
+          }
 }
