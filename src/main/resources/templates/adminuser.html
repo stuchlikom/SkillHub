@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Benutzer</title>
-    
-    <style>
-    fieldset {
-        border: none;
-    }
-    
-    label::after {
-        content: "";
-        display: block;
-    }
-    </style>
+<head th:replace="_fragments.html :: head">
+    from Fragmentss
+    </head>
 
-</head>
-<body>
+    <body>
+    <header th:replace="_fragments.html :: top">
+        from Fragments
+    </header>
+<br>
+<h1>Benutzer</h1>
+<ul>
 <h3 th:text="${user.userId} ? 'Edit User' : 'Create User'">User</h3>
 
 
@@ -26,33 +20,27 @@
 
     <label for="user-first-name">Vorname:</label>
     <input id="user-first-name" name="firstname" placeholder="Vornamen eintragen" required th:field="*{firstName}" type="text">
-    <br><br>
-  
+
     <label for="user-last-name">Nachname:</label>
     <input id="user-last-name" name="name" placeholder="Nachnamen eintragen" required th:field="*{name}" type="text">
-    <br><br>
 
     <label for="user-nick-name">Nickname:</label>
     <input id="user-nick-name" name="nickname" placeholder="Nicknamen eintragen" th:field="*{nickName}" type="text">
-    <br><br>
-
 
     <label for="user-mailadress">Mailadresse:</label>
     <input id="user-mailadress" name="mailadress" placeholder="Mailadresse eintragen" required th:field="*{mailAdress}" type="text">
-    <br><br>
 
     <label for="user-password">Password:</label>
     <input id="user-password" name="password" placeholder="Password eintragen" required th:field="*{passWord}" type="text">
-    <br><br>
 
     <div>Rolle:</div>
     <fieldset>
         <input type="radio" id="user-is-user" name="role" required th:field="*{role}" th:value="ROLE_USER">
-        <label for="user-is-user"> Portalnutzer</label>
+        <label for="user-is-user"> Portalnutzer</label><br>
         <input type="radio" id="user-is-expert" name="role" required th:field="*{role}" th:value="ROLE_EXPERT">
-        <label for="user-is-expert"> Experte</label>
+        <label for="user-is-expert"> Experte</label><br>
         <input type="radio" id="user-is-admin" name="role" required th:field="*{role}" th:value="ROLE_ADMIN">
-        <label for="user-is-admin"> Administrator</label>
+        <label for="user-is-admin"> Administrator</label><br>
     </fieldset>
     <br><br>
 
@@ -65,5 +53,6 @@
 <a href="/admin/users">Userlist</a><br>
 <a href="/admin/experts">Expertlist</a><br>
 <a href="/admin">Return to Admin </a>
+</ul>
 </body>
 </html>

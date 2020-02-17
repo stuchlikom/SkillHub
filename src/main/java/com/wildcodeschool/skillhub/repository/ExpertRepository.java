@@ -116,6 +116,9 @@ public class ExpertRepository implements CrudDao<Expert> {
 
                     categorysId.add(new Category(categoryId, categoryName));
                 }
+                
+                Collections.sort(categorysId);
+
                 return new Expert(userId, name, firstName, nickName, categorysId);
             }
         } catch (SQLException e) {

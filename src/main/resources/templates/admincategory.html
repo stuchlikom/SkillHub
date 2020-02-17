@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Category</title>
 
-</head>
-<body>
-<h3> Category</h3><br>
+<head th:replace="_fragments.html :: head">
+    from Fragmentss
+    </head>
+
+    <body>
+    <header th:replace="_fragments.html :: top">
+        from Fragments
+    </header>
+<br>
+<h1>Kategorieenpflege</h1>
+<ul>
 <a href="/admin/categorys">Return to categorys</a><br>
 <a href="/admin">Return to Admin </a><br><br>
+
 
 <form method="post" th:action="@{/admin/category}" th:object="${category}">
 
@@ -20,5 +26,6 @@
 </form>
 <br>
 <a href="/admin">Return to Admin </a>
+</ul>
 </body>
 </html>
