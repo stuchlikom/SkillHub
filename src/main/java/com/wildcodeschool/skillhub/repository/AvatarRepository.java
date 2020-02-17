@@ -1,6 +1,5 @@
 package com.wildcodeschool.skillhub.repository;
 
-
 import com.wildcodeschool.skillhub.entity.Avatar;
 import com.wildcodeschool.skillhub.repository.CrudDao;
 import org.springframework.stereotype.Repository;
@@ -14,160 +13,188 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 @Repository
 public class AvatarRepository implements CrudDao<Avatar> {
 
-    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
-    private final static String DB_USER = "db02eylw_aevsybn";
-    private final static String DB_PASSWORD = "3GQMpC*X";
+	private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+	private final static String DB_USER = "db02eylw_aevsybn";
+	private final static String DB_PASSWORD = "3GQMpC*X";
 
-    @Override
-    public Avatar save(Avatar avatar) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet generatedKeys = null;
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "INSERT INTO db02eylw.avatar (avatar) VALUES (?)",
-                    Statement.RETURN_GENERATED_KEYS
-            );
-            statement.setBytes(1, avatar.getAvatar());
- 
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to insert data");
-            }
+	@Override
+	public Avatar update(Avatar avatar) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
 
-            generatedKeys = statement.getGeneratedKeys();
+					"SELECT * from db02eylw.avatar WHERE avatarid=?");
 
-            if (generatedKeys.next()) {
-                Long avatarId = generatedKeys.getLong(1);
-                avatar.setAvatarId(avatarId);
-                return avatar;
-            } else {
-                throw new SQLException("failed to get inserted id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeResultSet(generatedKeys);
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-        return null;
-    }
+			statement.setLong(1, avatar.getAvatarId());
 
-    @Override
-    public Avatar findById(Long avatarId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;  
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "SELECT * FROM db02eylw.avatar WHERE avatarid = ?;"
-            );
-            statement.setLong(1, avatarId);
-            resultSet = statement.executeQuery();
-            
-            if (resultSet.next()) {
-            	//avatarId = resultSet.getLong("avatarId");
-                byte[] avatar = resultSet.getBytes("avatar");
- 
-                return new Avatar(avatarId, avatar);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeResultSet(resultSet);
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-        return null;
-    }
+			if (statement.executeQuery().next()) {
 
-    @Override
-    public List<Avatar> findAll(Long avatarId) { 
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;  
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "SELECT * FROM avatar;"
-            );
-            resultSet = statement.executeQuery();
+				statement.close();
+				statement = connection.prepareStatement("UPDATE db02eylw.avatar SET avatar=? WHERE avatarid=?");
+				statement.setBytes(1, avatar.getAvatar());
+				statement.setLong(2, avatar.getAvatarId());
+				System.out.println("ich war im Avatarrepo");
 
-            List<Avatar> avatars = new ArrayList<>();
+				if (statement.executeUpdate() != 1) {
+					throw new SQLException("failed to insert data");
+				}
 
-            while (resultSet.next()) {
-                avatarId = resultSet.getLong("avatarId");
-                byte[] avatar = resultSet.getBytes("avatar");
-                avatars.add(new Avatar(avatarId, avatar));
-            }
-            return avatars;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeResultSet(resultSet);
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-        return null;
-    }
+//				generatedKeys = statement.getGeneratedKeys();
+			} else {
 
-    @Override
-    public Avatar update (Avatar avatar) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "UPDATE avatar SET avatar=? WHERE avatarId=?"
-            );
-            statement.setBytes(1, avatar.getAvatar());
-            statement.setLong(2, avatar.getAvatarId());
-            
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to update data");
-            }
-            return avatar;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-        return null;
-    }
+				save(avatar);
+			}
 
-    @Override
-    public void deleteById(Long avatarId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "DELETE FROM avatar WHERE avatarId=?"
-            );
-            statement.setLong(1, avatarId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(generatedKeys);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return avatar;
+	}
 
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to delete data");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-    }
+//    @Override
+//    public Avatar save(Avatar avatar) {
+//        Connection connection = null;
+//        PreparedStatement statement = null;
+//        ResultSet generatedKeys = null;
+//        try {        	
+//            connection = DriverManager.getConnection(
+//                    DB_URL, DB_USER, DB_PASSWORD
+//            );
+//            statement = connection.prepareStatement(
+//            		"UPDATE avatar SET avatar=? WHERE avatarid=?", // "INSERT INTO avatar (avatar) VALUES (?) WHERE avatarId = 1",
+//                    Statement.RETURN_GENERATED_KEYS					// UPDATE avatar SET avatar=? WHERE avatarid=1;
+//            );
+//            statement.setBytes(1, avatar.getAvatar());
+//            statement.setLong(2, avatar.getAvatarId());
+//            System.out.println("ich war im Avatarrepo");
+// 
+//           if (statement.executeUpdate() != 1) {
+//                throw new SQLException("failed to insert data");
+//            }
+//
+//            generatedKeys = statement.getGeneratedKeys();
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            JdbcUtils.closeResultSet(generatedKeys);
+//            JdbcUtils.closeStatement(statement);
+//            JdbcUtils.closeConnection(connection);
+//        }
+//        return avatar;
+//    }
+
+	@Override
+	public Avatar findById(Long avatarId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("SELECT * FROM db02eylw.avatar WHERE avatarid = ?;");
+			statement.setLong(1, avatarId);
+			resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				// avatarId = resultSet.getLong("avatarId");
+				byte[] avatar = resultSet.getBytes("avatar");
+
+				return new Avatar(avatarId, avatar);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
+
+	@Override
+	public List<Avatar> findAll(Long avatarId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("SELECT * FROM db02eylw.avatar;");
+			resultSet = statement.executeQuery();
+
+			List<Avatar> avatars = new ArrayList<>();
+
+			while (resultSet.next()) {
+				avatarId = resultSet.getLong("avatarId");
+				byte[] avatar = resultSet.getBytes("avatar");
+				avatars.add(new Avatar(avatarId, avatar));
+			}
+			return avatars;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
+
+	@Override
+//<<<<< HEAD
+	public Avatar save(Avatar avatar) {
+//=====
+//  public Avatar update (Avatar avatar) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+//>>>>> ac34a46e108885074830eb58cdca31dc295ea498
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					// "INSERT INTO db02eylw.avatar (avatar) VALUES (?)"
+					"INSERT INTO db02eylw.avatar (avatarid, avatar) VALUES (?, null)"
+
+			);
+//            statement.setBytes(1, avatar.getAvatar());
+			statement.setLong(1, avatar.getAvatarId());
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to update data");
+			}
+			return avatar;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
+
+	@Override
+	public void deleteById(Long avatarId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("DELETE FROM avatar WHERE avatarId=?");
+			statement.setLong(1, avatarId);
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to delete data");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+	}
 
 }
