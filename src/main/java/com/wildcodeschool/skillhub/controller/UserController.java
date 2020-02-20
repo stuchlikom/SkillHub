@@ -1,10 +1,9 @@
 package com.wildcodeschool.skillhub.controller;
-import com.wildcodeschool.skillhub.entity.*;
 
 import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.repository.UserRepository;
-import java.util.*;
 
+import java.util.*;
 import javax.lang.model.util.ElementScanner6;
 
 import org.springframework.stereotype.Controller;
@@ -13,11 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import javax.validation.Valid;
 import org.springframework.web.servlet.ModelAndView;
-
 
 @Controller
 public class UserController {
@@ -58,11 +57,11 @@ public class UserController {
 			return "register";
 		}
 		if (user.getUserId() != null) {
-			repository.update(user);
-		} else {
-			repository.save(user);
-		}
-
-		return "redirect:/";
+            repository.update(user);
+        } else {
+			user.setRole("ROLE_USER");
+            repository.save(user);
+        }
+        return "redirect:/";
 	}
 }

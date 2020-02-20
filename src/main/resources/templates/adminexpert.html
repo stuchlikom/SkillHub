@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments.html :: head">
+    from Fragmentss
+    </head>
+
+    <body>
+    <header th:replace="_fragments.html :: top">
+        from Fragments
+    </header>
+<br>
+<h1>Expertenpflege</h1>
+<ul>
+<h3> Expertengebiete zuordnen</h3><br>
+
+<form method="post" th:action="@{/admin/expert}" th:object="${expert}">
+
+    <input name="userid" th:field="*{userId}" type="hidden">
+    
+    <p> Experte <p>
+    <label>Vorname:</label> <span th:text="*{firstName}" ></span><br>
+    <label>Nachname:</label> <span th:text="*{name}" ></span><br>
+    <label>Nickname:</label> <span th:text="*{nickName}" ></span><br>
+
+    <div>Expertengebietenliste aktuell:<br>
+    <fieldset>
+        <tr th:each="categoryId : ${expert.categoryList}">
+            <label>   |   </label> 
+            <span th:text="${categoryId.categoryName}">categoryName</span>
+            <label> (</label> 
+            <span th:text="${categoryId.categoryId}">categoryId</span>
+            <label>)</label> 
+        </tr>
+    </fieldset>
+
+    <div>Expertengebietenliste neu:</div><br>
+    <fieldset>
+        <tr th:each="category,i : ${categorys}">
+            
+            <input type="checkbox" 
+                id="i" 
+                name="category"
+                th:value= Vektorlöschen (i) = ("${userId}","${category.categoryId}")>
+                th:value= Vektorneu (i) = ("${userId}","${category.categoryId}")>
+            <label for="i">
+                <td th:text="${i.count}">count</td>
+                <td th:text="${category.categoryId}">categoryId</td>
+                    <td th:text="${category.categoryName}">categoryName</td>
+            </label>
+            <br>
+        </tr>
+    </fieldset>
+<br><br>
+    <input type="submit" value="  Send  ">
+    <button type="reset">Eingaben zurücksetzen</button>
+
+</form>
+<br>
+<br><br>
+<a href="/admin/experts">Return to experts</a>
+<br>
+<a href="/admin">Return to Admin </a>
+
+</ul>
+</body>
+</html>

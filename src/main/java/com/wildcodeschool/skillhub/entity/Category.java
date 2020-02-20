@@ -1,6 +1,6 @@
 package com.wildcodeschool.skillhub.entity;
 
-public class Category {
+public class Category implements Comparable<Category> {
 
     private Long categoryId;
     private String categoryName;
@@ -29,5 +29,15 @@ public class Category {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
+    @Override
+    public int compareTo(Category otherCategory) {
+        return this.categoryName.compareTo(otherCategory.categoryName);
+    }
+
+    
+
+
+
 
 }

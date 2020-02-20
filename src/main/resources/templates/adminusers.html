@@ -1,34 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Benutzerliste</title>
-</head>
-<style>
-    table {
-        border-collapse: collapse;
-    }
+<head th:replace="_fragments.html :: head">
+    from Fragmentss
+    </head>
 
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
+    <body>
+    <header th:replace="_fragments.html :: top">
+        from Fragments
+    </header>
+<br>
+<h1>Benutzerübersichtsliste</h1>
+<ul>
+<h3>Userlist</h3><br>
+<a href="/admin/user">New User</a><br><br>
+<a href="/admin">Return to Admin </a><br>
+<a href="/admin/experts">Expertlist</a><br>
+<a href="/admin/categorys">Categorylist</a>
+<br><br><br>
 
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    th, td {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 5px;
-        text-align: left;
-    }
-</style>
-<body>
-<h3>Users</h3>
-<a href="/admin/user">Add a new user !</a> <br>
-<a href="/admin">Return to Admin </a>
-<br><br>
 <table>
     <thead>
     <tr>
@@ -61,5 +50,6 @@
 </table>
 <br>
 <a href="/admin">Return to Admin </a>
+</ul>
 </body>
 </html>

@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SkillHub</title>
-</head>
-<body>
-<h1> Administration</h1>
-<a href="/admin/users">Liste aller SkillHub-User</a>
+
+<head th:replace="_fragments.html :: head">
+    from Fragmentss
+    </head>
+
+    <body>
+    <header th:replace="_fragments.html :: top">
+        from Fragments
+    </header>
+<br>
+<h1>Administration</h1>
+<ul>
+<a href="/admin/users">Liste aller SkillHub-Nutzer</a>
+<br>
+<a href="/admin/experts">Liste aller Experten</a>
+<br>
+<a href="/admin/categorys">Liste aller Kategorien</a>
 <br><br>
 <a href="/admin/user">Neuen User anlegen</a>
-<br><br>
-<a href="/admin/categorys">Neuen Category anlegen</a>
+</ul>
 </body>
 </html>
