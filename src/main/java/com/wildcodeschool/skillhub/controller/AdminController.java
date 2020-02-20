@@ -50,14 +50,15 @@ public class AdminController {
         }
 
     @PostMapping("/admin/user")
-    public String postUser(@ModelAttribute User user) {
+      public String postUser(@ModelAttribute User user) {
         if (user.getUserId() != null) {
           userRepository.update(user);
         } else {
           userRepository.save(user);
-        }expert
         }
-
+        return "redirect:/admin/user";
+      }
+  
     @GetMapping("/admin/del-id")
       public String getById(Model model, @RequestParam Long userid) {
          model.addAttribute("user", userRepository.findById(userid));
