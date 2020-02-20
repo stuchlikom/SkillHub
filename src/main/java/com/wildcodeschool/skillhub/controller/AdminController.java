@@ -118,18 +118,29 @@ public class AdminController {
         }
         model.addAttribute("expert", expert);
         model.addAttribute("categorys", categoryRepository.findAll(null));
-        
+        model.addAttribute("expertCategory", new ExpertCategory ());
         System.out.println("/admin/getExpert |" + expert.getUserId());
         return "adminexpert";
         }
       
     @PostMapping("/admin/expert")
-      public String postExpert(@ModelAttribute ExpertCategory expertCategory) {
-          
-          System.out.println("/admin/expert-postUser 1. |"  + expertCategory.getUserId() + "|");
+      public String postExpert(Model model,@ModelAttribute ExpertCategory expertCategory) {
           
           expertCategoryRepository.save(expertCategory);
-
+          
+          System.out.println("/admin/expert-postUser 2. |"  + expertCategory.getUserId() + "|"+ expertCategory.getCategoryId() + "|");
           return "redirect:/admin/experts";
           }
+
+     @PostMapping("/admin/expert/delete")
+        public String deleteExpertCategory(Model model,@ModelAttribute ExpertCategory expertCategory) {
+          
+          System.out.println("/admin/expert/delete-postUser 1. |"  + expertCategory.getUserId() + "|"+ expertCategory.getCategoryId() + "|");
+          
+          expertCategoryRepository.deleteExpertCategory(expertCategory);
+          
+          System.out.println("/admin/expert/delete-postUser 2. |"  + expertCategory.getUserId() + "|");
+          return "redirect:/admin/experts";
+          }
+
 }

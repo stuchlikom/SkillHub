@@ -25,20 +25,41 @@
     <fieldset>
         <tr th:each="category : ${expert.categoryList}">
             <label>   |>   </label> 
+            <span th:text="${category.categoryId}">categoryId</span>
             <span th:text="${category.categoryName}">categoryName</span>
         </tr>
     </fieldset>
-    <br><br><br>
-
-
-
+    <div>Expertengebietsliste der gültigen Expertengebiete</div>
+    <fieldset>
+        <tr th:each="category : ${categorys}">
+            <label for="i">
+                <label>   |>   </label> 
+                <td th:text="${category.categoryId}">categoryId</td>
+                <td th:text="${category.categoryName}">categoryName</td>
+            </label>
+         </tr>
+    </fieldset>
+    <br>
     <div>Expertengebiet hinzufügen:</div><br>
-
     <label for="expert-newCategoryId">Kategorie-ID:</label>
-    <input id="expert-newCategoryId" name="categoryId" placeholder="Kategorie-ID eintragen" th:field="*{categoryId}" type="number">
-
-    <br><br>
+    <input id="expert-newCategoryId" name="categoryId" placeholder="Kategorie-ID eintragen" th:field="${expertCategory.categoryId}" type="number">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="submit" value="  Send  ">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="reset">Eingaben zurücksetzen</button>
+
+</form>
+
+<br><br>
+
+<form method="post" th:action="@{/admin/expert/delete}" th:object="${expert}">
+    <div>Expertengebiet löschen:</div><br>
+    <input name="userid" th:field="*{userId}" type="hidden">
+    <label for="expert-newCategoryId">Kategorie-ID:</label>
+    <input id="expert-newCategoryId" name="categoryId" placeholder="Kategorie-ID eintragen" th:field="${expertCategory.categoryId}" type="number">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="  Send  ">
+    &nbsp;&nbsp;&nbsp;&nbsp;
     <button type="reset">Eingaben zurücksetzen</button>
 
 </form>
