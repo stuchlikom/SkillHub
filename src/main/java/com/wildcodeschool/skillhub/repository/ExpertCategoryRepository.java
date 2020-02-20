@@ -1,5 +1,7 @@
 package com.wildcodeschool.skillhub.repository;
 
+import com.wildcodeschool.skillhub.entity.ExpertCategory;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,6 +59,97 @@ public class ExpertCategoryRepository {
     }
 
 
+    public ExpertCategory save(ExpertCategory expertCategory) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            statement = connection.prepareStatement("INSERT INTO db02eylw.usercategory VALUES (?,?)");
+            statement.setLong(1, expertCategory.getUserId());
+            statement.setLong(2, expertCategory.getCategoryId());
 
-    
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to insert data");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(generatedKeys);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+    return null;
+    }
+
+
+	public void deleteExpertCategory(ExpertCategory expertCategory) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            statement = connection.prepareStatement("DELETE FROM db02eylw.usercategory WHERE userid=? and categoryid=?"
+            );
+            statement.setLong(1, expertCategory.getUserId());
+            statement.setLong(2, expertCategory.getCategoryId());
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to delete data");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+
+
+
+
+	}
+
+
+
+
+
+
 }
+
+
+
+/*  Rest
+
+
+
+
+
+
+
+@Override
+public void deleteById(Long userId, Long categoryId) {
+
+    Connection connection = null;
+    PreparedStatement statement = null;
+    try {
+        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        statement = connection.prepareStatement("DELETE FROM db02eylw.category WHERE userId=? AND categoryId=?");
+        statement.setLong(1, userId);
+        statement.setLong(1, categoryId);
+
+        if (statement.executeUpdate() != 1) {
+            throw new SQLException("failed to delete data");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        JdbcUtils.closeStatement(statement);
+        JdbcUtils.closeConnection(connection);
+    }
+
+
+//    Schleife über alle ausgewählten categorien
+
+}
+
+*/
