@@ -1,7 +1,7 @@
 package com.wildcodeschool.skillhub.repository;
 
-import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.entity.Expert;
+import com.wildcodeschool.skillhub.entity.Category;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,13 +41,13 @@ public class ExpertRepository implements CrudDao<Expert> {
                     statementCategory.setLong(1, userId);
                     resultSetCategory = statementCategory.executeQuery();
 
-                    System.out.print(">|" + userId + "||");
-                    System.out.print(">|" + name + "||");
-                    System.out.print(">|" + firstName + "||");
-                    System.out.print(">|" + nickName + "||");
+                    //System.out.print(">|" + userId + "||");
+                    //System.out.print(">|" + name + "||");
+                    //System.out.print(">|" + firstName + "||");
+                    //System.out.print(">|" + nickName + "||");
 
                     List<Category> categorys = new ArrayList<>();
-                    // categorys.add(new Category (0L,"noch keine Kategorie"));
+                    //categorys.add(new Category (0L,"noch keine Kategorie"));
                     //System.out.print(">Init|" + categorys.get(0).getCategoryId() + "||");
                     //System.out.print(">Init|" + categorys.get(0).getCategoryName() + "||");
 
@@ -57,14 +57,15 @@ public class ExpertRepository implements CrudDao<Expert> {
 
                         categorys.add(new Category(categoryId, categoryName));
                         
-                        System.out.print(">CatId|" + categoryId + "||");
-                        System.out.print(">Name|" + categoryName + "||");
+                        //System.out.print(">CatId|" + categoryId + "||");
+                        //System.out.print(">Name|" + categoryName + "||");
                     }
 
                     Collections.sort(categorys);
 
                     experts.add(new Expert(userId, name, firstName, nickName, categorys));
-                    System.out.println("end while mit user "+userId+"|");
+
+                    //System.out.println("end while mit user "+userId+"|");
                 }
 
                return experts;
@@ -80,11 +81,6 @@ public class ExpertRepository implements CrudDao<Expert> {
             return null;
         }
    
-    @Override
-    public Expert save(Expert user) {
-        return null;
-    }
-
     @Override
     public Expert findById(Long userId) {
         Connection connection = null;
@@ -133,13 +129,16 @@ public class ExpertRepository implements CrudDao<Expert> {
        return null;
     }
 
+    @Override
+    public Expert save(Expert user) {
+        return null;
+    }
     
     @Override
-    public Expert update(Expert user) {
+    public Expert update(Expert expert) {
         return null;
     }
 
     @Override
-    public void deleteById(Long userid) {}
-
+    public void deleteById(Long userId) {}
 }
