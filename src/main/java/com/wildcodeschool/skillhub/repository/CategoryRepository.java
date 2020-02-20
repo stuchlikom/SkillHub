@@ -127,12 +127,8 @@ public class CategoryRepository implements CrudDao<Category> {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "UPDATE db02eylw.category SET categoryname=? WHERE categoryid=?"
-            );
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            statement = connection.prepareStatement("UPDATE db02eylw.category SET categoryname=? WHERE categoryid=?");
             statement.setString(1, category.getCategoryName());
 
             if (statement.executeUpdate() != 1) {

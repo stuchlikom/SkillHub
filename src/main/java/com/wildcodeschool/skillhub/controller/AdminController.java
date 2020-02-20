@@ -3,9 +3,13 @@ package com.wildcodeschool.skillhub.controller;
 import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.entity.Expert;
+import com.wildcodeschool.skillhub.entity.ExpertCategory;
+
 import com.wildcodeschool.skillhub.repository.UserRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
+import com.wildcodeschool.skillhub.repository.ExpertCategoryRepository;
 import com.wildcodeschool.skillhub.repository.ExpertRepository;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,7 @@ public class AdminController {
     private UserRepository userRepository = new UserRepository();
     private CategoryRepository categoryRepository = new CategoryRepository();
     private ExpertRepository expertRepository = new ExpertRepository();
+    private ExpertCategoryRepository expertCategoryRepository = new ExpertCategoryRepository();
 
 
     @GetMapping("/admin")
@@ -45,16 +50,15 @@ public class AdminController {
         }
 
     @PostMapping("/admin/user")
-    public String postUser(@ModelAttribute User user) {
+      public String postUser(@ModelAttribute User user) {
         if (user.getUserId() != null) {
           userRepository.update(user);
         } else {
           userRepository.save(user);
         }
-        System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
-        return "redirect:/admin/users";
-        }
-
+        return "redirect:/admin/user";
+      }
+  
     @GetMapping("/admin/del-id")
       public String getById(Model model, @RequestParam Long userid) {
          model.addAttribute("user", userRepository.findById(userid));
@@ -114,19 +118,29 @@ public class AdminController {
         }
         model.addAttribute("expert", expert);
         model.addAttribute("categorys", categoryRepository.findAll(null));
-        
+        model.addAttribute("expertCategory", new ExpertCategory ());
         System.out.println("/admin/getExpert |" + expert.getUserId());
         return "adminexpert";
         }
       
     @PostMapping("/admin/expert")
-      public String postExpert(@ModelAttribute Expert expert) {
+      public String postExpert(Model model,@ModelAttribute ExpertCategory expertCategory) {
           
-          System.out.println("/admin/expert-postUser 1. |"  + expert.getUserId() + "|");
+          expertCategoryRepository.save(expertCategory);
           
-///
-          
-          //System.out.println("/admin/user-postUser 2. |"  + category + "|");
+          System.out.println("/admin/expert-postUser 2. |"  + expertCategory.getUserId() + "|"+ expertCategory.getCategoryId() + "|");
           return "redirect:/admin/experts";
           }
+
+     @PostMapping("/admin/expert/delete")
+        public String deleteExpertCategory(Model model,@ModelAttribute ExpertCategory expertCategory) {
+          
+          System.out.println("/admin/expert/delete-postUser 1. |"  + expertCategory.getUserId() + "|"+ expertCategory.getCategoryId() + "|");
+          
+          expertCategoryRepository.deleteExpertCategory(expertCategory);
+          
+          System.out.println("/admin/expert/delete-postUser 2. |"  + expertCategory.getUserId() + "|");
+          return "redirect:/admin/experts";
+          }
+
 }
