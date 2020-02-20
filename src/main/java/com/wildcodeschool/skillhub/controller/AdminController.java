@@ -3,9 +3,13 @@ package com.wildcodeschool.skillhub.controller;
 import com.wildcodeschool.skillhub.entity.User;
 import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.entity.Expert;
+import com.wildcodeschool.skillhub.entity.ExpertCategory;
+
 import com.wildcodeschool.skillhub.repository.UserRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
+import com.wildcodeschool.skillhub.repository.ExpertCategoryRepository;
 import com.wildcodeschool.skillhub.repository.ExpertRepository;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,7 @@ public class AdminController {
     private UserRepository userRepository = new UserRepository();
     private CategoryRepository categoryRepository = new CategoryRepository();
     private ExpertRepository expertRepository = new ExpertRepository();
+    private ExpertCategoryRepository expertCategoryRepository = new ExpertCategoryRepository();
 
 
     @GetMapping("/admin")
@@ -50,9 +55,7 @@ public class AdminController {
           userRepository.update(user);
         } else {
           userRepository.save(user);
-        }
-        System.out.println("/admin/user-postUser |" + user.getUserId() + "|");
-        return "redirect:/admin/users";
+        }expert
         }
 
     @GetMapping("/admin/del-id")
@@ -120,13 +123,12 @@ public class AdminController {
         }
       
     @PostMapping("/admin/expert")
-      public String postExpert(@ModelAttribute Expert expert) {
+      public String postExpert(@ModelAttribute ExpertCategory expertCategory) {
           
-          System.out.println("/admin/expert-postUser 1. |"  + expert.getUserId() + "|");
+          System.out.println("/admin/expert-postUser 1. |"  + expertCategory.getUserId() + "|");
           
-///
-          
-          //System.out.println("/admin/user-postUser 2. |"  + category + "|");
+          expertCategoryRepository.save(expertCategory);
+
           return "redirect:/admin/experts";
           }
 }

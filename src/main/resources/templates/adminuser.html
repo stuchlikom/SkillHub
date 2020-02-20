@@ -11,7 +11,7 @@
 <br>
 <h1>Benutzer</h1>
 <ul>
-<h3 th:text="${user.userId} ? 'Edit User' : 'Create User'">User</h3>
+<h3 th:text="${user.userId} ? 'Benutzerpflege' : 'Neuen Benutzer anlegen'">User</h3>
 
 
 <form method="post" th:action="@{/admin/user}" th:object="${user}">

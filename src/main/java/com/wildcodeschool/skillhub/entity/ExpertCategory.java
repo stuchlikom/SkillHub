@@ -1,15 +1,16 @@
 package com.wildcodeschool.skillhub.entity;
 
-public class UserCategoryVektor{
+public class ExpertCategory {
 
     private Long userId;
     private Long categoryId;
-    private Boolean hasCategory;
 
-    public UserCategoryVektor(Long userId, Long categoryId,Boolean hasCategory) {
+    public ExpertCategory() {
+    }
+
+    public ExpertCategory (Long userId, Long categoryId) {
         this.userId = userId;
         this.categoryId = categoryId;
-        this.hasCategory = hasCategory;
     }
 
     public Long getUserId() {
@@ -25,12 +26,4 @@ public class UserCategoryVektor{
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
-
-    public Boolean isHasCategory() {
-        return hasCategory;
-    }
-    public void setHasCategory(Boolean hasCategory) {
-        this.hasCategory = hasCategory;
-    }
-
 }
