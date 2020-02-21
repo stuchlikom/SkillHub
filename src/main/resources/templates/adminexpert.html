@@ -24,30 +24,23 @@
     <div>Expertengebietenliste aktuell:<br>
     <fieldset>
         <tr th:each="category : ${expert.categoryList}">
-            <label>   |>   </label> 
-            <span th:text="${category.categoryId}">categoryId</span>
+            <label>|></label>&nbsp;
             <span th:text="${category.categoryName}">categoryName</span>
+            &nbsp;&nbsp;&nbsp;
         </tr>
     </fieldset>
-    <div>Expertengebietsliste der gültigen Expertengebiete</div>
-    <fieldset>
-        <tr th:each="category : ${categorys}">
-            <label for="i">
-                <label>   |>   </label> 
-                <td th:text="${category.categoryId}">categoryId</td>
-                <td th:text="${category.categoryName}">categoryName</td>
-            </label>
-         </tr>
-    </fieldset>
     <br>
-    <div>Expertengebiet hinzufügen:</div><br>
-    <label for="expert-newCategoryId">Kategorie-ID:</label>
-    <input id="expert-newCategoryId" name="categoryId" placeholder="Kategorie-ID eintragen" th:field="${expertCategory.categoryId}" type="number">
+    <div>Expertengebiet hinzufügen:</div>
+    <select id="expert-newCategoryId" name="categoryId" th:field="${expertCategory.categoryId}">
+        <option th:each="category : ${categorys}"
+                th:value="${category.categoryId}"
+                th:text="${category.categoryName}">
+        </option>
+    </select>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="submit" value="  Send  ">
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="reset">Eingaben zurücksetzen</button>
-
+    <button type="reset">Eingaben zurücksetzen</button>                  
 </form>
 
 <br><br>
@@ -55,15 +48,18 @@
 <form method="post" th:action="@{/admin/expert/delete}" th:object="${expert}">
     <div>Expertengebiet löschen:</div><br>
     <input name="userid" th:field="*{userId}" type="hidden">
-    <label for="expert-newCategoryId">Kategorie-ID:</label>
-    <input id="expert-newCategoryId" name="categoryId" placeholder="Kategorie-ID eintragen" th:field="${expertCategory.categoryId}" type="number">
+    <select id="expert-delCategoryId" name="categoryId" th:field="${expertCategory.categoryId}">
+        <option th:each="category : ${categorys}"
+                th:value="${category.categoryId}"
+                th:text="${category.categoryName}">
+        </option>
+    </select>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="submit" value="  Send  ">
     &nbsp;&nbsp;&nbsp;&nbsp;
     <button type="reset">Eingaben zurücksetzen</button>
 
 </form>
-<br>
 <br><br>
 <a href="/admin/experts">Return to experts</a>
 <br>

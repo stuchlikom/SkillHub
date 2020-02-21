@@ -32,7 +32,7 @@ public class Category implements Comparable<Category> {
 
     @Override
     public int compareTo(Category otherCategory) {
-        return this.categoryId.compareTo(otherCategory.categoryId);
+        return this.categoryName.compareTo(otherCategory.categoryName);
     }
 
     
