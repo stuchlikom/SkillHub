@@ -25,21 +25,20 @@ public class AdminController {
     private ExpertRepository expertRepository = new ExpertRepository();
     private ExpertCategoryRepository expertCategoryRepository = new ExpertCategoryRepository();
 
-
     @GetMapping("/admin")
-    public String start() {
-        return "admin";
-    }
+      public String start() {
+          return "admin";
+      }
 
     @GetMapping("/admin/users")
-    public String getAllUser(Model model, @RequestParam(required = false) Long catSelected) {
+      public String getAllUser(Model model, @RequestParam(required = false) Long catSelected) {
         model.addAttribute("users", userRepository.findAll(null));
         System.out.println("/admin/getAllUser");
         return "adminusers";
         }
 
     @GetMapping("/admin/user")
-    public String getUser(Model model, @RequestParam(required = false) Long userid) {
+      public String getUser(Model model, @RequestParam(required = false) Long userid) {
         User user = new User();
         if (userid != null) {
             user = userRepository.findById(userid);
@@ -56,7 +55,7 @@ public class AdminController {
         } else {
           userRepository.save(user);
         }
-        return "redirect:/admin/user";
+        return "redirect:/admin/users";
       }
   
     @GetMapping("/admin/del-id")
@@ -122,6 +121,8 @@ public class AdminController {
         System.out.println("/admin/getExpert |" + expert.getUserId());
         return "adminexpert";
         }
+
+        // nachfolgend expertCategory
       
     @PostMapping("/admin/expert")
       public String postExpert(Model model,@ModelAttribute ExpertCategory expertCategory) {
@@ -143,4 +144,14 @@ public class AdminController {
           return "redirect:/admin/experts";
           }
 
+        @PostMapping("/admin/expert/deleteall")
+          public String deleteAllExpertCategory(Model model,@ModelAttribute ExpertCategory expertCategory) {
+            
+            System.out.println("/admin/expert/deleteall-postUser 1. |"  + expertCategory.getUserId() + "|");
+            
+            expertCategoryRepository.deleteAllExpertCategory(expertCategory);
+            
+            System.out.println("/admin/expert/delete-postUser 2. |"  + expertCategory.getUserId() + "|");
+            return "redirect:/admin/experts";
+            }
 }

@@ -102,4 +102,24 @@ public class ExpertCategoryRepository {
             JdbcUtils.closeConnection(connection);
         }
 	}
+
+	public void deleteAllExpertCategory(ExpertCategory expertCategory) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            statement = connection.prepareStatement("DELETE FROM db02eylw.usercategory WHERE userid=? "
+            );
+            statement.setLong(1, expertCategory.getUserId());
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to delete data");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+	}
 }

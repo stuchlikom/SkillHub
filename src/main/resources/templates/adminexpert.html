@@ -21,7 +21,7 @@
     <label>Nachname:</label> <span th:text="*{name}" ></span><br>
     <label>Nickname:</label> <span th:text="*{nickName}" ></span><br>
 
-    <div>Expertengebietenliste aktuell:<br>
+    <div>Expertengebietsliste aktuell:<br>
     <fieldset>
         <tr th:each="category : ${expert.categoryList}">
             <label>|></label>&nbsp;
@@ -38,9 +38,9 @@
         </option>
     </select>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="submit" value="  Send  ">
+    <input type="submit" value="  hinzufügen  ">
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="reset">Eingaben zurücksetzen</button>                  
+    <button type="reset">Eingabe zurücksetzen</button>                  
 </form>
 
 <br><br>
@@ -55,10 +55,9 @@
         </option>
     </select>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="submit" value="  Send  ">
+    <input type="submit" value="  löschen  ">
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="reset">Eingaben zurücksetzen</button>
-
+    <button type="reset">Eingabe zurücksetzen</button>
 </form>
 <br><br>
 <a href="/admin/experts">Return to experts</a>
