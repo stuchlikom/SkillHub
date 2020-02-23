@@ -235,6 +235,42 @@ public class UserRepository implements CrudDao<User> {
         return null;
     }    
 
+    public User findByMail(String mail) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;  
+        try {
+            connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            statement = connection.prepareStatement(
+                    "SELECT * FROM db02eylw.user WHERE mailadress = ?"
+            );
+            statement.setString(1, mail);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Long userid = resultSet.getLong("userid");
+                String name = resultSet.getString("name");
+                String firstname = resultSet.getString("firstname");
+                String nickname = resultSet.getString("nickname");
+                String role = resultSet.getString("role");
+                String mailadress = resultSet.getString("mailadress");
+                String password = resultSet.getString("password");
+
+                return new User(userid, name, firstname, nickname, role, mailadress, password);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+        return null;
+    }    
+
     @Override
     public void deleteById(Long userid) {
         Connection connection = null;

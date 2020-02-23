@@ -23,24 +23,31 @@
               <input type="hidden" name="role" th:field="*{role}">
           
               <label for="firstname-text"><b>Vorname:</b></label>
-              <input type="text" placeholder="Vorname" th:field="*{firstName}"> 
-              <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Firstname Error</p>
+              <input type="text" placeholder="Vorname" th:field="*{firstName}"/> 
+              <p th:each="error: ${#fields.errors('firstName')}"
+              th:text="${error}">Validation error</p>
+              
     
               <label for="lastName-text"><b>Nachname:</b></label>
-              <input type="text" placeholder="Nachname" th:field="*{name}">
-              <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
+              <input type="text" placeholder="Nachname" th:field="*{name}"/>
+              <p th:each="error : ${#fields.errors('name')}"
+              th:text="${error}">Validation error</p>
+    
     
               <label for="email-text"><b>eMail</b></label>
-              <input type="text" placeholder="eMail" th:field="*{mailAdress}">
-              <p th:if="${#fields.hasErrors('mailAdress')}" th:errors="*{mailAdress}">Mail Error</p>
+              <input type="text" placeholder="eMail" th:field="*{mailAdress}"/>
+              <p th:each="error : ${#fields.errors('mailAdress')}"
+              th:text="${error}">Validation error</p>
               
               <label for="nickname-text"><b>Nickname</b></label>
-              <input type="text" placeholder="Nickname (Anmeldename)" th:field="*{nickName}">
-              <p th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Nickname Error</p>
-              
+              <input type="text" placeholder="Nickname (Anmeldename)" th:field="*{nickName}"/>
+              <p th:each="error : ${#fields.errors('nickName')}"
+              th:text="${error}">Validation error</p>
+                            
               <label for="password-text"><b>Password</b></label>
-              <input type="password" placeholder="Password" th:field="*{passWord}">
-              <p th:if="${#fields.hasErrors('passWord')}" th:errors="*{passWord}">Password Error</p>
+              <input type="password" placeholder="Password" th:field="*{passWord}"/>
+              <p th:each="error : ${#fields.errors('passWord')}"
+              th:text="${error}">Validation error</p>
               
               <p>Mit deiner Anmeldung akzeptierst du unsere <a href="terms">Nutzungsbedingungen</a>.</p>
               <button type="submit" class="registerbtn">Absenden</button>
