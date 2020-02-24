@@ -60,6 +60,17 @@
     <button type="reset">Eingabe zurücksetzen</button>
 </form>
 <br><br>
+
+<form method="post" th:action="@{/admin/expert/deleteall}" th:object="${expert}">
+    <scan>Alle Expertengebiete löschen:</scan>
+    <input name="userid" th:field="*{userId}" type="hidden">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="  Alle Kategorien löschen  ">
+
+</form>
+
+
+<br><br>
 <a href="/admin/experts">Return to experts</a>
 <br>
 <a href="/admin">Return to Admin </a>

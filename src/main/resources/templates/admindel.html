@@ -23,35 +23,6 @@
     </ul>
     <br>
 
-
-
-    <form method="post" th:action="@{/admin/expert/deleteall}" th:object="${user}">
-
-        <div>Expertengebietsliste aktuell:<br>
-            <div th:each="category : ${categoryList}">
-                <label>|></label>&nbsp;
-                <span th:text="${category.categoryName}">categoryName</span>
-                &nbsp;&nbsp;&nbsp;
-            </div>
-        <br>
-
-
-        <div>Expertengebiet(e)git add <div class=""></div> löschen:</div><br>
-        <input name="userid" th:field="${user.userId}" type="hidden">
-        <input id="expert-delCategoryId" name="categoryId" th:field="${user.userId}">
-            <option th:each="category : ${categorys}"
-                    th:value="${category.categoryId}"
-                    th:text="${category.categoryName}">
-            </option>
-        </input>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="submit" value="  Alle Kategorien löschen  ">
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="reset">Eingabe zurücksetzen</button>
-    </form>
-
-
-
     <form action="/admin/user/delete" method="get">
         <label> => </label>
         <input type="hidden" name="userid" th:value="${user.userId}" >
