@@ -183,7 +183,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
 		PreparedStatement statement = null;
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("DELETE FROM avatar WHERE avatarId=?");
+			statement = connection.prepareStatement("DELETE FROM db02eylw.avatar WHERE avatarId=?");
 			statement.setLong(1, avatarId);
 
 			if (statement.executeUpdate() != 1) {

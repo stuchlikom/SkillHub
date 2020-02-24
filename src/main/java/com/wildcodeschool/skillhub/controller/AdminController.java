@@ -6,6 +6,7 @@ import com.wildcodeschool.skillhub.entity.Expert;
 import com.wildcodeschool.skillhub.entity.ExpertCategory;
 
 import com.wildcodeschool.skillhub.repository.UserRepository;
+import com.wildcodeschool.skillhub.repository.AvatarRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
 import com.wildcodeschool.skillhub.repository.ExpertCategoryRepository;
 import com.wildcodeschool.skillhub.repository.ExpertRepository;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
 
     private UserRepository userRepository = new UserRepository();
+    private AvatarRepository avatarRepository = new AvatarRepository();
     private CategoryRepository categoryRepository = new CategoryRepository();
     private ExpertRepository expertRepository = new ExpertRepository();
     private ExpertCategoryRepository expertCategoryRepository = new ExpertCategoryRepository();
@@ -67,6 +69,7 @@ public class AdminController {
 
     @GetMapping("/admin/user/delete")
       public String deleteUser(@RequestParam Long userid) {
+        avatarRepository.deleteById(userid);
         userRepository.deleteById(userid);
          System.out.println("/admin/user/delete |" + "|");
          return "redirect:/admin/users";
@@ -152,6 +155,6 @@ public class AdminController {
             expertCategoryRepository.deleteAllExpertCategory(expertCategory);
             
             System.out.println("/admin/expert/delete-postUser 2. |"  + expertCategory.getUserId() + "|");
-            return "redirect:/admin/experts";
+            return "redirect:/admin/";
             }
 }
