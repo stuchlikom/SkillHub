@@ -75,10 +75,10 @@ public class UserRepository implements CrudDao<User> {
                 , Statement.RETURN_GENERATED_KEYS
             );
 
-            System.out.println("Name: " + user.getFirstName());
-            System.out.println("Nachname: " + user.getName());
-            System.out.println("Mail: " + user.getMailAdress());
-            System.out.println("Password: " + user.getPassWord());
+            //System.out.println("Name: " + user.getFirstName());
+            //System.out.println("Nachname: " + user.getName());
+            //System.out.println("Mail: " + user.getMailAdress());
+            //System.out.println("Password: " + user.getPassWord());
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getFirstName());
