@@ -58,7 +58,6 @@ public class ExpertCategoryRepository {
         return null;
     }
 
-
     public ExpertCategory save(ExpertCategory expertCategory) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -83,7 +82,6 @@ public class ExpertCategoryRepository {
     return null;
     }
 
-
 	public void deleteExpertCategory(ExpertCategory expertCategory) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -103,53 +101,25 @@ public class ExpertCategoryRepository {
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }
-
-
-
-
 	}
 
+	public void deleteAllExpertCategory(ExpertCategory expertCategory) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            statement = connection.prepareStatement("DELETE FROM db02eylw.usercategory WHERE userid=?");
+            statement.setLong(1, expertCategory.getUserId());
 
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to delete data");
+            }
 
-
-
-
-}
-
-
-
-/*  Rest
-
-
-
-
-
-
-
-@Override
-public void deleteById(Long userId, Long categoryId) {
-
-    Connection connection = null;
-    PreparedStatement statement = null;
-    try {
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        statement = connection.prepareStatement("DELETE FROM db02eylw.category WHERE userId=? AND categoryId=?");
-        statement.setLong(1, userId);
-        statement.setLong(1, categoryId);
-
-        if (statement.executeUpdate() != 1) {
-            throw new SQLException("failed to delete data");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        JdbcUtils.closeStatement(statement);
-        JdbcUtils.closeConnection(connection);
-    }
-
-
-//    Schleife über alle ausgewählten categorien
-
+	}
 }
-
-*/

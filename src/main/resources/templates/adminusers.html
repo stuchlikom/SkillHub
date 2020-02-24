@@ -20,6 +20,7 @@
 <table>
     <thead>
     <tr>
+        <th></th>
        <th>User-Id</th>
        <th>Name</th>
        <th>Firstname</th>
@@ -28,13 +29,12 @@
        <th>Mailadress</th>
        <th>Password</th>
        <th></th>
-       <th></th>
     </tr>
     </thead>
 
     <tbody>
     <tr th:each="user : ${users}">
-
+        <td><a th:href="@{/admin/user(userid=${user.userId})}">Edit</a></td>
         <td th:text="${user.userId}">userid</td>
         <td th:text="${user.name}">name</td>
         <td th:text="${user.firstName}">firstname</td>
@@ -42,8 +42,7 @@
         <td th:text="${user.role}">role</td>
         <td th:text="${user.mailAdress}">mailadress</td>
         <td th:text="${user.passWord}">password</td>
-        <td><a th:href="@{/admin/user(userid=${user.userId})}">Edit</a></td>
-        <td><a th:href="@{/admin/del-id(userid=${user.userId})}">Remove / Delete</a></td>
+        <td><a th:href="@{/admin/del-id(userid=${user.userId})}">Delete</a></td>
     </tr>
     </tbody>
 </table>
