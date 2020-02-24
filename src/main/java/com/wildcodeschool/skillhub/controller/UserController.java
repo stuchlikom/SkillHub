@@ -5,31 +5,16 @@ import com.wildcodeschool.skillhub.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
 
 	private UserRepository repository = new UserRepository();
 
-//	@GetMapping("/user/profile")
-//	public String viewProfile(Model model) {
-/*        User user = new User();
-        User optionalUser = new User();
-		user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Long userId = user.getUserId();
-		if (userId != null) {
-			optionalUser = user.findById(userId);
-//			if (optionalUser.isPresent()) {
-//				user = optionalUser.get();
-//			}
-		}
-		model.addAttribute("user", user);
-		return "user/profile";
-    }
-*/
 
 	@GetMapping("/register")
 	public String getUser(Model model, @RequestParam(required = false) Long userid)
@@ -41,10 +26,24 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "register";
 	}
-
 	@PostMapping("/register")
-	public String postUser(@ModelAttribute User user) 
-	{
+	public String checkPersonInfo(@Valid User user, BindingResult bindingResult, Model model) {
+		// Lookup user in database by nickname
+		User userExists = repository.findByNick(user.getNickName());
+
+		if (userExists != null) {
+			bindingResult.rejectValue("nickName", "message.regError");
+		}
+
+		userExists = repository.findByMail(user.getMailAdress());
+
+		if (userExists != null){
+			bindingResult.rejectValue("mailAdress", "message.mailError");
+		}
+		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult.hasErrors());
+			return "register";
+		}
 		if (user.getUserId() != null) {
             repository.update(user);
         } else {
@@ -52,6 +51,5 @@ public class UserController {
             repository.save(user);
         }
         return "redirect:/";
-    }
-
+	}
 }
