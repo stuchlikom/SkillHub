@@ -1,23 +1,13 @@
 package com.wildcodeschool.skillhub.entity;
 
 import javax.persistence.*;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "nickname"))
 public class User
 {
-
-    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
-    private final static String DB_USER = "db02eylw_aevsybn";
-    private final static String DB_PASSWORD = "3GQMpC*X";
-
     private Long userid;
     private String name;
     private String firstname;
@@ -47,33 +37,6 @@ public class User
         this.password = password;
     }
 
-    public User findById(Long userid) {
-
-        try {
-            Connection connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM db02eylw.user WHERE userid = ?"
-            );
-            statement.setLong(1, userid);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String firstname = resultSet.getString("firstname");
-                String nickname = resultSet.getString("nickname");
-                String role = resultSet.getString("role");
-                String mailadress = resultSet.getString("mailadress");
-                String password = resultSet.getString("password");
-
-                return new User(userid, name, firstname, nickname, role, mailadress, password);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     public Long getUserId() {
         return userid;
     }
