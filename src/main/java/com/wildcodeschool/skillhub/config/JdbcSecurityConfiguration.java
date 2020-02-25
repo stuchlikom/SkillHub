@@ -51,6 +51,8 @@ public class JdbcSecurityConfiguration extends WebSecurityConfigurerAdapter {
                   "/register*",
                   "/login").permitAll()
               .antMatchers("/admin/**").hasRole("ADMIN")
-              .antMatchers("/questions/**").hasAnyRole("ADMIN","EXPERT","USER");
+              .antMatchers(
+                  "/questions/**",
+                  "/user").hasAnyRole("ADMIN","EXPERT","USER");
   }  
 }
