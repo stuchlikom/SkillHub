@@ -1,79 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-<title>Skill Hub User Profil</title>
-</head>
-<style>
-    table {
-        border-collapse: collapse;
-    }
+<xmlns:sec="https: //www.thymeleaf.org/thymeleaf-extras-springsecurity5"/>
 
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
+    <head th:replace="_fragments.html :: head">
+        <title>SkillHub</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+        <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" />
+        <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+    </head>
 
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
+    <body>
+        <header th:replace="_fragments.html :: top">
+            from Fragments
+        </header>
+        <div class="container">
+                <h1>SkillHub Profildaten ändern</h1>
+                <p>Hier kannst du deine Profildaten ändern. Vergiss nicht, deine Änderungen am Schluss zu speichern.</p>
+                <form method="post" th:action="@{/user}" th:object="${user}">
 
-    th, td {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 5px;
-        text-align: left;
-    }
-</style>
-<body>
-<h3>User Profil</h3>
-
-<br><br>
-<!--<form method="post" th:action="@{/}" th:object="${category}">-->
-    <form>
-        eMail: <input type="text" name="mailadress">
-        Password: <input type="text" name="password">
-        <input type="submit" value="Send">
-    </form>
-    
-    <table>
-        <thead>
-            <tr>
-                    <form method="get" th:action="@{/}" th:object="${catSelected}">
-                        <select id="catSelected" name="catSelected" onchange="this.form.submit()">
-                            <option th:value=0>- all -</option>
-                            <option th:each="category : ${categories}"
-                                    th:value="${category.categoryId}"
-                                    th:text="${category.categoryName}"
-                                    th:selected="${category.categoryId} == ${catSelected}">
-                            </option>
-                        </select>
-                    </form>
+                    <input name="userid" th:field="*{userId}" type="hidden">
+                    <input name="role" th:field="*{role}" type="hidden">
                 
-                <th>Id</th>
-                <th>Question</th>
-            </tr>        
-        </thead>
-        <tbody>
-            <tr th:each="question : ${questions}">
-                <td th:text="${question.categoryName}">categoryName</td>
-                <td th:text="${question.questionId}">questionId</td>
-                <td th:text="${question.text}">text</td>
-                <!--
-                <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
-                <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
-                -->
-            </tr>
-            <tr th:each="question, i : ${questions}" th:if="${i.last}">
-                <td th:text="${question.categoryName}">categoryName</td>
-                <td>new</td>
-                <td><a href="/question">Add a new question! DEAD LINK</a></td>
+                    <label for="user-first-name"><b>Vorname</b></label>
+                    <input id="user-first-name" name="firstname" placeholder="Vorname" required th:field="*{firstName}" type="text">
+                
+                    <label for="user-last-name"><b>Nachname</b></label>
+                    <input id="user-last-name" name="name" placeholder="Nachname" required th:field="*{name}" type="text">
+                
+                    <label for="user-mailadress"><b>eMail</b></label>
+                    <input id="user-mailadress" name="mailAdress" placeholder="eMail" required th:field="*{mailAdress}" type="text">
+                    <p th:each="error : ${#fields.errors('mailAdress')}"
+                    th:text="${error}">Validation error</p>
+       
+                    <label for="user-nick-name"><b>Nickname</b></label>
+                    <input id="user-nick-name" name="nickName" placeholder="Nickname" th:field="*{nickName}" type="text">
+                    <p th:each="error : ${#fields.errors('nickName')}"
+                    th:text="${error}">Validation error</p>
+                    
+<!--                    <label for="image"><b>Avatar</b></label>
+                    <input id="user-avatar" name="avatar" type="file" th:field="*{avatar.avatar}" class="form-control-file" required>
+                    <span th:if="${#fields.hasErrors('${avatar.avatar}')}" th:errors="${avatar.avatar}">Image error</span>
+-->
+                    <label for="user-passwort"><b>Passwort</b></label>
+                    <input id="user-passwort" name="password" placeholder="Passwort" th:field="*{passWord}" type="password">
 
-            </tr>            
-        </tbody>
-    </table>
-<!--</form>-->    
-
-<br>
-</body>
+                    <button type="submit" class="registerbtn">Absenden</button>
+                </form>
+             <div class="container signin">
+        </div>
+      </div>
+  </body>
 </html>
-

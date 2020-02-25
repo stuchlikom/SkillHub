@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-  <head>
-      <title>SkillHub</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-      <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-      <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" />
-      <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<xmlns:sec="https: //www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+  <head th:replace="_fragments.html :: head">
+    <title>SkillHub</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" />
+    <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
 
   </head>
+
   <body>
-    <div class="container">
+    <header th:replace="_fragments.html :: top">
+      from Fragments
+    </header>    <div class="container">
       <h1>SkillHub Registrierung</h1>
       <p>Bitte fülle alle Felder aus, um dir einen Account anzulegen.</p>
 
-        <form method="post" th:action="@{/register}" th:object="${user}">
+      <form autocomplete="off" method="post" th:action="@{/register}" th:object="${user}">
 
-              <input type="hidden" name="userid" th:field="*{userId}">
-              <input type="hidden" name="role" th:field="*{role}">
-          
-              <label for="firstname-text"><b>Vorname:</b></label>
-              <input type="text" placeholder="Vorname" th:field="*{firstName}"/> 
-              <p th:each="error: ${#fields.errors('firstName')}"
+        <input type="hidden" name="userid" th:field="*{userId}">
+        <!-- <input type="hidden" name="role" th:field="*{role}">
+                <input type="hidden" name="avatar.avatarid" th:field="${avatar.avatarId}"/>
+              -->
+        <label for="firstname-text"><b>Vorname:</b></label>
+        <input type="text" placeholder="Vorname" th:field="*{firstName}" />
+        <p th:each="error: ${#fields.errors('firstName')}"
               th:text="${error}">Validation error</p>
-              
+           
     
               <label for="lastName-text"><b>Nachname:</b></label>
               <input type="text" placeholder="Nachname" th:field="*{name}"/>
@@ -47,6 +52,11 @@
               <label for="password-text"><b>Password</b></label>
               <input type="password" placeholder="Password" th:field="*{passWord}"/>
               <p th:each="error : ${#fields.errors('passWord')}"
+              th:text="${error}">Validation error</p>
+
+              <label for="password-confirm-text"><b>Password bestätigen</b></label>
+              <input type="password" placeholder="Password" th:field="*{role}"/>
+              <p th:each="error : ${#fields.errors('role')}"
               th:text="${error}">Validation error</p>
               
               <p>Mit deiner Anmeldung akzeptierst du unsere <a href="terms">Nutzungsbedingungen</a>.</p>
