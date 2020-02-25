@@ -1,7 +1,6 @@
 package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.User;
-import com.wildcodeschool.skillhub.entity.Avatar;
 import com.wildcodeschool.skillhub.repository.UserRepository;
 import com.wildcodeschool.skillhub.repository.AvatarRepository;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,6 @@ import javax.validation.Valid;
 public class UserController {
 
 	private UserRepository repository = new UserRepository();
-	private AvatarRepository avRepository = new AvatarRepository();
 
 	@GetMapping("/register")
 	public String getUser(Model model, @RequestParam(required = false) Long userid)
@@ -87,7 +85,7 @@ public class UserController {
 
 
 	@PostMapping("/register")
-	public String checkPersonInfo(@Valid User user, @Valid Avatar avatar, BindingResult bindingResult, Model model) {
+	public String checkPersonInfo(@Valid User user, BindingResult bindingResult, Model model) {
 		
 
 		if (user.getPassWord().equals(user.getRole())){
