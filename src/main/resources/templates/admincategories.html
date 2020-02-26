@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="_fragments.html :: head">
-    from Fragmentss
+    from Fragments
     </head>
 
     <body>
@@ -9,14 +9,14 @@
         from Fragments
     </header>
 <br>
-<h1>Kategorieübersichtsliste</h1>
+<h1>Übersichtsliste der Kategorien</h1>
 <ul>
-<a href="/admin/category">Add a new category !</a><br>
+<a href="/admin/category">neue Kategorie hinzufügen</a><br>
 
 <br>
-<a href="/admin">Return to Admin </a><br>
-<a href="/admin/users">Userlist</a><br>
-<a href="/admin/experts">Expertlist</a><br>
+<a href="/admin">zurück zur Admin-Übersicht</a><br>
+<a href="/admin/users">User-Liste</a><br>
+<a href="/admin/experts">Experten-Liste</a><br>
 <br><br><br>
 
 <table>
@@ -28,14 +28,14 @@
     </thead>
 
     <tbody>
-    <tr th:each="category : ${categorys}">
+    <tr th:each="category : ${categories}">
         <td th:text="${category.categoryId}">categoryid</td>
         <td th:text="${category.categoryName}">categoryname</td>
     </tr>
     </tbody>
 </table>
 <br>
-<a href="/admin">Return to Admin </a>
+<a href="/admin">zurück zur Admin-Übersicht</a>
 </ul>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="_fragments.html :: head">
-    from Fragmentss
+    from Fragments
     </head>
 
     <body>
@@ -10,10 +10,10 @@
         from Fragments
     </header>
 <br>
-<h1>Kategorieenpflege</h1>
+<h1>Kategorien-Pflege</h1>
 <ul>
-<a href="/admin/categorys">Return to categorys</a><br>
-<a href="/admin">Return to Admin </a><br><br>
+<a href="/admin/categories">zurück zu den Kategorien</a><br>
+<a href="/admin">zurück zur Admin-Übersicht</a><br><br>
 
 
 <form method="post" th:action="@{/admin/category}" th:object="${category}">
@@ -25,7 +25,7 @@
     <input type="submit" value="Send">
 </form>
 <br>
-<a href="/admin">Return to Admin </a>
+<a href="/admin">zurück zur Admin-Übersicht</a>
 </ul>
 </body>
 </html>

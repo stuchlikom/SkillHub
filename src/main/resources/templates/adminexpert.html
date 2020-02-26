@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="_fragments.html :: head">
-    from Fragmentss
+    from Fragments
     </head>
 
     <body>
@@ -32,7 +32,7 @@
     <br>
     <div>Expertengebiet hinzufügen:</div>
     <select id="expert-newCategoryId" name="categoryId" th:field="${expertCategory.categoryId}">
-        <option th:each="category : ${categorys}"
+        <option th:each="category : ${categories}"
                 th:value="${category.categoryId}"
                 th:text="${category.categoryName}">
         </option>
@@ -49,7 +49,7 @@
     <div>Expertengebiet löschen:</div><br>
     <input name="userid" th:field="*{userId}" type="hidden">
     <select id="expert-delCategoryId" name="categoryId" th:field="${expertCategory.categoryId}">
-        <option th:each="category : ${categorys}"
+        <option th:each="category : ${categories}"
                 th:value="${category.categoryId}"
                 th:text="${category.categoryName}">
         </option>
