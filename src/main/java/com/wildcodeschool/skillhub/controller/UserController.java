@@ -57,7 +57,15 @@ public class UserController {
 		}
 
 		userExists = repository.findByMail(user.getMailAdress());
+		System.out.println("User exists: " + userExists);
+
+		if (userExists != null)
+			System.out.println("userExists-Mail: " + userExists.getMailAdress());
+		else
+			System.out.println("userExists = null");
+
 		actualUser = repository.findByNick(principal.getName());
+		System.out.println("actualUser-Mail: " + actualUser.getMailAdress());
 
 		if ((userExists != null) && (! userExists.getMailAdress().equals(actualUser.getMailAdress()))){
 			bindingResult.rejectValue("mailAdress", "message.mailError");
@@ -66,7 +74,7 @@ public class UserController {
 			System.out.println(bindingResult.hasErrors());
 			return "user";
 		}
-		System.out.println("Passwort alt: " + userExists.getPassWord());
+		//System.out.println("Passwort alt: " + userExists.getPassWord());
 		System.out.println("Passwort neu: " + actualUser.getPassWord());
 		System.out.println("Passwort user: " + user.getPassWord());
 
