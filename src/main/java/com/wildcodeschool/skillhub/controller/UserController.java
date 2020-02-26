@@ -46,10 +46,13 @@ public class UserController {
 	}
 
 	@PostMapping("/user")
-	public String UserSubmit(@ModelAttribute User user, BindingResult bindingResult, Principal principal){
+	public String UserSubmit(@ModelAttribute User user, BindingResult bindingResult, Principal principal, Model model){
 
 		User userExists = repository.findByNick(user.getNickName());
 		User actualUser;
+		model.addAttribute("avatar", new Avatar());
+		Long loggedInUserId = LoggedInUserRepository.findId();
+        model.addAttribute("loggedInUserId", loggedInUserId);		
 
 		System.out.println("Id: " + user.getUserId());
 		System.out.println("Nickname: " + user.getNickName());
