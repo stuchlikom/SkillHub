@@ -44,7 +44,7 @@ public class AvatarController {
 		Long avatarId = logrepository.findId();
 		avatar.setAvatarId(avatarId);
 		repository.update(avatar);
-		return "redirect:/questions";
+		return "redirect:/user";
 	}
 
 	@GetMapping("/image/{avatarId}")
