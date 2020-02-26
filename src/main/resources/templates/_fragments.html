@@ -15,7 +15,7 @@
 <body>
   <header th:fragment="top">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-      <a class="navbar-brand" href="/">Home</a>
+      <a class="navbar-brand" href="/">SkillHub</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -23,13 +23,12 @@
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="/questions">Frage stellen</a></li>
           <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}"><a class="nav-link" href="/register">Account anlegen</a></li>
-          <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}"><a class="nav-link" href="/avataradmin">Foto hochladen ;-)</a></li>
           <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}"><a class="nav-link" href="/user">Profil bearbeiten</a></li>
           <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/admin">Admin-Bereich</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li th:if="${#authorization.expression('!isAuthenticated()')}"><a class="nav-link" href="/login">Login</a></li>
-          <li th:if="${#authorization.expression('isAuthenticated()')}"><a class="nav-link" href="/logout">Logout</a></li>
+          <li th:if="${#authorization.expression('!isAuthenticated()')}"><a class="nav-link" href="/login">Einloggen</a></li>
+          <li th:if="${#authorization.expression('isAuthenticated()')}"><a class="nav-link" href="/logout">Ausloggen</a></li>
         </ul>
       </div>  
     </nav>

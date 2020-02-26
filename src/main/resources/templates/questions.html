@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
     <head th:replace="_fragments.html :: head">
-        from Fragmentss
+        from Fragments
     </head>
 
     <body>
@@ -12,10 +12,10 @@
         <div class="container">
             <div class="col chat">
                 <div scope="col">
-                    <div class="s-bubble-f">Questions - <span class="text-nowrap"><i>Select skill: </i>
+                    <div class="s-bubble-f">Fragen - <span class="text-nowrap"><i>Thema auswählen: </i>
                         <form method="get" th:action="@{/questions}" th:object="${catSelected}">
                             <select id="catSelected" name="catSelected" onchange="this.form.submit()">
-                                <option th:value=0>- all -</option>
+                                <option th:value=0>- alle -</option>
                                 <option th:each="category : ${categories}"
                                         th:value="${category.categoryId}"
                                         th:text="${category.categoryName}"
@@ -47,10 +47,10 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                         	
                             th:attr="data-qid=${question.questionId}, data-qt=${question.questionText}, data-qc=${catSelected}"
-                            data-target="#newAnswer">+ ANSWER</button>
+                            data-target="#newAnswer">+ ANTWORT</button>
                     </div>
                 </div>
-                <br><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newQuestion">+ QUESTION</button>
+                <br><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newQuestion">+ FRAGE</button>
                 <div class="modal fade" id="newQuestion" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -63,12 +63,12 @@
                                                 th:selected="${category.categoryId} == ${catSelected}">
                                         </option>
                                     </select>   
-                                    <label for="questionText">Question:</label>
+                                    <label for="questionText"><b>Frage:</b></label>
                                     <textarea id="questionText" name="questionText" cols="80" rows="4" required placeholder="Fill in your question."></textarea>
                                     <br>
                                     <input id="questioner" name="questioner" th:value="${loggedInUserId}" type="hidden">
-                                    <button type="submit" value="Add">Add</button>
-                                    <button type="cancel" value="Cancel" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" value="Add">hinzufügen</button>
+                                    <button type="cancel" value="Cancel" data-dismiss="modal">abbrechen</button>
                                 </form>
                             </div>
                         </div>
@@ -78,16 +78,16 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <div id="questionText">Question:</div><br>
+                                <div id="questionText">Frage:</div><br>
                                 <form method="post" th:action="@{/answer}" th:object="${answer}">
-                                    <label for="answerText"><b>Answer:</b></label><br>
+                                    <label for="answerText"><b>Antwort:</b></label><br>
                                     <textarea id="answerText" name="answerText" rows="4" required placeholder="Fill in your answer."></textarea>
                                     <br>
                                     <input id="expert" name="expert" th:value="${loggedInUserId}" type="hidden">
                                     <input id="question" name="question" value="" type="hidden">
                                     <input id="category" name="category" value="" type="hidden">
-                                    <button type="submit" value="Add">Add</button>
-                                    <button type="cancel" value="Cancel" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" value="Add">hinzufügen</button>
+                                    <button type="cancel" value="Cancel" data-dismiss="modal">abbrechen</button>
                                 </form>
                             </div>
                         </div>

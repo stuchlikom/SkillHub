@@ -3,14 +3,7 @@
 <xmlns:sec="https: //www.thymeleaf.org/thymeleaf-extras-springsecurity5"/>
 
     <head th:replace="_fragments.html :: head">
-        <title>SkillHub</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-        <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" />
-        <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+        from Fragmentss
     </head>
 
     <body>
@@ -48,8 +41,15 @@
                     <label for="user-passwort"><b>Passwort</b></label>
                     <input id="user-passwort" name="password" placeholder="Passwort" th:field="*{passWord}" type="password">
 
-                    <button type="submit" class="registerbtn">Absenden</button>
+                    <button type="submit" class="registerbtn">Daten speichern</button>
                 </form>
+                <h1>Profilbild festlegen</h1>
+                <form enctype="multipart/form-data" action="#" th:action="@{/avataradmin}" th:object="${avatar}" method="post">
+                    <span><img th:src="@{'/image/' + ${loggedInUserId}}" class="avatarPic"/></span><br><br>
+                    <input type="file" th:field="*{avatar}" class="form-control-file" id="avatar" required>
+                    <span th:if="${#fields.hasErrors('*{avatar}')}" th:errors="*{avatar}">Bild-Fehler</span>
+                    <button type="submit" class="registerbtn">neues Bild speichern</button>
+                </form>                
              <div class="container signin">
         </div>
       </div>

@@ -32,17 +32,17 @@ public class CategoryRepository implements CrudDao<Category> {
             );
             resultSet = statement.executeQuery();
 
-            List<Category> categorys = new ArrayList<>();
+            List<Category> categories = new ArrayList<>();
 
             while (resultSet.next()) {
                 Long categoryId = resultSet.getLong("categoryid");
                 String categoryName = resultSet.getString("categoryname");
-                categorys.add(new Category(categoryId, categoryName));
+                categories.add(new Category(categoryId, categoryName));
             }
             // **************************** sortieren der Ausgabe nach Id mit 'implements Comparable<Category>' in entity 
-            Collections.sort(categorys);
+            Collections.sort(categories);
 
-            return categorys;
+            return categories;
 
         } catch (SQLException e) {
             e.printStackTrace();

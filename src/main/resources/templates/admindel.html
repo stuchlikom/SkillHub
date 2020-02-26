@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="_fragments.html :: head">
-    from Fragmentss
+    from Fragments
     </head>
 
     <body>
@@ -19,12 +19,12 @@
 <section>
     <ul>
         <li th:text="|Id: ${user.userId}|">$userid</li>
-        <li th:text="|name: ${user.name}|">$name</li>
-        <li th:text="|firstname: ${user.firstName}|">$firstname</li>
-        <li th:text="|nickname: ${user.nickName}|">$nickname</li>
-        <li th:text="|role: ${user.role}|">$role</li>
-        <li th:text="|mailadress: ${user.mailAdress}|">$mailadress</li>
-        <li th:text="|password: ${user.passWord}|">$password</li>
+        <li th:text="|Nachname: ${user.name}|">$name</li>
+        <li th:text="|Vorname: ${user.firstName}|">$firstname</li>
+        <li th:text="|Nickname: ${user.nickName}|">$nickname</li>
+        <li th:text="|Rollen: ${user.role}|">$role</li>
+        <li th:text="|Mail-Adresse: ${user.mailAdress}|">$mailadress</li>
+        <li th:text="|Passwort: ${user.passWord}|">$password</li>
     </ul>
     <br>
    
@@ -36,8 +36,8 @@
 </section>
 <br><br>
 <br>
-<a href="/admin/users">Return to Users</a><br>
-<a href="/admin">Return to Admin </a>
+<a href="/admin/users">zurück zur User-Liste</a><br>
+<a href="/admin">zurück zur Admin-Übersicht</a>
 </ul>
 </body>
 </html>
