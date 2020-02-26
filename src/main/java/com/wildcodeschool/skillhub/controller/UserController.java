@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.validation.BindingResult;
+import java.util.regex.Pattern;
 
 import java.security.Principal;
 
@@ -75,9 +76,15 @@ public class UserController {
 		actualUser = repository.findByNick(principal.getName());
 		System.out.println("actualUser-Mail: " + actualUser.getMailAdress());
 
-		if ((userExists != null) && (! userExists.getMailAdress().equals(actualUser.getMailAdress()))){
-			bindingResult.rejectValue("mailAdress", "message.mailError");
+		if (isValid(user.getMailAdress())){
+			if ((userExists != null) && (! userExists.getMailAdress().equals(actualUser.getMailAdress()))){
+				bindingResult.rejectValue("mailAdress", "message.mailError");
+			}
 		}
+		else {
+			bindingResult.rejectValue("mailAdress", "message.mailError2");
+		}
+		
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.hasErrors());
 			return "user";
@@ -137,4 +144,17 @@ public class UserController {
 		}
         return "redirect:/user";
 	}
+
+	public static boolean isValid(String email) 
+    { 
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+                            "[a-zA-Z0-9_+&*-]+)*@" + 
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+                            "A-Z]{2,7}$"; 
+                              
+        Pattern pat = Pattern.compile(emailRegex); 
+        if (email == null) 
+            return false; 
+        return pat.matcher(email).matches(); 
+    } 
 }
