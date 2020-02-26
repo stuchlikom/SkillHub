@@ -8,6 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.InputStream;
+import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+
 import com.wildcodeschool.skillhub.util.JdbcUtils;
 
 @Repository
@@ -25,13 +29,10 @@ public class AvatarRepository implements CrudDao<Avatar> {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-
 					"SELECT * from db02eylw.avatar WHERE avatarid=?");
-
 			statement.setLong(1, avatar.getAvatarId());
 
 			if (statement.executeQuery().next()) {
-
 				statement.close();
 				statement = connection.prepareStatement("UPDATE db02eylw.avatar SET avatar=? WHERE avatarid=?");
 				statement.setBytes(1, avatar.getAvatar());
@@ -41,13 +42,9 @@ public class AvatarRepository implements CrudDao<Avatar> {
 				if (statement.executeUpdate() != 1) {
 					throw new SQLException("failed to insert data");
 				}
-
-//				generatedKeys = statement.getGeneratedKeys();
 			} else {
-
 				save(avatar);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -57,39 +54,6 @@ public class AvatarRepository implements CrudDao<Avatar> {
 		}
 		return avatar;
 	}
-
-//    @Override
-//    public Avatar save(Avatar avatar) {
-//        Connection connection = null;
-//        PreparedStatement statement = null;
-//        ResultSet generatedKeys = null;
-//        try {        	
-//            connection = DriverManager.getConnection(
-//                    DB_URL, DB_USER, DB_PASSWORD
-//            );
-//            statement = connection.prepareStatement(
-//            		"UPDATE avatar SET avatar=? WHERE avatarid=?", // "INSERT INTO avatar (avatar) VALUES (?) WHERE avatarId = 1",
-//                    Statement.RETURN_GENERATED_KEYS					// UPDATE avatar SET avatar=? WHERE avatarid=1;
-//            );
-//            statement.setBytes(1, avatar.getAvatar());
-//            statement.setLong(2, avatar.getAvatarId());
-//            System.out.println("ich war im Avatarrepo");
-// 
-//           if (statement.executeUpdate() != 1) {
-//                throw new SQLException("failed to insert data");
-//            }
-//
-//            generatedKeys = statement.getGeneratedKeys();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            JdbcUtils.closeResultSet(generatedKeys);
-//            JdbcUtils.closeStatement(statement);
-//            JdbcUtils.closeConnection(connection);
-//        }
-//        return avatar;
-//    }
 
 	@Override
 	public Avatar findById(Long avatarId) {
@@ -103,9 +67,7 @@ public class AvatarRepository implements CrudDao<Avatar> {
 			resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
-				// avatarId = resultSet.getLong("avatarId");
 				byte[] avatar = resultSet.getBytes("avatar");
-
 				return new Avatar(avatarId, avatar);
 			}
 		} catch (SQLException e) {
@@ -147,22 +109,24 @@ public class AvatarRepository implements CrudDao<Avatar> {
 	}
 
 	@Override
-//<<<<< HEAD
 	public Avatar save(Avatar avatar) {
-//=====
-//  public Avatar update (Avatar avatar) {
+
+		byte[] dummyAvatarAsByteArray = null;
+		InputStream imageAsStream = this.getClass().getResourceAsStream("/static/dummy-avatar.jpg");
+		try	{
+			dummyAvatarAsByteArray = IOUtils.toByteArray(imageAsStream);
+		} catch (IOException e) {
+			System.out.println("Dummy-Bild nicht gefunden");
+		}
 		Connection connection = null;
 		PreparedStatement statement = null;
-//>>>>> ac34a46e108885074830eb58cdca31dc295ea498
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					// "INSERT INTO db02eylw.avatar (avatar) VALUES (?)"
-					"INSERT INTO db02eylw.avatar (avatarid, avatar) VALUES (?, null)"
-
+					"INSERT INTO db02eylw.avatar (avatarid, avatar) VALUES (?, ?)"
 			);
-//            statement.setBytes(1, avatar.getAvatar());
 			statement.setLong(1, avatar.getAvatarId());
+			statement.setBytes(2, dummyAvatarAsByteArray);
 
 			if (statement.executeUpdate() != 1) {
 				throw new SQLException("failed to update data");
