@@ -11,6 +11,11 @@
 <br>
 <h1>Benutzer löschen?</h1>
 <ul>
+    <li>Nur möglich wenn noch keine Frage durch den Nutzer gestellt wurde.</li>
+    <li>Nur möglich wenn noch keine Antwort als Experte gegeben wurde.</li>
+    <li>Nur möglich wenn alle zugeordneten Kategorieen gelöscht wurden.</li>
+</ul>
+<ul>
 <section>
     <ul>
         <li th:text="|Id: ${user.userId}|">$userid</li>
@@ -22,12 +27,14 @@
         <li th:text="|password: ${user.passWord}|">$password</li>
     </ul>
     <br>
+   
     <form action="/admin/user/delete" method="get">
         <label> => </label>
         <input type="hidden" name="userid" th:value="${user.userId}" >
         <input type="submit" value=" Delete ">
     </form>
 </section>
+<br><br>
 <br>
 <a href="/admin/users">Return to Users</a><br>
 <a href="/admin">Return to Admin </a>
