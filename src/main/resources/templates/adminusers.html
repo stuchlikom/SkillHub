@@ -11,10 +11,10 @@
 <br>
 <h1>Benutzerübersichtsliste</h1>
 <ul>
-<a href="/admin/user">New User</a><br><br>
-<a href="/admin">Return to Admin </a><br>
-<a href="/admin/experts">Expertlist</a><br>
-<a href="/admin/categorys">Categorylist</a>
+<a href="/admin/user">neuer User</a><br><br>
+<a href="/admin">zurück zur Admin-Übersicht</a><br>
+<a href="/admin/experts">Experten-Liste</a><br>
+<a href="/admin/categories">Kategorien-Liste</a>
 <br><br><br>
 
 <table>
@@ -22,19 +22,19 @@
     <tr>
         <th></th>
        <th>User-Id</th>
-       <th>Name</th>
-       <th>Firstname</th>
+       <th>Nachname</th>
+       <th>Vorname</th>
        <th>Nickname</th>
-       <th>Rolle</th>
-       <th>Mailadress</th>
-       <th>Password</th>
+       <th>Rollen</th>
+       <th>Mail-Adresse</th>
+       <th>Passwort</th>
        <th></th>
     </tr>
     </thead>
 
     <tbody>
     <tr th:each="user : ${users}">
-        <td><a th:href="@{/admin/user(userid=${user.userId})}">Edit</a></td>
+        <td><a th:href="@{/admin/user(userid=${user.userId})}">bearbeiten</a></td>
         <td th:text="${user.userId}">userid</td>
         <td th:text="${user.name}">name</td>
         <td th:text="${user.firstName}">firstname</td>
@@ -42,12 +42,12 @@
         <td th:text="${user.role}">role</td>
         <td th:text="${user.mailAdress}">mailadress</td>
         <td th:text="${user.passWord}">password</td>
-        <td><a th:href="@{/admin/del-id(userid=${user.userId})}">Delete</a></td>
+        <td><a th:href="@{/admin/del-id(userid=${user.userId})}">löschen</a></td>
     </tr>
     </tbody>
 </table>
 <br>
-<a href="/admin">Return to Admin </a>
+<a href="/admin">zurück zur Admin-Übersicht</a>
 </ul>
 </body>
 </html>

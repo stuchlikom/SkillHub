@@ -46,24 +46,24 @@ public class ExpertRepository implements CrudDao<Expert> {
                     //System.out.print(">|" + firstName + "||");
                     //System.out.print(">|" + nickName + "||");
 
-                    List<Category> categorys = new ArrayList<>();
-                    //categorys.add(new Category (0L,"noch keine Kategorie"));
-                    //System.out.print(">Init|" + categorys.get(0).getCategoryId() + "||");
-                    //System.out.print(">Init|" + categorys.get(0).getCategoryName() + "||");
+                    List<Category> categories = new ArrayList<>();
+                    //categories.add(new Category (0L,"noch keine Kategorie"));
+                    //System.out.print(">Init|" + categories.get(0).getCategoryId() + "||");
+                    //System.out.print(">Init|" + categories.get(0).getCategoryName() + "||");
 
                     while (resultSetCategory.next()) {
                         Long categoryId = resultSetCategory.getLong("categoryId");
                         String categoryName = resultSetCategory.getString("categoryName");
 
-                        categorys.add(new Category(categoryId, categoryName));
+                        categories.add(new Category(categoryId, categoryName));
                         
                         //System.out.print(">CatId|" + categoryId + "||");
                         //System.out.print(">Name|" + categoryName + "||");
                     }
 
-                    Collections.sort(categorys);
+                    Collections.sort(categories);
 
-                    experts.add(new Expert(userId, name, firstName, nickName, categorys));
+                    experts.add(new Expert(userId, name, firstName, nickName, categories));
 
                     //System.out.println("end while mit user "+userId+"|");
                 }
@@ -104,18 +104,18 @@ public class ExpertRepository implements CrudDao<Expert> {
                 String firstName = resultSetExpert.getString("firstName");
                 String nickName = resultSetExpert.getString("nickName");
                 
-                List<Category> categorysId = new ArrayList<>();
+                List<Category> categoriesId = new ArrayList<>();
 
                 while (resultSetCategory.next()) {
                     Long categoryId = resultSetCategory.getLong("categoryId");
                     String categoryName = resultSetCategory.getString("categoryName");
 
-                    categorysId.add(new Category(categoryId, categoryName));
+                    categoriesId.add(new Category(categoryId, categoryName));
                 }
                 
-                Collections.sort(categorysId);
+                Collections.sort(categoriesId);
 
-                return new Expert(userId, name, firstName, nickName, categorysId);
+                return new Expert(userId, name, firstName, nickName, categoriesId);
             }
         } catch (SQLException e) {
             e.printStackTrace();

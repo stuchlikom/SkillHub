@@ -77,11 +77,11 @@ public class AdminController {
   
       // nachfolgend category
 
-    @GetMapping("/admin/categorys")
+    @GetMapping("/admin/categories")
       public String getAllCategory(Model model, @RequestParam(required = false) Long catSelected) {
-        model.addAttribute("categorys", categoryRepository.findAll(null));
+        model.addAttribute("categories", categoryRepository.findAll(null));
         System.out.println("/admin/getAllCategory");
-        return "admincategorys";
+        return "admincategories";
         }
     
     @GetMapping("/admin/category")
@@ -100,7 +100,7 @@ public class AdminController {
         categoryRepository.save(category);
         
         System.out.println("/admin/user-postUser 2. |"  + category + "|");
-        return "redirect:/admin/categorys";
+        return "redirect:/admin/categories";
         }
  
         // nachfolgend expert
@@ -119,7 +119,7 @@ public class AdminController {
             expert = expertRepository.findById(userid);
         }
         model.addAttribute("expert", expert);
-        model.addAttribute("categorys", categoryRepository.findAll(null));
+        model.addAttribute("categories", categoryRepository.findAll(null));
         model.addAttribute("expertCategory", new ExpertCategory ());
         System.out.println("/admin/getExpert |" + expert.getUserId());
         return "adminexpert";
