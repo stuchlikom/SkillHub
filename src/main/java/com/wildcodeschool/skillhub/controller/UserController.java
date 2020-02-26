@@ -1,8 +1,10 @@
 package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.User;
+import com.wildcodeschool.skillhub.entity.Avatar;
 import com.wildcodeschool.skillhub.repository.UserRepository;
 import com.wildcodeschool.skillhub.repository.AvatarRepository;
+import com.wildcodeschool.skillhub.repository.LoggedInUserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,9 @@ public class UserController {
 	{
 		System.out.println("Bin in @GetMapping");
 		model.addAttribute("user", repository.findByNick(principal.getName()));
+		model.addAttribute("avatar", new Avatar());
+		Long loggedInUserId = LoggedInUserRepository.findId();
+        model.addAttribute("loggedInUserId", loggedInUserId);
 		return "user";
 	}
 
@@ -119,6 +124,6 @@ public class UserController {
 			bindingResult.rejectValue("passWord", "message.passWord");
 			return "register";
 		}
-        return "redirect:/";
+        return "redirect:/user";
 	}
 }
