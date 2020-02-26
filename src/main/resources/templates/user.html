@@ -31,8 +31,8 @@
                     <label for="user-last-name"><b>Nachname</b></label>
                     <input id="user-last-name" name="name" placeholder="Nachname" required th:field="*{name}" type="text">
                 
-                    <label for="user-mailadress"><b>eMail</b></label>
-                    <input id="user-mailadress" name="mailAdress" placeholder="eMail" required th:field="*{mailAdress}" type="text">
+                    <label for="email-text"><b>eMail</b></label>
+                    <input type="text" placeholder="eMail" th:field="*{mailAdress}"/>
                     <p th:each="error : ${#fields.errors('mailAdress')}"
                     th:text="${error}">Validation error</p>
        
