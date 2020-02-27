@@ -22,3 +22,226 @@
   color: black;
   opacity: 1;
 }
+
+.s-bubble-q {
+  position: relative;
+  display: flow-root;
+  left: 6%;
+  width: 94%;
+  background: #ccffcc;
+  border-radius: .4em;
+  margin-top: 1em;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  text-align: justify;
+}
+
+.s-bubble-q:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 1em;
+  width: 0;
+  height: 0;
+  border: 1.25em solid transparent;
+  border-left-color: #ccffcc;
+  border-right: 0;
+  border-top: 0;
+  margin-top: -0.625em;
+  margin-right: -1.25em;
+}
+
+.s-bubble-a {
+  position: relative;
+  display: flow-root;
+  width: 94%;
+  background: #f2f2f2;
+  border-radius: .4em;
+  margin-top: 0.5em;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  text-align: justify;
+}
+
+.s-bubble-a:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1em;
+  width: 0;
+  height: 0;
+  border: 1.25em solid transparent;
+  border-right-color: #f2f2f2;
+  border-left: 0;
+  border-top: 0;
+  margin-top: -0.625em;
+  margin-left: -1.25em;
+}
+
+textarea {
+    width: 100%;
+    position: relative;
+}
+
+#newQuestion {
+    height: 90%;
+    position: fixed;
+    top: 5%;
+}
+
+#newAnswer {
+    height: 90%;
+    position: fixed;
+    top: 5%;
+}
+
+.chat {
+  background:
+  radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.15) 30%, rgba(255,255,255,.3) 32%, rgba(255,255,255,0) 33%) 0 0,
+  radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.3) 13%, rgba(255,255,255,0) 14%) 0 0,
+  radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 17%, rgba(255,255,255,.43) 19%, rgba(255,255,255,0) 20%) 0 110px,
+  radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) -130px -170px,
+  radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) 130px 370px,
+  radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.2) 13%, rgba(255,255,255,0) 14%) 0 0,
+  linear-gradient(45deg, #343702 0%, #184500 20%, #187546 30%, #006782 40%, #0b1284 50%, #760ea1 60%, #83096e 70%, #840b2a 80%, #b13e12 90%, #e27412 100%);
+  background-size: 470px 470px, 970px 970px, 410px 410px, 610px 610px, 530px 530px, 730px 730px, 100% 100%;
+  background-color: #840b2a;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px; 
+}
+
+.s-bubble-f {
+  position: relative;
+  text-align: center;
+  background: #99d6ff;
+  border-radius: .4em;
+  margin-top: 0.5em;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;  
+}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit button */
+.registerbtn {
+  background-color: grey;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity: 1;
+}
+
+.avatarPic{
+  height: 65px;
+  width: 65px;
+  object-fit: cover;
+  object-position:center;
+}
+
+.avatarBox{
+  position: relative;
+  clear: left;
+  left: 1px;
+  top: 1px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;  
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+#questionText {
+  text-align: justify;
+}
+
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 320px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
