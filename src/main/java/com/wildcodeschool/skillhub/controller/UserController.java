@@ -1,10 +1,8 @@
 package com.wildcodeschool.skillhub.controller;
 
 import com.wildcodeschool.skillhub.entity.User;
-import com.wildcodeschool.skillhub.entity.Avatar;
 import com.wildcodeschool.skillhub.repository.UserRepository;
 import com.wildcodeschool.skillhub.repository.AvatarRepository;
-import com.wildcodeschool.skillhub.repository.LoggedInUserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,9 +37,6 @@ public class UserController {
 	{
 		System.out.println("Bin in @GetMapping");
 		model.addAttribute("user", repository.findByNick(principal.getName()));
-		model.addAttribute("avatar", new Avatar());
-		Long loggedInUserId = LoggedInUserRepository.findId();
-        model.addAttribute("loggedInUserId", loggedInUserId);
 		return "user";
 	}
 
@@ -62,7 +57,15 @@ public class UserController {
 		}
 
 		userExists = repository.findByMail(user.getMailAdress());
+		System.out.println("User exists: " + userExists);
+
+		if (userExists != null)
+			System.out.println("userExists-Mail: " + userExists.getMailAdress());
+		else
+			System.out.println("userExists = null");
+
 		actualUser = repository.findByNick(principal.getName());
+		System.out.println("actualUser-Mail: " + actualUser.getMailAdress());
 
 		if ((userExists != null) && (! userExists.getMailAdress().equals(actualUser.getMailAdress()))){
 			bindingResult.rejectValue("mailAdress", "message.mailError");
@@ -71,7 +74,7 @@ public class UserController {
 			System.out.println(bindingResult.hasErrors());
 			return "user";
 		}
-		System.out.println("Passwort alt: " + userExists.getPassWord());
+		//System.out.println("Passwort alt: " + userExists.getPassWord());
 		System.out.println("Passwort neu: " + actualUser.getPassWord());
 		System.out.println("Passwort user: " + user.getPassWord());
 
@@ -124,6 +127,6 @@ public class UserController {
 			bindingResult.rejectValue("passWord", "message.passWord");
 			return "register";
 		}
-        return "redirect:/user";
+        return "redirect:/";
 	}
 }
