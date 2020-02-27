@@ -59,7 +59,10 @@
               <p th:each="error : ${#fields.errors('role')}"
               th:text="${error}">Validation error</p>
               
-              <p>Mit deiner Anmeldung akzeptierst du unsere <a href="terms">Nutzungsbedingungen</a>.</p>
+              <div class="popup" onclick="myFunction()">Mit deiner Anmeldung akzeptierst du unsere <u><b>Nutzungsbedingungen</b></u><span class="popuptext" id="myPopup">
+                Hier steht jetzt ein elendig langer Text, den sich wirklich nur ganz verzweifelte Menschen durchlesen und an dessen Ende nichts weiter steht als dass
+                du mit deiner Registrierung eine Waschmaschine, zwei Kühlschränke und eine schlecht verzinste Lebensversicherung gekauft hast.</span>
+              </div></p>
               <button type="submit" class="registerbtn">Absenden</button>
         </form>
                 
@@ -68,4 +71,11 @@
         </div>
       </div>
   </body>
+  <script>
+    // When the user clicks on div, open the popup
+    function myFunction() {
+      var popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+    }
+    </script>    
 </html>
