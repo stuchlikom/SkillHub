@@ -13,9 +13,9 @@ import com.wildcodeschool.skillhub.util.JdbcUtils;
 @Repository
 public class QuestionRepository implements CrudDao<Question> {
 
-    private final static String DB_URL = "jdbc:mysql://localhost:3306/SkillHubDB";
-    private final static String DB_USER = "sh_admin";
-    private final static String DB_PASSWORD = "sPfdA-1234";
+    private final static String DB_URL = "jdbc:mariadb://db02eylw.mariadb.hosting.zone";
+    private final static String DB_USER = "db02eylw_aevsybn";
+    private final static String DB_PASSWORD = "3GQMpC*X";
 
     @Override
     public Question save(Question question) {
@@ -27,7 +27,7 @@ public class QuestionRepository implements CrudDao<Question> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "INSERT INTO question (questioner, date, text, category) VALUES (?, NOW(), ?, ?)",
+                    "INSERT INTO db02eylw.question (questioner, date, text, category) VALUES (?, NOW(), ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setLong(1, question.getQuestioner());
@@ -43,8 +43,10 @@ public class QuestionRepository implements CrudDao<Question> {
             if (generatedKeys.next()) {
                 Long questionId = generatedKeys.getLong(1);
                 question.setQuestionId(questionId);
+                System.out.println(questionId);
                 return question;
             } else {
+                System.out.println("Error");
                 throw new SQLException("failed to get inserted id");
             }
         } catch (SQLException e) {
@@ -59,6 +61,7 @@ public class QuestionRepository implements CrudDao<Question> {
 
     @Override
     public Question findById(Long questionId) {
+/*
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;         
@@ -74,11 +77,11 @@ public class QuestionRepository implements CrudDao<Question> {
 
             if (resultSet.next()) {
                 Long questioner = resultSet.getLong("questioner");
-                Date date = resultSet.getDate("date");
+                Date questionDate = resultSet.getDate("questio.date");
                 String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
-                return new Question(questionId, questioner, date, questionText, category, categoryName, null);
+                return new Question(questionId, questioner, questionDate, null, questionText, category, categoryName, null, null, null, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,27 +90,53 @@ public class QuestionRepository implements CrudDao<Question> {
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }
+*/
         return null;
+
     }
 
     @Override
     public List<Question> findAll(Long filter) {    // findAll(Long filter)
         Connection connection = null;
         PreparedStatement statement = null;
-        ResultSet resultSet = null;           
+        ResultSet resultSet = null;   
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD );
             String catQuery;
             if (filter != 0) {
-                catQuery = " WHERE question.category=" + filter +" ";
+                catQuery = " WHERE category=" + filter + " ";
             } else {
                 catQuery = " ";
             }
             statement = connection.prepareStatement(
-                    "SELECT question.*, category.categoryname, answer.text FROM question " +
-                    "LEFT OUTER JOIN answer ON answer.question=questionid " +
-                    "INNER JOIN category ON question.category=category.categoryid " + catQuery +
-                    "ORDER BY question.questionid;"
+                    "SELECT " +
+                        "question.questionid, " +
+                        "question.questioner, " +
+                        "question.date, " +
+                        "question.text, " +
+                        "question.category, " +
+                        "category.categoryname, " +
+                        "category.categoryid, " +
+                        "answer.text, " +
+                        "answer.date, " +
+                        "answer.expert, " +
+                        "answer.question, " +
+                        "uq.userid, " +
+                        "ua.userid, " +
+                        "uq.nickname, " +
+                        "ua.nickname, " +
+                        "aq.avatarid, " +
+                        "aa.avatarid, " +
+                        "aq.avatar, " +
+                        "aa.avatar " +
+                            "FROM db02eylw.question " +
+                                "LEFT JOIN db02eylw.answer ON answer.question=question.questionid " +
+                                "LEFT JOIN db02eylw.user AS uq ON question.questioner=uq.userid " +
+                                "LEFT JOIN db02eylw.user AS ua ON answer.expert=ua.userid " +
+                                "LEFT JOIN db02eylw.avatar AS aq ON aq.avatarid=uq.userid " +
+                                "LEFT JOIN db02eylw.avatar AS aa ON aa.avatarid=ua.userid " +
+                                "INNER JOIN db02eylw.category ON question.category=category.categoryid " + catQuery +
+                                    "ORDER BY questionid;"
             );
             resultSet = statement.executeQuery();
 
@@ -116,12 +145,17 @@ public class QuestionRepository implements CrudDao<Question> {
             while (resultSet.next()) {
                 Long questionId = resultSet.getLong("questionid");
                 Long questioner = resultSet.getLong("questioner");
-                Date date = resultSet.getDate("date");
+                Date questionDate = resultSet.getDate("date");
+                Date answerDate = resultSet.getDate("date");
                 String questionText = resultSet.getString("question.text");
                 Long category = resultSet.getLong("category");
                 String categoryName = resultSet.getString("categoryname");
                 String answerText = resultSet.getString("answer.text");
-                questions.add(new Question(questionId, questioner, date, questionText, category, categoryName, answerText));
+                String questionNick = resultSet.getString("uq.nickname");
+                String answerNick = resultSet.getString("ua.nickname");
+                Long expert = resultSet.getLong("expert");
+                //System.out.println("qN: " + questionNick + " aN: " + answerNick + " E: " + expert);
+                questions.add(new Question(questionId, questioner, questionDate, answerDate, questionText, category, categoryName, answerText, questionNick, answerNick, expert));
             }
             return questions;
         } catch (SQLException e) {
@@ -131,6 +165,7 @@ public class QuestionRepository implements CrudDao<Question> {
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }
+
         return null;
     }
 
@@ -143,7 +178,7 @@ public class QuestionRepository implements CrudDao<Question> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "UPDATE question SET text=?, category=? WHERE questionid=?"
+                    "UPDATE db02eylw.question SET text=?, category=? WHERE questionid=?"
             );
             statement.setString(1, question.getQuestionText());
             statement.setLong(2, question.getCategory());
@@ -170,7 +205,7 @@ public class QuestionRepository implements CrudDao<Question> {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "DELETE FROM question WHERE questionid=?"
+                    "DELETE FROM db02eylw.question WHERE questionid=?"
             );
             statement.setLong(1, questionId);
 

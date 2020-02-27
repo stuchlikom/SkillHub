@@ -6,19 +6,15 @@ import com.wildcodeschool.skillhub.entity.Category;
 import com.wildcodeschool.skillhub.repository.QuestionRepository;
 import com.wildcodeschool.skillhub.repository.AnswerRepository;
 import com.wildcodeschool.skillhub.repository.CategoryRepository;
+import com.wildcodeschool.skillhub.repository.ExpertCategoryRepository;
+import com.wildcodeschool.skillhub.repository.LoggedInUserRepository;
 import com.wildcodeschool.skillhub.repository.CrudDao;
 import org.springframework.stereotype.Controller;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,7 +38,10 @@ public class IndexController {
         model.addAttribute("catSelected", catSelected);
         model.addAttribute("categories", categoryRepository.findAll(null));
         model.addAttribute("questions", questionRepository.findAll(catSelected));
-        //model.addAttribute("answers", answerRepository.findAll(null));
+        List<Long> expertCategories = ExpertCategoryRepository.findAll();
+        model.addAttribute("expertCategories", expertCategories);
+        Long loggedInUserId = LoggedInUserRepository.findId();
+        model.addAttribute("loggedInUserId", loggedInUserId);
 
 /*
     WebContext ctx = 
@@ -55,7 +54,6 @@ public class IndexController {
 
 /*
     private CategoryRepository categoryRepository = new CategoryRepository();
-
     @RequestMapping(value = { "/categoryList" }, method = RequestMethod.GET)
     public String categoryList(Model model) {
  
@@ -73,13 +71,11 @@ public class IndexController {
     @GetMapping("/question")
     public String getQuestion(Model model,
                             @RequestParam(required = false) Long questionId) {
-
         Question question = new Question();
         if (questionId != null) {
             question = questionRepository.findById(questionId);
         }
         model.addAttribute("question", question);
-
         return "question";
     }
 */
@@ -109,7 +105,6 @@ public class IndexController {
 /*
     @PostMapping("/ServerRequestInfoOperations operations = new ServerRequestInfoOperations();")
     public String postQuestion(@ModelAttribute Question question) {
-
         if (question.getQuestionId() != null) {
             questionRepository.update(question);
         } else {

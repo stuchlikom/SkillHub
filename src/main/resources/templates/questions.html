@@ -1,148 +1,101 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <title>SkillHub</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
+    <head th:replace="_fragments.html :: head">
+        from Fragments
+    </head>
 
-</head>
-
-<style>
-    table {
-        border-collapse: collapse;
-    }
-
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    th, td {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 5px;
-        text-align: left;
-    }
-</style>
-<!--
-        $(function () {
-            $(".identifyingClass").click(function () {
-                var questionText_value = $(this).data('questionText');
-                var questionId_value = $(this).data('questionId');
-                $(".modal-body #QuestionText").val(questionText_value);
-                $(".modal-body #QuestionId").val(questionId_value);
-                modal.find('.modal-title').text('New message to ' + recipient)
-            })
-        });
--->
-<body>
-<div class="container">
-    <h3>Skill Hub</h3>
-
-    <br><br>
-    <!--<form method="post" th:action="@{/}" th:object="${category}">-->
-    <div>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col"><span class="text-nowrap"><i>Select skill: </i></span>
+    <body>
+        <header th:replace="_fragments.html :: top">
+          from Fragments
+        </header>
+        <div class="container">
+            <div class="col chat">
+                <div scope="col">
+                    <div class="s-bubble-f">Fragen - <span class="text-nowrap"><i>Thema auswählen: </i>
                         <form method="get" th:action="@{/questions}" th:object="${catSelected}">
                             <select id="catSelected" name="catSelected" onchange="this.form.submit()">
-                                <option th:value=0>- all -</option>
+                                <option th:value=0>- alle -</option>
                                 <option th:each="category : ${categories}"
                                         th:value="${category.categoryId}"
                                         th:text="${category.categoryName}"
                                         th:selected="${category.categoryId} == ${catSelected}">
                                 </option>
                             </select>
-                        </form>
-                    </th>
-                    <th scope="col">Question</th>
-                    <th scope="col">Answer</th>
-                </tr>        
-            </thead>
-        <tbody>
-            <tr th:each="question : ${questions}">
-                <td th:text="${question.categoryName}">categoryName</td>
-                <!--<td th:text="${question.questionId}">questionId</td>-->
-                <td th:text="${question.questionText}">questionText</td>
-                <td th:if="${question.answerText != null}" th:text="${question.answerText}">answerText</td>
-                <td th:if="${question.answerText == null}">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-test="Hallo" th:attr="data-qid=${question.questionId}, data-qt=${question.questionText}, data-qc=${catSelected}" data-target="#newAnswer">+ ANSWER</button>
-                </td>
-                <!--
-                <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
-                <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
-                -->
-            </tr>
-            <tr>
-                <td></td>
-                <!--<td>new</td>-->
-                <td>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newQuestion">+ QUESTION</button>
-                </td>
-                <td></td>
-
-            </tr>            
-        </tbody>
-        </table>
-
-        <div class="modal fade" id="newQuestion" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form method="post" th:action="@{/question}" th:object="${question}">
-                            <select id="category" name="category">
-                                <option th:each="category : ${categories}"
-                                        th:value="${category.categoryId}"
-                                        th:text="${category.categoryName}"
-                                        th:selected="${category.categoryId} == ${catSelected}">
-                                </option>
-                            </select>   
-                            <label for="questionText">Question:</label>
-                            <textarea id="questionText" name="questionText" cols="80" rows="4" required placeholder="Fill in your question."></textarea>
-                            <br>
-                            <input id="questioner" name="questioner" value="1" type="hidden">
-                            <button type="submit" value="Add">Add</button>
-                            <button type="cancel" value="Cancel" data-dismiss="modal">Cancel</button>
-                        </form>
+                        </form></span>
+                    </div>                      
+                </div>
+                <div th:each="question : ${questions}">
+                    <div class="s-bubble-q">
+                        <div class="avatarBox">
+                            <span class="badge badge-pill badge-danger" th:text="${question.categoryName}">categoryName</span><br>
+                            <span><img th:src="@{'/image/' + *{question.questioner}}" class="avatarPic"/></span><br>
+                            <span class="badge badge-pill badge-warning" th:text="${question.questionNick}">questionNick</span><br>
+                            <span class="badge badge-secondary" th:text="${question.questionDate}">questionDate</span><br>
+                        </div>
+                        <span th:text="${question.questionText}">questionText</span><br>
+                    </div>
+                    <div th:if="${question.answerText != null}" class="s-bubble-a">
+                        <div class="avatarBox">
+                            <span> <img th:src="@{'/image/' + *{question.expert}}" class="avatarPic"/></span><br>
+                            <span class="badge badge-pill badge-warning" th:text="${question.answerNick}">questionNick</span><br>
+                            <span class="badge badge-secondary" th:text="${question.answerDate}">answerDate</span><br>
+                        </div>
+                        <span th:text="${question.answerText}">answerText</span><br>
+                    </div>
+                    <div th:if="${question.answerText == null and #lists.contains(expertCategories, question.category)}" class="s-bubble-a">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                        	
+                            th:attr="data-qid=${question.questionId}, data-qt=${question.questionText}, data-qc=${catSelected}"
+                            data-target="#newAnswer">+ ANTWORT</button>
+                    </div>
+                </div>
+                <br><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newQuestion">+ FRAGE</button>
+                <div class="modal fade" id="newQuestion" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form method="post" th:action="@{/question}" th:object="${question}">
+                                    <select id="category" name="category">
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.categoryId}"
+                                                th:text="${category.categoryName}"
+                                                th:selected="${category.categoryId} == ${catSelected}">
+                                        </option>
+                                    </select>   
+                                    <label for="questionText"><b>Frage:</b></label>
+                                    <textarea id="questionText" name="questionText" cols="80" rows="4" required placeholder="Fill in your question."></textarea>
+                                    <br>
+                                    <input id="questioner" name="questioner" th:value="${loggedInUserId}" type="hidden">
+                                    <button type="submit" value="Add">hinzufügen</button>
+                                    <button type="cancel" value="Cancel" data-dismiss="modal">abbrechen</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="newAnswer" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div id="questionText">Frage:</div><br>
+                                <form method="post" th:action="@{/answer}" th:object="${answer}">
+                                    <label for="answerText"><b>Antwort:</b></label><br>
+                                    <textarea id="answerText" name="answerText" rows="4" required placeholder="Fill in your answer."></textarea>
+                                    <br>
+                                    <input id="expert" name="expert" th:value="${loggedInUserId}" type="hidden">
+                                    <input id="question" name="question" value="" type="hidden">
+                                    <input id="category" name="category" value="" type="hidden">
+                                    <button type="submit" value="Add">hinzufügen</button>
+                                    <button type="cancel" value="Cancel" data-dismiss="modal">abbrechen</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="newAnswer" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div id="questionText">Frage:</div><br>
-                        <form method="post" th:action="@{/answer}" th:object="${answer}">
-                            <label for="answerText"><b>Answer:</b></label>
-                            <textarea id="answerText" name="answerText" cols="80" rows="4" required placeholder="Fill in your answer."></textarea>
-                            <br>
-                            <input id="expert" name="expert" value="1" type="hidden">
-                            <input id="question" name="question" value="" type="hidden">
-                            <input id="category" name="category" value="" type="hidden">
-                            <button type="submit" value="Add">Add</button>
-                            <button type="cancel" value="Cancel" data-dismiss="modal">Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</body>
+    </body>
     <script type="text/javascript">
         $('#newAnswer').on('show.bs.modal', function (event) {
              var button = $(event.relatedTarget) // Button that triggered the modal

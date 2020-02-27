@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments.html :: head">
+    from Fragments
+    </head>
+
+    <body>
+    <header th:replace="_fragments.html :: top">
+        from Fragments
+    </header>
+<br>
+<h1>Expertenübersichtsliste</h1>
+<ul>
+<a href="/admin">zurück zur Admin-Übersicht</a><br>
+<a href="/admin/users">User-Liste</a><br>
+<a href="/admin/categories">Kategorien-Liste</a>
+<br><br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>User</th>
+        <th>Kategorie</th>
+        <th>User-Id</th>
+        <th>Nachname</th>
+        <th>Vorname</th>
+        <th>Nickname</th>
+        <th>Kategorie(n) </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="expert : ${experts}">
+        <td><a th:href="@{/admin/user(userid=${expert.userId})}">User bearbeiten</a></td>
+        <td><a th:href="@{/admin/expert(userid=${expert.userId})}">Kategorien bearbeiten</a></td>
+        <td th:text="${expert.userId}">expertId</td>
+        <td th:text="${expert.name}">name</td>
+        <td th:text="${expert.firstName}">firstName</td>
+        <td th:text="${expert.nickName}">nickName</td>
+        <td th:if="!${#lists.isEmpty(expert.categoryList)}">|
+            <span th:each="category : ${expert.categoryList}" th:text="'> ' + ${category.categoryName} + ' |'">categoryName</span>
+        </td>
+        <td th:if="${#lists.isEmpty(expert.categoryList)}"> </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a href="/admin">zurück zur Admin-Übersicht</a><br>
+<a href="/admin/users">User-Liste</a><br>
+<a href="/admin/categories">Kategorien-Liste</a>
+</ul>
+</body>
+</html>

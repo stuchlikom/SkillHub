@@ -1,79 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-<title>Skill Hub User Profil</title>
-</head>
-<style>
-    table {
-        border-collapse: collapse;
-    }
+<xmlns:sec="https: //www.thymeleaf.org/thymeleaf-extras-springsecurity5"/>
 
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
+    <head th:replace="_fragments.html :: head">
+        from Fragmentss
+    </head>
 
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
+    <body>
+        <header th:replace="_fragments.html :: top">
+            from Fragments
+        </header>
+        <div class="container">
+                <h1>SkillHub Profildaten ändern</h1>
+                <p>Hier kannst du deine Profildaten ändern. Vergiss nicht, deine Änderungen am Schluss zu speichern.</p>
+                <form method="post" th:action="@{/user}" th:object="${user}">
 
-    th, td {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 5px;
-        text-align: left;
-    }
-</style>
-<body>
-<h3>User Profil</h3>
-
-<br><br>
-<!--<form method="post" th:action="@{/}" th:object="${category}">-->
-    <form>
-        eMail: <input type="text" name="mailadress">
-        Password: <input type="text" name="password">
-        <input type="submit" value="Send">
-    </form>
-    
-    <table>
-        <thead>
-            <tr>
-                    <form method="get" th:action="@{/}" th:object="${catSelected}">
-                        <select id="catSelected" name="catSelected" onchange="this.form.submit()">
-                            <option th:value=0>- all -</option>
-                            <option th:each="category : ${categories}"
-                                    th:value="${category.categoryId}"
-                                    th:text="${category.categoryName}"
-                                    th:selected="${category.categoryId} == ${catSelected}">
-                            </option>
-                        </select>
-                    </form>
+                    <input name="userid" th:field="*{userId}" type="hidden">
+                    <input name="role" th:field="*{role}" type="hidden">
                 
-                <th>Id</th>
-                <th>Question</th>
-            </tr>        
-        </thead>
-        <tbody>
-            <tr th:each="question : ${questions}">
-                <td th:text="${question.categoryName}">categoryName</td>
-                <td th:text="${question.questionId}">questionId</td>
-                <td th:text="${question.text}">text</td>
-                <!--
-                <td><a th:href="@{/question(id=${question.id})}">Edit</a></td>
-                <td><a th:href="@{/question/delete(id=${question.id})}">Remove</a></td> 
-                -->
-            </tr>
-            <tr th:each="question, i : ${questions}" th:if="${i.last}">
-                <td th:text="${question.categoryName}">categoryName</td>
-                <td>new</td>
-                <td><a href="/question">Add a new question! DEAD LINK</a></td>
+                    <label for="user-first-name"><b>Vorname</b></label>
+                    <input id="user-first-name" name="firstname" placeholder="Vorname" required th:field="*{firstName}" type="text">
+                
+                    <label for="user-last-name"><b>Nachname</b></label>
+                    <input id="user-last-name" name="name" placeholder="Nachname" required th:field="*{name}" type="text">
+                
+                    <label for="email-text"><b>eMail</b></label>
+                    <input type="text" placeholder="eMail" th:field="*{mailAdress}"/>
+                    <p th:each="error : ${#fields.errors('mailAdress')}"
+                    th:text="${error}">Validation error</p>
+       
+                    <label for="user-nick-name"><b>Nickname</b></label>
+                    <input id="user-nick-name" name="nickName" placeholder="Nickname" th:field="*{nickName}" type="text">
+                    <p th:each="error : ${#fields.errors('nickName')}"
+                    th:text="${error}">Validation error</p>
+                    
+<!--                    <label for="image"><b>Avatar</b></label>
+                    <input id="user-avatar" name="avatar" type="file" th:field="*{avatar.avatar}" class="form-control-file" required>
+                    <span th:if="${#fields.hasErrors('${avatar.avatar}')}" th:errors="${avatar.avatar}">Image error</span>
+-->
+                    <label for="user-passwort"><b>Passwort</b></label>
+                    <input id="user-passwort" name="password" placeholder="Passwort" th:field="*{passWord}" type="password">
 
-            </tr>            
-        </tbody>
-    </table>
-<!--</form>-->    
-
-<br>
-</body>
+                    <button type="submit" class="registerbtn">Daten speichern</button>
+                </form>
+                <h1>Profilbild festlegen</h1>
+                <form enctype="multipart/form-data" action="#" th:action="@{/avataruser}" th:object="${avatar}" method="post">
+                    <span><img th:src="@{'/image/' + ${loggedInUserId}}" class="avatarPic"/></span><br><br>
+                    <input type="file" th:field="*{avatar}" class="form-control-file" id="avatar" required>
+                    <span th:if="${#fields.hasErrors('*{avatar}')}" th:errors="*{avatar}">Bild-Fehler</span>
+                    <button type="submit" class="registerbtn">neues Bild speichern</button>
+                </form>                
+             <div class="container signin">
+        </div>
+      </div>
+  </body>
 </html>
-
