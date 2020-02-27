@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments.html :: head">
+    from Fragments
+    </head>
+
+    <body>
+    <header th:replace="_fragments.html :: top">
+        from Fragments
+    </header>
+<br>
+<h1>Expertenpflege</h1>
+<ul>
+
+<form method="post" th:action="@{/admin/expert}" th:object="${expert}">
+
+    <input name="userid" th:field="*{userId}" type="hidden">
+    
+    <p> Experte <p>
+    <label>Vorname:</label> <span th:text="*{firstName}" ></span><br>
+    <label>Nachname:</label> <span th:text="*{name}" ></span><br>
+    <label>Nickname:</label> <span th:text="*{nickName}" ></span><br>
+
+    <div>Expertengebietsliste aktuell:<br>
+    <fieldset>
+        <tr th:each="category : ${expert.categoryList}">
+            <label>|></label>&nbsp;
+            <span th:text="${category.categoryName}">categoryName</span>
+            &nbsp;&nbsp;&nbsp;
+        </tr>
+    </fieldset>
+    <br>
+    <div>Expertengebiet hinzufügen:</div>
+    <select id="expert-newCategoryId" name="categoryId" th:field="${expertCategory.categoryId}">
+        <option th:each="category : ${categories}"
+                th:value="${category.categoryId}"
+                th:text="${category.categoryName}">
+        </option>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="  hinzufügen  ">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="reset">Eingabe zurücksetzen</button>                  
+</form>
+
+<br><br>
+
+<form method="post" th:action="@{/admin/expert/delete}" th:object="${expert}">
+    <div>Expertengebiet löschen:</div><br>
+    <input name="userid" th:field="*{userId}" type="hidden">
+    <select id="expert-delCategoryId" name="categoryId" th:field="${expertCategory.categoryId}">
+        <option th:each="category : ${categories}"
+                th:value="${category.categoryId}"
+                th:text="${category.categoryName}">
+        </option>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="  löschen  ">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="reset">Eingabe zurücksetzen</button>
+</form>
+<br><br>
+
+<form method="post" th:action="@{/admin/expert/deleteall}" th:object="${expert}">
+    <scan>Alle Expertengebiete löschen:</scan>
+    <input name="userid" th:field="*{userId}" type="hidden">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="  Alle Kategorien löschen  ">
+
+</form>
+
+
+<br><br>
+<a href="/admin/experts">Return to experts</a>
+<br>
+<a href="/admin">Return to Admin </a>
+
+</ul>
+</body>
+</html>

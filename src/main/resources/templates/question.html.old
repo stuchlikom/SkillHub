@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+<h3 th:text="${questions.text} ? 'Edit Question' : 'Create Question'">Question</h3>
+<form method="post" th:action="@{/question}" th:object="${question}">
+    <input name="id" th:field="*{questionId}" type="hidden">
+    <label for="question-text">Question:</label>
+    <input id="question-text" name="name" placeholder="Fill in your question." required th:field="*{text}" type="text">
+    <br><br>
+
+    <input type="submit" value="Send">
+</form>
+<br>
+<a href="/questions">Return to the list</a>
+</body>
+</html>
