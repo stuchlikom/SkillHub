@@ -24,8 +24,8 @@
                     <label for="user-last-name"><b>Nachname</b></label>
                     <input id="user-last-name" name="name" placeholder="Nachname" required th:field="*{name}" type="text">
                 
-                    <label for="user-mailadress"><b>eMail</b></label>
-                    <input id="user-mailadress" name="mailAdress" placeholder="eMail" required th:field="*{mailAdress}" type="text">
+                    <label for="email-text"><b>eMail</b></label>
+                    <input type="text" placeholder="eMail" th:field="*{mailAdress}"/>
                     <p th:each="error : ${#fields.errors('mailAdress')}"
                     th:text="${error}">Validation error</p>
        
@@ -44,7 +44,7 @@
                     <button type="submit" class="registerbtn">Daten speichern</button>
                 </form>
                 <h1>Profilbild festlegen</h1>
-                <form enctype="multipart/form-data" action="#" th:action="@{/avataradmin}" th:object="${avatar}" method="post">
+                <form enctype="multipart/form-data" action="#" th:action="@{/avataruser}" th:object="${avatar}" method="post">
                     <span><img th:src="@{'/image/' + ${loggedInUserId}}" class="avatarPic"/></span><br><br>
                     <input type="file" th:field="*{avatar}" class="form-control-file" id="avatar" required>
                     <span th:if="${#fields.hasErrors('*{avatar}')}" th:errors="*{avatar}">Bild-Fehler</span>
